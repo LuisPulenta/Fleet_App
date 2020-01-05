@@ -16,11 +16,12 @@ namespace Fleet_App.Common.Services
             string urlBase,
             string servicePrefix,
             string controller,
-            string email)
+            string email,
+            string password)
         {
             try
             {
-                var request = new EmailRequest { Email = email };
+                var request = new UserRequest { Email = email,Password=password };
                 var requestString = JsonConvert.SerializeObject(request);
                 var content = new StringContent(requestString, Encoding.UTF8, "application/json");
                 var client = new HttpClient

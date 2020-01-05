@@ -10,7 +10,7 @@ using Fleet_App.Web.Data.Entities;
 
 namespace Fleet_App.Web.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class SubContratistasUsrWebsController : ControllerBase
     {

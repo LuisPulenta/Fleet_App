@@ -13,7 +13,7 @@ namespace Fleet_App.Common.Helpers
 
         private static ISettings AppSettings => CrossSettings.Current;
 
-        public static string User
+        public static string User2
         {
             get => AppSettings.GetValueOrDefault(_user, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_user, value);

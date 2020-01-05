@@ -190,10 +190,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
-      <Version>17.4.0.40</Version>
+      <Version>17.3.0.9-beta</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator.IOS">
-      <Version>17.4.0.40</Version>
+      <Version>17.3.0.9-beta</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Connectivity">
       <Version>4.0.0.190-beta</Version>

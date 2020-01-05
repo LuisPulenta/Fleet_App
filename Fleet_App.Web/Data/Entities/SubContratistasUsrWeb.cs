@@ -3,6 +3,7 @@
     public class SubContratistasUsrWeb
     {
         public int ID { get; set; }
+        public int IDUser { get; set; }
         public string CODIGO { get; set; }
         public string APELLIDONOMBRE { get; set; }
         public string USRLOGIN { get; set; }

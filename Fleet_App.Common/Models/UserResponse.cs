@@ -7,7 +7,12 @@ namespace Fleet_App.Common.Models
     public class UserResponse
     {
         public int ID { get; set; }
-        public string APELLIDO { get; set; }
-        public string NOMBRE { get; set; }
+        public int IDUser { get; set; }
+        public string CODIGO { get; set; }
+        public string APELLIDONOMBRE { get; set; }
+        public string USRLOGIN { get; set; }
+        public string USRCONTRASENA { get; set; }
+        public int HabilitadoWeb { get; set; }
+        public string CausanteC { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Fleet_App.Common.Services;
+﻿using Fleet_App.Common.Helpers;
+using Fleet_App.Common.Services;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -11,12 +13,14 @@ namespace Fleet_App.Prism.ViewModels
         private string _password;
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRemembered;
         private DelegateCommand _loginCommand;
 
         public LoginPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             Title = "Login";
             IsEnabled = true;
+            IsRemembered = true;
             _navigationService = navigationService;
             _apiService = apiService;
             Email = "TEST";
@@ -45,6 +49,12 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public bool IsRemembered
+        {
+            get => _isRemembered;
+            set => SetProperty(ref _isRemembered, value);
+        }
+
         private async void Login()
         {
             if (string.IsNullOrEmpty(Email))
@@ -63,22 +73,44 @@ namespace Fleet_App.Prism.ViewModels
 
 
             //Verificar Usuario
-            //var url = App.Current.Resources["UrlAPI"].ToString();
-            //var response = await _apiService.GetUserByEmailAsync(url, "Account", "/CreateToken", Email);
-
-            //if (!response.IsSuccess)
-            //{
-            //IsEnabled = true;
-            //IsRunning = false;
-            //await App.Current.MainPage.DisplayAlert("Error", "Usuario o password incorrecto.", "Aceptar");
-            //Password = string.Empty;
-            //return;
-            //}
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var response = await _apiService.GetUserByEmailAsync(url, "api", "/Account/GetUserByEmail", Email,Password);
+            
+            if (!response.IsSuccess)
+            {
+            IsEnabled = true;
+            IsRunning = false;
+            await App.Current.MainPage.DisplayAlert("Error", "Usuario o password incorrecto.", "Aceptar");
+            Password = string.Empty;
+            return;
+            }
 
             //Verificar Password
+            if (!(response.Result.USRCONTRASENA.ToLower() == Password.ToLower()))
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Usuario o password incorrecto.", "Aceptar");
+                return;
+            }
+            //Verificar Usuario Habilitado
+            if (response.Result.HabilitadoWeb == 0)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Usuario no habilitado.", "Aceptar");
+                return;
+            }
+
+
+            Email = null;
+            Password = null;
 
             IsEnabled = true;
             IsRunning = false;
+
+            Settings.IsRemembered = IsRemembered;
+            Settings.User2 = JsonConvert.SerializeObject(response.Result);
 
             await _navigationService.NavigateAsync("/FleetMasterDetailPage/NavigationPage/HomePage");
         }

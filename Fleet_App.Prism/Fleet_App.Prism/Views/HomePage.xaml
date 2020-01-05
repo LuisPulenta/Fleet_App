@@ -22,7 +22,7 @@
            FontSize="Large"
            VerticalOptions="Center"
            HorizontalOptions="Center"></Label>
-    <Label Text="{Binding CurrentUser.APELLIDONOMBRE, Mode=TwoWay}"
+    <Label Text="{Binding User2.APELLIDONOMBRE, Mode=TwoWay}"
            FontSize="Large"
            TextColor="Blue"
            FontAttributes="Bold"

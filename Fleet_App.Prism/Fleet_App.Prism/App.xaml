@@ -42,6 +42,6 @@
               Value="{StaticResource colorDanger}" />
     </Style>
     <!-- Parameters -->
-    <x:String x:Key="UrlAPI">http://keypress.serveftp.net:88/Fleet_App/</x:String>
+    <x:String x:Key="UrlAPI">http://keypress.serveftp.net:88/FleetApiNew/</x:String>
   </Application.Resources>
 </prism:PrismApplication>

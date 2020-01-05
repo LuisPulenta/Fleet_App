@@ -8,7 +8,8 @@ namespace Fleet_App.Common.Services
             string urlBase,
             string servicePrefix,
             string controller,
-            string email);
+            string email,
+            string password);
        
         Task<bool> CheckConnectionAsync(string url);
     }
