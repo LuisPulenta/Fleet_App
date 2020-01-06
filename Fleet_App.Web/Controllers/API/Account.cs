@@ -39,7 +39,6 @@ namespace Fleet_App.Web.Controllers.API
 
             var response = new UserResponse
             {
-                ID = user.ID,
                 IDUser = user.IDUser,
                 APELLIDONOMBRE = user.APELLIDONOMBRE,
                 CausanteC = user.CausanteC,

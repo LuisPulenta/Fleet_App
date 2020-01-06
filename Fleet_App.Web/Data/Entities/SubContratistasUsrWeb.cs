@@ -1,8 +1,10 @@
-﻿namespace Fleet_App.Web.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fleet_App.Web.Data.Entities
 {
     public class SubContratistasUsrWeb
     {
-        public int ID { get; set; }
+        [Key]
         public int IDUser { get; set; }
         public string CODIGO { get; set; }
         public string APELLIDONOMBRE { get; set; }

@@ -8,5 +8,8 @@ namespace Fleet_App.Web.Data
         {
         }
         public DbSet<SubContratistasUsrWeb> SubContratistasUsrWebs { get; set; }
+        public DbSet<AsignacionesOT> AsignacionesOTs { get; set; }
+        public DbSet<ControlesEquivalencia> ControlesEquivalencias { get; set; }
+        
     }
 }

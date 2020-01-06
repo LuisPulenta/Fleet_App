@@ -6,7 +6,6 @@ namespace Fleet_App.Common.Models
 {
     public class UserResponse
     {
-        public int ID { get; set; }
         public int IDUser { get; set; }
         public string CODIGO { get; set; }
         public string APELLIDONOMBRE { get; set; }

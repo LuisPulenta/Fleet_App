@@ -46,6 +46,7 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<FleetMasterDetailPage, FleetMasterDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<RemotesPage, RemotesPageViewModel>();
             containerRegistry.RegisterForNavigation<CablesPage, CablesPageViewModel>();
+            containerRegistry.RegisterForNavigation<OrdersPage, OrdersPageViewModel>();
         }
     }
 }

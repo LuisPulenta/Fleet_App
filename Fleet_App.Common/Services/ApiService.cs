@@ -68,6 +68,49 @@ namespace Fleet_App.Common.Services
             //return await CrossConnectivity.Current.IsRemoteReachable(url);
         }
 
-        
+        public async Task<Response<object>> GetRemotesForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id)
+        {
+            try
+            {
+                var model = new UserIdRequest { Id = id };
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var agenda = JsonConvert.DeserializeObject<List<RemoteResponse>>(answer);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = agenda
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
     }
 }

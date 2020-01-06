@@ -22,13 +22,13 @@ namespace Fleet_App.Prism.ViewModels
         {
             var menus = new List<Menu>
             {
+
                 new Menu
                 {
                     Icon = "ic_action_settings_remote.png",
                     PageName = "RemotesPage",
                     Title = "Controles Remotos"
                 },
-
                 new Menu
                 {
                     Icon = "ic_action_router.png",

@@ -12,5 +12,11 @@ namespace Fleet_App.Common.Services
             string password);
        
         Task<bool> CheckConnectionAsync(string url);
+
+        Task<Response<object>> GetRemotesForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id);
     }
 }
