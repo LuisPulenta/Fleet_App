@@ -4,20 +4,23 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Fleet_App.Prism.Views.RemotesPage"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             BackgroundColor="{StaticResource colorBackground}"
+             BackgroundColor="Silver"
              Title="{Binding Title}">
   <ContentPage.ToolbarItems>
     <ToolbarItem Icon="ic_map"
                  Command="{Binding RemotesMapCommand}" />
   </ContentPage.ToolbarItems>
   <StackLayout Padding="5">
+
     <SearchBar Placeholder="Buscar..."
                  BackgroundColor="White"
+                 CancelButtonColor="Orange"
                  FontSize="Small"
                  WidthRequest="200"
-                 HeightRequest="40"
                  Text="{Binding Filter}"
-                 SearchCommand="{Binding SearchCommand}"></SearchBar>
+                 HeightRequest="40">
+    </SearchBar>
+
     <StackLayout Orientation="Horizontal"
                    BackgroundColor="White"
                    Padding="5">

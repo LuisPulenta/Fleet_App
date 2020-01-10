@@ -1,15 +1,18 @@
 ﻿using Fleet_App.Common.Services;
 using Fleet_App.Prism.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace Fleet_App.Prism.Views
 {
-    public partial class RemoteMapPage : ContentPage
+    public partial class RemotesMapPage : ContentPage
     {
         private readonly IGeolocatorService _geolocatorService;
-        public RemoteMapPage(IGeolocatorService geolocatorService)
+        public RemotesMapPage(IGeolocatorService geolocatorService)
         {
             _geolocatorService = geolocatorService;
             InitializeComponent();
@@ -17,18 +20,39 @@ namespace Fleet_App.Prism.Views
             ShowPinsAsync();
             MoveMapToCurrentPositionAsync();
         }
-        private async void ShowPinsAsync()
+        private async Task<List<Pin>> ShowPinsAsync()
         {
-            var remoteViewModel = RemotePageViewModel.GetInstance();
-            var position = new Position(Convert.ToDouble(remoteViewModel.Remote.GRXX), Convert.ToDouble(remoteViewModel.Remote.GRYY));
-            MyMap.Pins.Add(new Pin
-            {
-                Address = remoteViewModel.Remote.DOMICILIO,
-                Label = remoteViewModel.Remote.NOMBRE,
-                Position = position,
-                Type = PinType.Place
-            });
+            var pins = new List<Pin>();
+            var remotesViewModel = RemotesPageViewModel.GetInstance();
 
+            foreach (var remote in remotesViewModel.Remotes.ToList())
+            {
+                var position = new Position(Convert.ToDouble(remote.GRXX), Convert.ToDouble(remote.GRYY));
+                var tipopin = new PinType();
+                tipopin = PinType.Place;
+                if (!string.IsNullOrEmpty(remote.GRXX) && !string.IsNullOrEmpty(remote.GRYY))
+                {
+                    if (remote.GRXX.Length > 10 && remote.GRYY.Length > 10)
+                    {
+                        pins.Add(new Pin
+                        {
+                            Label = remote.NOMBRE,
+                            Address = remote.DOMICILIO,
+                            Position = position,
+                            Type = tipopin,
+                        });
+                    }
+                }
+
+            }
+
+            foreach (var pin in pins)
+            {
+                MyMap.Pins.Add(pin);
+            }
+
+
+            return pins;
         }
         private async void MoveMapToCurrentPositionAsync()
         {
@@ -44,6 +68,8 @@ namespace Fleet_App.Prism.Views
                 MyMap.IsVisible = true;
             }
         }
+
+        
 
         private void MapStreetCommand(object sender, EventArgs eventArgs)
         {

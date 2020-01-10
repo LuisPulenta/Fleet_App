@@ -4,7 +4,227 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Fleet_App.Prism.Views.CablesPage"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             BackgroundColor="{StaticResource colorBackground}"
+             BackgroundColor="Silver"
              Title="{Binding Title}">
+  <ContentPage.ToolbarItems>
+  </ContentPage.ToolbarItems>
+  <ContentPage.Content>
+    <StackLayout Padding="5">
+      <SearchBar Placeholder="Buscar..."
+                 BackgroundColor="White"
+                 FontSize="Small"
+                 WidthRequest="200"
+                 Text="{Binding Filter}"
+                 HeightRequest="40">
+        <!--  TextChanged="SearchBar_TextChanged" -->
+      </SearchBar>
+      <StackLayout Orientation="Horizontal"
+                   BackgroundColor="White"
+                   Padding="5">
+        <Label Text="Cantidad de Clientes:"
+               FontSize="Small"
+               TextColor="Blue"
+               FontAttributes="Bold"></Label>
+        <Label Text="{Binding CantCables}"
+               TextColor="Red"
+               FontSize="Small"
+               FontAttributes="Bold"></Label>
+      </StackLayout>
+      <ListView ItemsSource="{Binding Cables}"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                SeparatorVisibility="None">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Frame CornerRadius="20"
+                     HasShadow="True"
+                     BackgroundColor="White"
+                     Margin="5">
+                <StackLayout>
+                  <Grid HeightRequest="170">
+                    <Grid.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding SelectCableCommand}" />
+                    </Grid.GestureRecognizers>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="48" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Cliente:"></Label>
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding ClienteCompleto}"></Label>
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Rec.Tec.:"></Label>
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding ReclamoTecnicoID}"></Label>
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Dirección:"></Label>
+                    <Label Grid.Row="2"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding DOMICILIO}"></Label>
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Localidad:"></Label>
+                    <Label Grid.Row="3"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding LOCALIDAD}"></Label>
+                    <Label Grid.Row="4"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Provincia:"></Label>
+                    <Label Grid.Row="4"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding PROVINCIA}"></Label>
+                    <Label Grid.Row="5"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Teléfono:"></Label>
+                    <Label Grid.Row="5"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding TELEFONO}"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Cant.Eq.:"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="1"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding CantRem}"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="2"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Est. Gaos:"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="3"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding ESTADOGAOS}"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="4"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Cód.Cierre:"></Label>
+                    <Label Grid.Row="6"
+                           Grid.Column="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding CodigoCierre}"></Label>
+                    
+                    
+                    
+                    
+                    
+                    
+                    <Label Grid.Row="7"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Estado:"></Label>
+                    <Label Grid.Row="7"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding MOTIVOS}"></Label>
+                    
+                    
+                    <Image Grid.Row="0"
+                           Grid.Column="6"
+                           Grid.RowSpan="8"
+                           VerticalOptions="Center"
+                           Source="ic_chevron_right"></Image>
+                  </Grid>
+                </StackLayout>
+              </Frame>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+  </ContentPage.Content>
 </ContentPage>

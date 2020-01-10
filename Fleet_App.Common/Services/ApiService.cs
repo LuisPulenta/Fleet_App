@@ -113,6 +113,53 @@ namespace Fleet_App.Common.Services
             }
         }
 
+        public async Task<Response<object>> GetCablesForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id)
+        {
+            try
+            {
+                var model = new UserIdRequest { Id = id };
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var cables = JsonConvert.DeserializeObject<List<ReclamoCable>>(answer);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = cables
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+
+
         public async Task<Response<object>> GetListAsync<T>(
             string urlBase,
             string servicePrefix,
@@ -204,7 +251,53 @@ namespace Fleet_App.Common.Services
             }
         }
 
+        public async Task<Response<object>> GetList3Async<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int? id)
+        {
+            try
+            {
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase),
+                };
 
+                var model = new ControlCableRequest { ReclamoTecnicoID = id };
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var list = JsonConvert.DeserializeObject<List<T>>(result);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = list
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
         public async Task<Response<object>> PutAsync<T>(
             string urlBase,
             string servicePrefix,

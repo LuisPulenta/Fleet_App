@@ -23,7 +23,6 @@ namespace Fleet_App.Web.Controllers.API
         [HttpGet]
         public async Task<IActionResult> GetModules()
         {
-            var a = 1;
             var modules = await _dataContext.Modules
                 .ToListAsync();
 

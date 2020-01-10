@@ -7,6 +7,7 @@ namespace Fleet_App.Common.Helpers
     {
         private const string _user = "User";
         private const string _remote = "Remote";
+        private const string _cable = "Cable";
         private const string _isRemembered = "IsRemembered";
         private const string _ingreso = "Ingreso";
         private static readonly bool _boolDefault = false;
@@ -24,6 +25,12 @@ namespace Fleet_App.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_remote, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_remote, value);
+        }
+
+        public static string Cable
+        {
+            get => AppSettings.GetValueOrDefault(_cable, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_cable, value);
         }
 
         public static bool IsRemembered

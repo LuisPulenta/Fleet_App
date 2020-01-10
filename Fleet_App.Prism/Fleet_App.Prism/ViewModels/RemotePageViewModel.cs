@@ -12,6 +12,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+
 
 
 namespace Fleet_App.Prism.ViewModels
@@ -46,7 +48,6 @@ namespace Fleet_App.Prism.ViewModels
         private DelegateCommand _takeDNICommand;
         private DelegateCommand _takeFirmaCommand;
         private DelegateCommand _remoteMapCommand;
-        private DelegateCommand _refreshCommand;
         private DelegateCommand _phoneCallCommand;
 
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
@@ -54,7 +55,6 @@ namespace Fleet_App.Prism.ViewModels
         public DelegateCommand TakeDNICommand => _takeDNICommand ?? (_takeDNICommand = new DelegateCommand(TakeDNI));
         public DelegateCommand TakeFirmaCommand => _takeFirmaCommand ?? (_takeFirmaCommand = new DelegateCommand(TakeFirma));
         public DelegateCommand RemoteMapCommand => _remoteMapCommand ?? (_remoteMapCommand = new DelegateCommand(RemoteMap));
-        public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
 
 
@@ -640,12 +640,11 @@ namespace Fleet_App.Prism.ViewModels
             }
             await _navigationService.NavigateAsync("RemoteMapPage");
         }
-        private async void Refresh()
-        {
-        }
+      
         private async void PhoneCall()
         {
-            
+            await Clipboard.SetTextAsync(Remote.TELEFONO);
+            PhoneDialer.Open(Remote.TELEFONO);
         }
 
         

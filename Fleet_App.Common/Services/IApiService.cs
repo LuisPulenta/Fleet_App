@@ -19,15 +19,28 @@ namespace Fleet_App.Common.Services
             string controller,
             int id);
 
+        Task<Response<object>> GetCablesForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id);
+
         Task<Response<object>> GetListAsync<T>(
         string urlBase,
         string servicePrefix,
         string controller,
         string id);
+
         Task<Response<object>> GetList2Async<T>(
         string urlBase,
         string servicePrefix,
         string controller);
+
+        Task<Response<object>> GetList3Async<T>(
+        string urlBase,
+        string servicePrefix,
+        string controller,
+        int? id);
 
         Task<Response<object>> PutAsync<T>(
             string urlBase,

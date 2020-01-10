@@ -6,9 +6,9 @@ namespace Fleet_App.Common.Services
 {
     public class GeolocatorService : IGeolocatorService
     {
-        public double GRXX { get; set; }
+        public double Latitude { get; set; }
 
-        public double GRYY { get; set; }
+        public double Longitude { get; set; }
 
         public async Task GetLocationAsync()
         {
@@ -17,8 +17,8 @@ namespace Fleet_App.Common.Services
                 var locator = CrossGeolocator.Current;
                 locator.DesiredAccuracy = 50;
                 var location = await locator.GetPositionAsync();
-                GRXX = location.Latitude;
-                GRYY = location.Longitude;
+                Latitude = location.Latitude;
+                Longitude = location.Longitude;
 
             }
             catch (Exception ex)

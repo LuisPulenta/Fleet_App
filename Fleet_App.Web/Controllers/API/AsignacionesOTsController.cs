@@ -131,6 +131,9 @@ namespace Fleet_App.Web.Controllers.API
                r.ObservacionCaptura,
                r.Novedades,
                r.ControlesEquivalencia.DESCRIPCION,
+               r.PROVINCIA,
+               r.ReclamoTecnicoID,
+               r.Motivos
            })
            .Select(g => new
            {
@@ -154,14 +157,18 @@ namespace Fleet_App.Web.Controllers.API
                CodigoCierre = g.Key.CodigoCierre,
                ObservacionCaptura = g.Key.ObservacionCaptura,
                Novedades = g.Key.Novedades,
+               PROVINCIA = g.Key.PROVINCIA,
+               ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
+               Motivos = g.Key.Motivos,
                Descripcion = g.Key.DESCRIPCION,
+               
                CantRem = g.Count(),
            }).ToListAsync();
 
 
             if (orders == null)
             {
-                return BadRequest("No hay Controles Remotos para este Usuario.");
+                return BadRequest("No hay Recuperos de Cablevisión para este Usuario.");
             }
 
             return Ok(orders);

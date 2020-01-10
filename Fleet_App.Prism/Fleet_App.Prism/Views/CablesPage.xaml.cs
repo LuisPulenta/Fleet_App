@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Fleet_App.Prism.ViewModels;
+using Xamarin.Forms;
 
 namespace Fleet_App.Prism.Views
 {
@@ -7,6 +8,11 @@ namespace Fleet_App.Prism.Views
         public CablesPage()
         {
             InitializeComponent();
+        }
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var cablesViewModel = CablesPageViewModel.GetInstance();
+            cablesViewModel.RefreshList();
         }
     }
 }

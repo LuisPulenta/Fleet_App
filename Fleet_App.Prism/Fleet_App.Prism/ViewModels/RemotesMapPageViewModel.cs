@@ -3,16 +3,16 @@ using Prism.Navigation;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class RemoteMapPageViewModel : ViewModelBase
+    public class RemotesMapPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
 
-        public RemoteMapPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public RemotesMapPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Mapa de Control Remoto";
+            Title = "Mapa de Controles Remotos";
         }
     }
 }

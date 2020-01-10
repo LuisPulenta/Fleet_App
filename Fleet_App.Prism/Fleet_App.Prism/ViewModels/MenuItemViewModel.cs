@@ -58,11 +58,6 @@ namespace Fleet_App.Prism.ViewModels
                 return;
             }
 
-            if (PageName.Equals("SalirPage"))
-            {
-               //TODO Ver como salir
-            }
-
             await _navigationService.NavigateAsync($"/FleetMasterDetailPage/NavigationPage/{PageName}");
 
         }

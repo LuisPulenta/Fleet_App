@@ -28,9 +28,11 @@ namespace Fleet_App.Prism.ViewModels
         private string _filter;
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
+        private DelegateCommand _remotesMapCommand;
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
+        public DelegateCommand RemotesMapCommand => _remotesMapCommand ?? (_remotesMapCommand = new DelegateCommand(RemotesMap));
 
         public string Filter
         {
@@ -184,10 +186,18 @@ namespace Fleet_App.Prism.ViewModels
             }
         }
 
+        private async void RemotesMap()
+        {
+            await _navigationService.NavigateAsync("RemotesMapPage");
+        }
+
         private async void Search()
         {
             RefreshList();
         }
+
+   
+
 
         private async void Refresh()
         {

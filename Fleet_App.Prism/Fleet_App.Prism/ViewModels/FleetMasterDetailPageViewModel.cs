@@ -53,12 +53,7 @@ namespace Fleet_App.Prism.ViewModels
                     Title = "Cerrar Sesión"
                 },
 
-                new Menu
-                {
-                    Icon = "ic_action_close",
-                    PageName = "SalirPage",
-                    Title = "Salir"
-                },
+                
                
             };
 
