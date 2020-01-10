@@ -6,7 +6,7 @@ using Prism.Navigation;
 
 namespace MyVet.Prism.ViewModels
 {
-    public class RemoteItemViewModel : RemoteResponse
+    public class RemoteItemViewModel : Reclamo
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectRemoteCommand;
@@ -19,7 +19,7 @@ namespace MyVet.Prism.ViewModels
         private async void SelectRemote()
         {
 
-            Settings.Remotes = JsonConvert.SerializeObject(this);
+            Settings.Remote = JsonConvert.SerializeObject(this);
             await _navigationService.NavigateAsync("RemotePage");
         }
 

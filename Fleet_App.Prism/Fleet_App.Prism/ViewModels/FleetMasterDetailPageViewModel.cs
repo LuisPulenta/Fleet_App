@@ -1,4 +1,5 @@
 ﻿using Fleet_App.Common.Models;
+using Fleet_App.Common.Services;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,10 +10,12 @@ namespace Fleet_App.Prism.ViewModels
     public class FleetMasterDetailPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IApiService _apiService;
 
-        public FleetMasterDetailPageViewModel(INavigationService navigationService) : base(navigationService)
+        public FleetMasterDetailPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
+            _apiService = apiService;
             LoadMenus();
         }
 
@@ -60,7 +63,7 @@ namespace Fleet_App.Prism.ViewModels
             };
 
             Menus = new ObservableCollection<MenuItemViewModel>(
-                menus.Select(m => new MenuItemViewModel(_navigationService)
+                menus.Select(m => new MenuItemViewModel(_navigationService, _apiService)
                 {
                     Icon = m.Icon,
                     PageName = m.PageName,

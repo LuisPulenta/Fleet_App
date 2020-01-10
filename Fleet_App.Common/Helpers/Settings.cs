@@ -6,8 +6,9 @@ namespace Fleet_App.Common.Helpers
     public static class Settings
     {
         private const string _user = "User";
-        private const string _remotes = "Remotes";
+        private const string _remote = "Remote";
         private const string _isRemembered = "IsRemembered";
+        private const string _ingreso = "Ingreso";
         private static readonly bool _boolDefault = false;
 
         private static readonly string _settingsDefault = string.Empty;
@@ -19,16 +20,22 @@ namespace Fleet_App.Common.Helpers
             get => AppSettings.GetValueOrDefault(_user, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_user, value);
         }
-        public static string Remotes
+        public static string Remote
         {
-            get => AppSettings.GetValueOrDefault(_remotes, _settingsDefault);
-            set => AppSettings.AddOrUpdateValue(_remotes, value);
+            get => AppSettings.GetValueOrDefault(_remote, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_remote, value);
         }
 
         public static bool IsRemembered
         {
             get => AppSettings.GetValueOrDefault(_isRemembered, _boolDefault);
             set => AppSettings.AddOrUpdateValue(_isRemembered, value);
+        }
+
+        public static string Ingreso
+        {
+            get => AppSettings.GetValueOrDefault(_ingreso, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_ingreso, value);
         }
 
     }

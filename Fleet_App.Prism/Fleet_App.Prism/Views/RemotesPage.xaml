@@ -6,6 +6,10 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="ic_map"
+                 Command="{Binding RemotesMapCommand}" />
+  </ContentPage.ToolbarItems>
   <StackLayout Padding="5">
     <SearchBar Placeholder="Buscar..."
                  BackgroundColor="White"

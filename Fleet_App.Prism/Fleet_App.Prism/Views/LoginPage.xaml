@@ -15,7 +15,7 @@
         <Image Margin="20"
                Source="logo"
                WidthRequest="260"></Image>
-        <Label Text="V.2.1.2"
+        <Label Text="V.2.1.3"
              TextColor="Navy"
              Margin="20"
              FontSize="Medium"

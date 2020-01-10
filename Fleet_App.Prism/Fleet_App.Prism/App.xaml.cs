@@ -41,12 +41,20 @@ namespace Fleet_App.Prism
         {
             containerRegistry.Register<IApiService, ApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.Register<IGeolocatorService, GeolocatorService>();
+
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<FleetMasterDetailPage, FleetMasterDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<RemotesPage, RemotesPageViewModel>();
             containerRegistry.RegisterForNavigation<CablesPage, CablesPageViewModel>();
             containerRegistry.RegisterForNavigation<OrdersPage, OrdersPageViewModel>();
+            containerRegistry.RegisterForNavigation<RemotePage, RemotePageViewModel>();
+            containerRegistry.RegisterForNavigation<DNIPicturePage, DNIPicturePageViewModel>();
+            containerRegistry.RegisterForNavigation<FirmaPage, FirmaPageViewModel>();
+            containerRegistry.RegisterForNavigation<RemoteMapPage, RemoteMapPageViewModel>();
+            containerRegistry.RegisterForNavigation<AvisoPage, AvisoPageViewModel>();
+            containerRegistry.RegisterForNavigation<Aviso2Page, Aviso2PageViewModel>();
         }
     }
 }

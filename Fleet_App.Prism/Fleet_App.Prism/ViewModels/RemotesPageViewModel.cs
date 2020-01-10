@@ -21,17 +21,27 @@ namespace Fleet_App.Prism.ViewModels
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isRefreshing;
+        private string _entreCalles;
         private ObservableCollection<RemoteItemViewModel> _remotes;
         private static RemotesPageViewModel _instance;
+        private int _cantRemotes;
+        private string _filter;
+        private DelegateCommand _searchCommand;
+        private DelegateCommand _refreshCommand;
 
-        public RemotesPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
+        public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
+
+        public string Filter
         {
-            _instance = this;
-            _navigationService = navigationService;
-            _apiService = apiService;
-            LoadUser();
-            Title = "Controles Remotos";
-            
+            get => _filter;
+            set => SetProperty(ref _filter, value);
+        }
+
+        public int CantRemotes
+        {
+            get => _cantRemotes;
+            set => SetProperty(ref _cantRemotes, value);
         }
         public bool IsRefreshing
         {
@@ -44,6 +54,11 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _isRunning, value);
         }
 
+        public string EntreCalles
+        {
+            get => _entreCalles;
+            set => SetProperty(ref _entreCalles, value);
+        }
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -55,24 +70,36 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _remotes, value);
         }
 
+        public List<Reclamo> MyRemotes { get; set; }
+
         public static RemotesPageViewModel GetInstance()
         {
             return _instance;
         }
 
 
+        public RemotesPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        {
+            _apiService = apiService;
+            _navigationService = navigationService;
+            LoadUser();
+            Remotes = new ObservableCollection<RemoteItemViewModel>();
+            Title = "Controles Remotos";
+            _instance = this;
+        }
+
+
         private async void LoadUser()
         {
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User2);
-
             var url = App.Current.Resources["UrlAPI"].ToString();
-
+            var controller = string.Format("/AsignacionesOTs/GetRemotes/{0}", _user.IDUser);
             var response = await _apiService.GetRemotesForUser(
                 url,
                 "api",
-                "/AsignacionesOTs/GetRemotes",
+                controller,
                 _user.IDUser);
-
+            IsRefreshing = false;
             if (!response.IsSuccess)
             {
                 IsRunning = false;
@@ -80,36 +107,91 @@ namespace Fleet_App.Prism.ViewModels
                 await App.Current.MainPage.DisplayAlert("Error", "Problema para recuperar datos.", "Aceptar");
                 return;
             }
+            MyRemotes = (List<Reclamo>)response.Result;
+            RefreshList();
+            IsRefreshing = false;
 
+            //Remotes = new ObservableCollection<RemoteItemViewModel>(MyRemotes.Select(a => new RemoteItemViewModel(_navigationService)
+            //{
+            //}).ToList());
+            
+        }
 
-
-            var myremotes = (List<RemoteResponse>)response.Result;
-
-            Remotes = new ObservableCollection<RemoteItemViewModel>(myremotes.Select(a => new RemoteItemViewModel(_navigationService)
+        public void RefreshList()
+        {
+            if (string.IsNullOrEmpty(this.Filter))
             {
-                CantRem=a.CantRem,
-                CAUSANTEC=a.CAUSANTEC,
-                CLIENTE=a.CLIENTE,
-                CodigoCierre=a.CodigoCierre,
-                CP=a.CP,
-                DESCRIPCION=a.DESCRIPCION,
-                DOMICILIO=a.DOMICILIO,
-                ENTRECALLE1=a.ENTRECALLE1,
-                ENTRECALLE2 = a.ENTRECALLE2,
-                ESTADOGAOS=a.ESTADOGAOS,
-                GRXX=a.GRXX,
-                GRYY = a.GRYY,
-                FechaAsignada=a.FechaAsignada,
-                Novedades=a.Novedades,
-                LOCALIDAD=a.LOCALIDAD,
-                NOMBRE=a.NOMBRE,
-                ObservacionCaptura=a.ObservacionCaptura,
-                PROYECTOMODULO=a.PROYECTOMODULO,
-                RECUPIDJOBCARD=a.RECUPIDJOBCARD,
-                SUBCON=a.SUBCON,
-                TELEFONO=a.TELEFONO,
-                UserID=a.UserID,
-            }).ToList());
+
+                var myListRemoteItemViewModel = MyRemotes.Select(a => new RemoteItemViewModel(_navigationService)
+                {
+                    CantRem = a.CantRem,
+                    CAUSANTEC = a.CAUSANTEC,
+                    CLIENTE = a.CLIENTE,
+                    CodigoCierre = a.CodigoCierre,
+                    CP = a.CP,
+                    Descripción=a.Descripción,
+                    DOMICILIO = a.DOMICILIO,
+                    ENTRECALLE1 = a.ENTRECALLE1,
+                    ENTRECALLE2 = a.ENTRECALLE2,
+                    ESTADOGAOS = a.ESTADOGAOS,
+                    GRXX = a.GRXX,
+                    GRYY = a.GRYY,
+                    FechaAsignada = a.FechaAsignada,
+                    Novedades = a.Novedades,
+                    LOCALIDAD = a.LOCALIDAD,
+                    NOMBRE = a.NOMBRE,
+                    ObservacionCaptura = a.ObservacionCaptura,
+                    PROYECTOMODULO = a.PROYECTOMODULO,
+                    RECUPIDJOBCARD = a.RECUPIDJOBCARD,
+                    SUBCON = a.SUBCON,
+                    TELEFONO = a.TELEFONO,
+                    UserID = a.UserID,
+                });
+                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.OrderBy(o => o.NOMBRE));
+                CantRemotes = Remotes.Count();
+            }
+            else
+            {
+                var myListRemoteItemViewModel = MyRemotes.Select(a => new RemoteItemViewModel(_navigationService)
+                {
+                    CantRem = a.CantRem,
+                    CAUSANTEC = a.CAUSANTEC,
+                    CLIENTE = a.CLIENTE,
+                    CodigoCierre = a.CodigoCierre,
+                    CP = a.CP,
+                    Descripción=a.Descripción,
+                    DOMICILIO = a.DOMICILIO,
+                    ENTRECALLE1 = a.ENTRECALLE1,
+                    ENTRECALLE2 = a.ENTRECALLE2,
+                    ESTADOGAOS = a.ESTADOGAOS,
+                    GRXX = a.GRXX,
+                    GRYY = a.GRYY,
+                    FechaAsignada = a.FechaAsignada,
+                    Novedades = a.Novedades,
+                    LOCALIDAD = a.LOCALIDAD,
+                    NOMBRE = a.NOMBRE,
+                    ObservacionCaptura = a.ObservacionCaptura,
+                    PROYECTOMODULO = a.PROYECTOMODULO,
+                    RECUPIDJOBCARD = a.RECUPIDJOBCARD,
+                    SUBCON = a.SUBCON,
+                    TELEFONO = a.TELEFONO,
+                    UserID = a.UserID,
+                });
+                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel
+                    .OrderBy(o => o.NOMBRE)
+                    .Where(o => o.NOMBRE.ToLower().Contains(this.Filter.ToLower())));
+                CantRemotes = Remotes.Count();
+            }
+        }
+
+        private async void Search()
+        {
+            RefreshList();
+        }
+
+        private async void Refresh()
+        {
+            LoadUser();
         }
     }
 }
