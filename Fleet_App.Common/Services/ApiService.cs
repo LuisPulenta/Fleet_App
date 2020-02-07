@@ -158,13 +158,57 @@ namespace Fleet_App.Common.Services
             }
         }
 
+        public async Task<Response<object>> GetTasasForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id)
+        {
+            try
+            {
+                var model = new UserIdRequest { Id = id };
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
 
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var tasas = JsonConvert.DeserializeObject<List<ReclamoTasa>>(answer);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = tasas
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
 
         public async Task<Response<object>> GetListAsync<T>(
             string urlBase,
             string servicePrefix,
             string controller,
-            string id)
+            string id,
+            int? userid)
         {
             try
             {
@@ -173,7 +217,7 @@ namespace Fleet_App.Common.Services
                     BaseAddress = new Uri(urlBase),
                 };
 
-                var model = new ControlRequest { RECUPIDJOBCARD = id };
+                var model = new ControlRequest { RECUPIDJOBCARD = id, UserID=userid };
                 var request = JsonConvert.SerializeObject(model);
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
 
@@ -255,7 +299,8 @@ namespace Fleet_App.Common.Services
             string urlBase,
             string servicePrefix,
             string controller,
-            int? id)
+            int? id,
+            int? userid)
         {
             try
             {
@@ -264,7 +309,7 @@ namespace Fleet_App.Common.Services
                     BaseAddress = new Uri(urlBase),
                 };
 
-                var model = new ControlCableRequest { ReclamoTecnicoID = id };
+                var model = new ControlCableRequest { ReclamoTecnicoID = id, UserID=userid };
                 var request = JsonConvert.SerializeObject(model);
                 var content = new StringContent(request, Encoding.UTF8, "application/json");
 

@@ -57,6 +57,9 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<Aviso2Page, Aviso2PageViewModel>();
             containerRegistry.RegisterForNavigation<RemotesMapPage, RemotesMapPageViewModel>();
             containerRegistry.RegisterForNavigation<CablePage, CablePageViewModel>();
+            containerRegistry.RegisterForNavigation<ModemPage, ModemPageViewModel>();
+            containerRegistry.RegisterForNavigation<TasasPage, TasasPageViewModel>();
+            containerRegistry.RegisterForNavigation<TasaPage, TasaPageViewModel>();
         }
     }
 }

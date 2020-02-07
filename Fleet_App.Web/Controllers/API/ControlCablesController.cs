@@ -2,6 +2,7 @@
 using Fleet_App.Web.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,9 +35,41 @@ namespace Fleet_App.Web.Controllers.API
 
 
             var controlcables = await _dataContext.AsignacionesOTs
-                   .Where(o => (o.ReclamoTecnicoID == controlCableRequest.ReclamoTecnicoID && o.CodigoCierre < 13))
+                   .Where(o => (o.ReclamoTecnicoID == controlCableRequest.ReclamoTecnicoID && o.CodigoCierre < 13 && o.UserID== controlCableRequest.UserID))
                    .OrderBy(o => o.ReclamoTecnicoID).ToListAsync();
-            return Ok(controlcables);
+
+
+            var response = new List<ControlCable>();
+            foreach (var control in controlcables)
+            {
+                var controlResponse = new ControlCable
+                {
+                    Autonumerico = control.Autonumerico,
+                    CMODEM1 = control.CMODEM1,
+                    CodigoCierre = control.CodigoCierre,
+                    DECO1 = control.DECO1,
+                    ESTADO = control.ESTADO,
+                    ESTADO2 = control.ESTADO2,
+                    ESTADO3 = control.ESTADO3,
+                    ESTADOGAOS = control.ESTADOGAOS,
+                    FECHACUMPLIDA = control.FECHACUMPLIDA,
+                    HsCumplida = control.HsCumplida,
+                    HsCumplidaTime = control.HsCumplidaTime,
+                    IDREGISTRO = control.IDREGISTRO,
+                    Observacion = control.Observacion,
+                    PROYECTOMODULO = control.PROYECTOMODULO,
+                    ReclamoTecnicoID = control.ReclamoTecnicoID,
+                    RECUPIDJOBCARD = control.RECUPIDJOBCARD,
+                    IDSuscripcion=control.IDSuscripcion,
+                    MarcaModeloId=control.MarcaModeloId,
+                    MODELO=control.MODELO,
+                    Motivos= control.Motivos,
+                    ZONA = control.ZONA,
+                };
+                response.Add(controlResponse);
+            }
+
+            return Ok(response);
         }
     }
 

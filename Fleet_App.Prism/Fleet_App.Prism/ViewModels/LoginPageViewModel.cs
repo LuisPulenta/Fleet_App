@@ -26,7 +26,7 @@ namespace Fleet_App.Prism.ViewModels
         {
             Title = "Login";
             IsEnabled = true;
-            IsRemembered = true;
+            IsRemembered = false;
             _navigationService = navigationService;
             _apiService = apiService;
             //Email = "TEST";
@@ -190,12 +190,12 @@ namespace Fleet_App.Prism.ViewModels
             var bandera = 0; 
             foreach (var cc in MyModules)
             {
-                if (cc.NroVersion != "2.1.3" && cc.ActualizOblig == 0 && cc.IdModulo==1)
+                if (cc.NroVersion != "3.0.1" && cc.ActualizOblig == 0 && cc.IdModulo==1)
                 {
                     bandera = 1;
                 }
 
-                if (cc.NroVersion != "2.1.3" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
+                if (cc.NroVersion != "3.0.1" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
                 {
                     bandera = 2; 
                 }
@@ -205,6 +205,7 @@ namespace Fleet_App.Prism.ViewModels
                 {
                     IsRunning = false;
                     IsEnabled = true;
+                    Settings.IsRemembered = false;
                     await _navigationService.NavigateAsync("/FleetMasterDetailPage/NavigationPage/AvisoPage");
                     return;
                 }
@@ -213,6 +214,7 @@ namespace Fleet_App.Prism.ViewModels
                 {
                     IsRunning = false;
                     IsEnabled = true;
+                    Settings.IsRemembered = false;
                     await _navigationService.NavigateAsync("/FleetMasterDetailPage/NavigationPage/Aviso2Page");
                     return;
                 }

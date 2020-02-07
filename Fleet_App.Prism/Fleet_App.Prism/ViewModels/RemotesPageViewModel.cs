@@ -1,7 +1,7 @@
 ﻿using Fleet_App.Common.Helpers;
 using Fleet_App.Common.Models;
 using Fleet_App.Common.Services;
-using MyVet.Prism.ViewModels;
+using Fleet_App.Prism.ViewModels;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -82,10 +82,10 @@ namespace Fleet_App.Prism.ViewModels
 
         public RemotesPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
+            Remotes = new ObservableCollection<RemoteItemViewModel>();
             _apiService = apiService;
             _navigationService = navigationService;
             LoadUser();
-            Remotes = new ObservableCollection<RemoteItemViewModel>();
             Title = "Controles Remotos";
             _instance = this;
         }
@@ -131,7 +131,7 @@ namespace Fleet_App.Prism.ViewModels
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
                     CP = a.CP,
-                    Descripción=a.Descripción,
+                    Descripcion=a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
@@ -149,7 +149,7 @@ namespace Fleet_App.Prism.ViewModels
                     TELEFONO = a.TELEFONO,
                     UserID = a.UserID,
                 });
-                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.OrderBy(o => o.NOMBRE));
+                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
                 CantRemotes = Remotes.Count();
             }
             else
@@ -161,7 +161,7 @@ namespace Fleet_App.Prism.ViewModels
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
                     CP = a.CP,
-                    Descripción=a.Descripción,
+                    Descripcion=a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
@@ -180,7 +180,7 @@ namespace Fleet_App.Prism.ViewModels
                     UserID = a.UserID,
                 });
                 Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel
-                    .OrderBy(o => o.NOMBRE)
+                    .OrderBy(o => o.FechaAsignada + o.NOMBRE)
                     .Where(o => o.NOMBRE.ToLower().Contains(this.Filter.ToLower())));
                 CantRemotes = Remotes.Count();
             }

@@ -35,7 +35,7 @@ namespace Fleet_App.Common.Models
 
         public virtual ICollection<Control> Controls { get; set; }
 
-        public string Descripción { get; set; }
+        public string Descripcion { get; set; }
         public string MOTIVOS { get; set; }
         public string ClienteCompleto => $"{CLIENTE}-{NOMBRE}";
         public string EntreCalles => $"{ENTRECALLE1} y {ENTRECALLE2}";

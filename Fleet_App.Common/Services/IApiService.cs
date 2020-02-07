@@ -25,11 +25,18 @@ namespace Fleet_App.Common.Services
             string controller,
             int id);
 
+        Task<Response<object>> GetTasasForUser(
+           string urlBase,
+           string servicePrefix,
+           string controller,
+           int id);
+
         Task<Response<object>> GetListAsync<T>(
         string urlBase,
         string servicePrefix,
         string controller,
-        string id);
+        string id,
+        int? userid);
 
         Task<Response<object>> GetList2Async<T>(
         string urlBase,
@@ -40,7 +47,8 @@ namespace Fleet_App.Common.Services
         string urlBase,
         string servicePrefix,
         string controller,
-        int? id);
+        int? id, 
+        int? userid);
 
         Task<Response<object>> PutAsync<T>(
             string urlBase,

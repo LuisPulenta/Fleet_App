@@ -1,7 +1,7 @@
 ﻿using Fleet_App.Common.Helpers;
 using Fleet_App.Common.Models;
 using Fleet_App.Common.Services;
-using MyVet.Prism.ViewModels;
+using Fleet_App.Prism.ViewModels;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -131,7 +131,7 @@ namespace Fleet_App.Prism.ViewModels
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
                     CP = a.CP,
-                    Descripción = a.Descripción,
+                    Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
@@ -153,7 +153,7 @@ namespace Fleet_App.Prism.ViewModels
                     MOTIVOS=a.MOTIVOS,
                     IDSuscripcion=a.IDSuscripcion,
                 });
-                Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel.OrderBy(o => o.NOMBRE));
+                Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
                 CantCables = Cables.Count();
             }
             else
@@ -165,7 +165,7 @@ namespace Fleet_App.Prism.ViewModels
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
                     CP = a.CP,
-                    Descripción = a.Descripción,
+                    Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
@@ -188,7 +188,7 @@ namespace Fleet_App.Prism.ViewModels
                     IDSuscripcion = a.IDSuscripcion,
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
-                    .OrderBy(o => o.NOMBRE)
+                    .OrderBy(o => o.FechaAsignada + o.NOMBRE)
                     .Where(o => o.NOMBRE.ToLower().Contains(this.Filter.ToLower())));
                 CantCables = Cables.Count();
             }

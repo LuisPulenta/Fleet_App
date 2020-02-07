@@ -58,7 +58,7 @@ namespace Fleet_App.Web.Controllers.API
                r.CodigoCierre,
                r.ObservacionCaptura,
                r.Novedades,
-               r.ControlesEquivalencia.DESCRIPCION,
+               
            })
            .Select(g => new
            {
@@ -82,7 +82,7 @@ namespace Fleet_App.Web.Controllers.API
                CodigoCierre = g.Key.CodigoCierre,
                ObservacionCaptura = g.Key.ObservacionCaptura,
                Novedades = g.Key.Novedades,
-               Descripcion = g.Key.DESCRIPCION,
+               
                CantRem = g.Count(),
            }).ToListAsync();
 
@@ -130,7 +130,7 @@ namespace Fleet_App.Web.Controllers.API
                r.CodigoCierre,
                r.ObservacionCaptura,
                r.Novedades,
-               r.ControlesEquivalencia.DESCRIPCION,
+               
                r.PROVINCIA,
                r.ReclamoTecnicoID,
                r.Motivos
@@ -160,7 +160,7 @@ namespace Fleet_App.Web.Controllers.API
                PROVINCIA = g.Key.PROVINCIA,
                ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
                Motivos = g.Key.Motivos,
-               Descripcion = g.Key.DESCRIPCION,
+               
                
                CantRem = g.Count(),
            }).ToListAsync();
@@ -173,6 +173,87 @@ namespace Fleet_App.Web.Controllers.API
 
             return Ok(orders);
         }
+
+        [HttpPost]
+        [Route("GetTasas/{UserID}")]
+        public async Task<IActionResult> GetTasas(int UserID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var orders = await _dataContext.AsignacionesOTs
+                .Include(m => m.ControlesEquivalencia)
+           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Tasa") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre <= 13) && (o.CodigoCierre > 0))))
+           .OrderBy(o => o.RECUPIDJOBCARD)
+           .GroupBy(r => new
+           {
+               r.RECUPIDJOBCARD,
+               r.CLIENTE,
+               r.NOMBRE,
+               r.DOMICILIO,
+               r.CP,
+               r.ENTRECALLE1,
+               r.ENTRECALLE2,
+               r.LOCALIDAD,
+               r.TELEFONO,
+               r.GRXX,
+               r.GRYY,
+               r.ESTADOGAOS,
+               r.PROYECTOMODULO,
+               r.UserID,
+               r.CAUSANTEC,
+               r.SUBCON,
+               r.FechaAsignada,
+               r.CodigoCierre,
+               r.ObservacionCaptura,
+               r.Novedades,
+
+               r.PROVINCIA,
+               r.ReclamoTecnicoID,
+               r.Motivos
+           })
+           .Select(g => new
+           {
+               RECUPIDJOBCARD = g.Key.RECUPIDJOBCARD,
+               CLIENTE = g.Key.CLIENTE,
+               NOMBRE = g.Key.NOMBRE,
+               DOMICILIO = g.Key.DOMICILIO,
+               CP = g.Key.CP,
+               ENTRECALLE1 = g.Key.ENTRECALLE1,
+               ENTRECALLE2 = g.Key.ENTRECALLE2,
+               LOCALIDAD = g.Key.LOCALIDAD,
+               TELEFONO = g.Key.TELEFONO,
+               GRXX = g.Key.GRXX,
+               GRYY = g.Key.GRYY,
+               ESTADOGAOS = g.Key.ESTADOGAOS,
+               PROYECTOMODULO = g.Key.PROYECTOMODULO,
+               UserID = g.Key.UserID,
+               CAUSANTEC = g.Key.CAUSANTEC,
+               SUBCON = g.Key.SUBCON,
+               FechaAsignada = g.Key.FechaAsignada,
+               CodigoCierre = g.Key.CodigoCierre,
+               ObservacionCaptura = g.Key.ObservacionCaptura,
+               Novedades = g.Key.Novedades,
+               PROVINCIA = g.Key.PROVINCIA,
+               ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
+               Motivos = g.Key.Motivos,
+
+
+               CantRem = g.Count(),
+           }).ToListAsync();
+
+
+            if (orders == null)
+            {
+                return BadRequest("No hay Recuperos de Tasa para este Usuario.");
+            }
+
+            return Ok(orders);
+        }
+
+
 
         // PUT: api/AsignacionesOTs/5
         [HttpPut("{id}")]
@@ -233,6 +314,8 @@ namespace Fleet_App.Web.Controllers.API
             oldasignacionesOT.CodigoCierre = asignacionesOT.CodigoCierre;
             oldasignacionesOT.FECHACUMPLIDA = asignacionesOT.FECHACUMPLIDA;
             oldasignacionesOT.HsCumplidaTime = asignacionesOT.HsCumplidaTime;
+            oldasignacionesOT.ESTADO2 = asignacionesOT.ESTADO2;
+            oldasignacionesOT.ESTADO3 = asignacionesOT.ESTADO3;
 
             _dataContext.AsignacionesOTs.Update(oldasignacionesOT);
             await _dataContext.SaveChangesAsync();

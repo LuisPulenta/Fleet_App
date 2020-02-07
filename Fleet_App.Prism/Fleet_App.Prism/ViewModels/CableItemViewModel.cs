@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
 
-namespace MyVet.Prism.ViewModels
+namespace Fleet_App.Prism.ViewModels
 {
     public class CableItemViewModel : ReclamoCable
     {

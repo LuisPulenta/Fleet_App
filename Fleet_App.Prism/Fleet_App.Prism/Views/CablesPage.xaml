@@ -15,12 +15,14 @@
                  FontSize="Small"
                  WidthRequest="200"
                  Text="{Binding Filter}"
+                 TextChanged="SearchBar_TextChanged"
                  HeightRequest="40">
         <!--  TextChanged="SearchBar_TextChanged" -->
       </SearchBar>
       <StackLayout Orientation="Horizontal"
                    BackgroundColor="White"
-                   Padding="5">
+                   Padding="2"
+                   >
         <Label Text="Cantidad de Clientes:"
                FontSize="Small"
                TextColor="Blue"
@@ -36,15 +38,20 @@
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                 SeparatorVisibility="None">
+       
         <ListView.ItemTemplate>
           <DataTemplate>
             <ViewCell>
-              <Frame CornerRadius="20"
+              <Frame CornerRadius="10"
                      HasShadow="True"
                      BackgroundColor="White"
-                     Margin="5">
-                <StackLayout>
-                  <Grid HeightRequest="170">
+                     Margin="3"
+                     Padding="5"
+                     >
+                <StackLayout 
+                  >
+                  <Grid HeightRequest="130"
+                        RowSpacing="-0">
                     <Grid.GestureRecognizers>
                       <TapGestureRecognizer Command="{Binding SelectCableCommand}" />
                     </Grid.GestureRecognizers>
@@ -191,12 +198,12 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding CodigoCierre}"></Label>
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
                     <Label Grid.Row="7"
                            Grid.Column="0"
                            FontSize="Micro"
@@ -211,13 +218,27 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding MOTIVOS}"></Label>
-                    
-                    
+                    <Label Grid.Row="8"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Fec.Asig.:"></Label>
+                    <Label Grid.Row="8"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding FechaAsignada, StringFormat='{0:dd/MM/yyyy}'}"></Label>
+
                     <Image Grid.Row="0"
                            Grid.Column="6"
                            Grid.RowSpan="8"
                            VerticalOptions="Center"
-                           Source="ic_chevron_right"></Image>
+                           Source="ic_chevron_right">
+                      </Image>
                   </Grid>
                 </StackLayout>
               </Frame>

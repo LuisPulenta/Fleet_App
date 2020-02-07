@@ -18,6 +18,7 @@
                  FontSize="Small"
                  WidthRequest="200"
                  Text="{Binding Filter}"
+                 TextChanged="SearchBar_TextChanged"
                  HeightRequest="40">
     </SearchBar>
 
@@ -42,12 +43,14 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>
-            <Frame CornerRadius="20"
+            <Frame CornerRadius="10"
                      HasShadow="True"
                      BackgroundColor="White"
-                     Margin="5">
+                     Margin="3"
+                     Padding="5">
               <StackLayout>
-                <Grid HeightRequest="160">
+                <Grid HeightRequest="110"
+                      RowSpacing="-0">
                   <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SelectRemoteCommand}" />
                   </Grid.GestureRecognizers>
@@ -192,6 +195,20 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding CodigoCierre}"></Label>
+                  <Label Grid.Row="7"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Fec.Asig:"></Label>
+                  <Label Grid.Row="7"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="3"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding FechaAsignada, StringFormat='{0:dd/MM/yyyy}'}"></Label>
                   <Image Grid.Row="0"
                            Grid.Column="4"
                            Grid.RowSpan="7"

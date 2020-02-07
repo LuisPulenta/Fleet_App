@@ -39,6 +39,13 @@ namespace Fleet_App.Prism.ViewModels
                     Title = "Recuperos Cablevisión"
                 },
 
+                 new Menu
+                {
+                    Icon = "ic_action_settings_input_antenna.png",
+                    PageName = "TasasPage",
+                    Title = "Recuperos Tasa"
+                },
+
                 new Menu
                 {
                     Icon = "",

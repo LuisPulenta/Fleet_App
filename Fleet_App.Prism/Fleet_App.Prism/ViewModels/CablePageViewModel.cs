@@ -18,14 +18,15 @@ namespace Fleet_App.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
 
-        
+
         private AsignacionesOT _cable;
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isEnabledParcial;
         private bool _isRefreshing;
+        private bool _habilitado;
         private CodigoCierre _cCierre;
-        private ObservableCollection<ControlCable> _controlCables;
+        private ObservableCollection<ModemItemViewModel> _controlCables;
         private ObservableCollection<CodigoCierre> _codigosCierre;
 
         #region Properties
@@ -34,6 +35,13 @@ namespace Fleet_App.Prism.ViewModels
         {
             get => _isRunning;
             set => SetProperty(ref _isRunning, value);
+        }
+
+        //public bool Habilitado { get => _habilitado; set => _habilitado = value; }
+        public bool Habilitado
+        {
+            get => _habilitado;
+            set => SetProperty(ref _habilitado, value);
         }
         public bool IsEnabled
         {
@@ -55,7 +63,7 @@ namespace Fleet_App.Prism.ViewModels
             get => _cCierre;
             set => SetProperty(ref _cCierre, value);
         }
-        public ObservableCollection<ControlCable> ControlCables
+        public ObservableCollection<ModemItemViewModel> ControlCables
         {
             get => _controlCables;
             set => SetProperty(ref _controlCables, value);
@@ -71,25 +79,33 @@ namespace Fleet_App.Prism.ViewModels
 
         private DelegateCommand _cancelCommand;
         private DelegateCommand _saveCommand;
+        private DelegateCommand _elijeTodosCommand;
+        private DelegateCommand _deselijeTodosCommand;
         private DelegateCommand _phoneCallCommand;
 
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
+        public DelegateCommand ElijeTodosCommand => _elijeTodosCommand ?? (_elijeTodosCommand = new DelegateCommand(ElijeTodos));
+        public DelegateCommand DeselijeTodosCommand => _deselijeTodosCommand ?? (_deselijeTodosCommand = new DelegateCommand(DeselijeTodos));
 
+        
 
-
-        public CablePageViewModel (INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public CablePageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
+            
             Title = "Recupero de Cablevisión";
             instance = this;
             Cable = JsonConvert.DeserializeObject<ReclamoCable>(Settings.Cable);
-            IsEnabled = true;
+                        
             LoadControlCables();
             LoadCodigosCierre();
+
+            IsEnabled = true;
             IsRefreshing = false;
+            
             if (Cable.CantRec == 1)
             {
                 IsEnabledParcial = false;
@@ -98,6 +114,7 @@ namespace Fleet_App.Prism.ViewModels
             {
                 IsEnabledParcial = true;
             }
+            this.Habilitado = false;
         }
 
         #region Singleton
@@ -113,6 +130,7 @@ namespace Fleet_App.Prism.ViewModels
         private async void LoadControlCables()
         {
             this.IsRefreshing = true;
+            this.Habilitado = false;
 
             //Verificar conectividad
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -127,14 +145,15 @@ namespace Fleet_App.Prism.ViewModels
 
 
             //Buscar los autonumericos del cable seleccionado
-            var controller = string.Format("/ControlCables/GetAutonumericos", Cable.ReclamoTecnicoID);
+            var controller = string.Format("/ControlCables/GetAutonumericos", Cable.ReclamoTecnicoID, Cable.UserID);
 
 
             var response = await _apiService.GetList3Async<ControlCable>(
                  url,
                 "api",
                 controller,
-                Cable.ReclamoTecnicoID);
+                Cable.ReclamoTecnicoID,
+                Cable.UserID);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;
@@ -147,7 +166,7 @@ namespace Fleet_App.Prism.ViewModels
 
         public void RefreshList()
         {
-            var myListControls = this.MyControlCables.Select(p => new ControlCable
+            var myListControls = this.MyControlCables.Select(p => new ModemItemViewModel(_navigationService)
             {
                 IDREGISTRO = p.IDREGISTRO,
                 RECUPIDJOBCARD = p.RECUPIDJOBCARD,
@@ -166,9 +185,11 @@ namespace Fleet_App.Prism.ViewModels
                 HsCumplida = p.HsCumplida,
                 Observacion = p.Observacion,
                 MODELO = p.MODELO,
-                Motivos=p.Motivos
-                            }); ;
-            this.ControlCables = new ObservableCollection<ControlCable>(myListControls.OrderBy(p => p.Autonumerico));
+                MarcaModeloId = p.MarcaModeloId,
+                Motivos = p.Motivos,
+                Elegir=p.Elegir
+            }); ;
+            this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
         }
 
 
@@ -195,7 +216,7 @@ namespace Fleet_App.Prism.ViewModels
 
 
 
-        
+
         private async void Save()
         {
             if (Cable.ESTADOGAOS == "PEN")
@@ -207,7 +228,7 @@ namespace Fleet_App.Prism.ViewModels
             if (Cable.ESTADOGAOS == "INC" && CCierre == null)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Si la Orden tiene un Estado 'INC', hay que cargar el Código Cierre.", "Aceptar");
-                 return;
+                return;
             }
             if (Cable.ESTADOGAOS == "PAR" && CCierre == null)
             {
@@ -215,23 +236,11 @@ namespace Fleet_App.Prism.ViewModels
                 return;
             }
 
-            if (Cable.ESTADOGAOS == "PAR" && (Cable.CantEnt == 0 || Cable.CantEnt == null))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "Si la Orden tiene un Estado 'PAR', hay que cargar la Cantidad Recuperada.", "Aceptar");
-                return;
-            }
+           
 
-            if (Cable.ESTADOGAOS == "PAR" && Cable.CantEnt == Cable.CantRem)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "Si la Orden tiene un Estado 'PAR', hay que cargar la Cantidad Recuperada.", "Aceptar");
-                return;
-            }
+           
 
-            if (Cable.ESTADOGAOS == "PAR" && Cable.CantEnt > Cable.CantRem)
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "No puede recuperar mayor Cantidad que la solicitada.", "Aceptar");
-                return;
-            }
+            
 
 
 
@@ -250,7 +259,7 @@ namespace Fleet_App.Prism.ViewModels
             //****************************************************************************************************************
             IsRunning = true;
             IsEnabled = false;
-          
+
             int? CR = null;
             if (Cable.ESTADOGAOS == "EJB")
             {
@@ -270,6 +279,16 @@ namespace Fleet_App.Prism.ViewModels
             {
                 //***** Graba EJB o INC *****
 
+                var E2 = "";
+                if (Cable.ESTADOGAOS == "EJB")
+                {
+                    E2 = "SI";
+                }
+                if (Cable.ESTADOGAOS == "INC")
+                {
+                    E2 = "NO";
+                }
+
                 foreach (var cc in ControlCables)
                 {
                     var mycc = new AsignacionesOT
@@ -288,6 +307,8 @@ namespace Fleet_App.Prism.ViewModels
                         GRXX = Cable.GRXX,
                         GRYY = Cable.GRYY,
                         ESTADO = cc.ESTADO,
+                        ESTADO2 = E2,
+                        ESTADO3 = cc.ESTADO3,
                         ZONA = cc.ZONA,
                         ESTADOGAOS = Cable.ESTADOGAOS,
                         FECHACUMPLIDA = DateTime.Now,
@@ -308,10 +329,10 @@ namespace Fleet_App.Prism.ViewModels
                         Novedades = Cable.Novedades,
                         ReclamoTecnicoID = cc.ReclamoTecnicoID,
                         MODELO = cc.MODELO,
-                        Motivos=cc.Motivos,
-                        IDSuscripcion=cc.IDSuscripcion,
+                        Motivos = cc.Motivos,
+                        IDSuscripcion = cc.IDSuscripcion,
                     };
-                    
+
                     var response = await _apiService.PutAsync(
                     url,
                     "api",
@@ -329,7 +350,10 @@ namespace Fleet_App.Prism.ViewModels
                     }
                 }
                 //***** Borrar de la lista de Cables *****
-                Cable.CantRem = Cable.CantRem - Cable.CantEnt;
+                if (Cable.CantEnt > 0)
+                {
+                    Cable.CantRem = Cable.CantRem - Cable.CantEnt;
+                }
                 var newCable = Cable;
                 var cablesViewModel = CablesPageViewModel.GetInstance();
 
@@ -375,10 +399,9 @@ namespace Fleet_App.Prism.ViewModels
             }
             else
             {
-                var cont = 0;
                 foreach (var cc in ControlCables)
                 {
-                    if (cont < Cable.CantEnt)
+                    if (cc.Elegir==1)
                     {
                         var mycc = new AsignacionesOT
                         {
@@ -398,6 +421,8 @@ namespace Fleet_App.Prism.ViewModels
                             ESTADO = cc.ESTADO,
                             ZONA = cc.ZONA,
                             ESTADOGAOS = "EJB",
+                            ESTADO2="SI",
+                            ESTADO3=cc.ESTADO3,
                             SUBCON = Cable.SUBCON,
                             CAUSANTEC = Cable.CAUSANTEC,
                             FechaAsignada = Cable.FechaAsignada,
@@ -416,8 +441,8 @@ namespace Fleet_App.Prism.ViewModels
                             HsCumplidaTime = DateTime.Now,
                             ReclamoTecnicoID = cc.ReclamoTecnicoID,
                             MODELO = cc.MODELO,
-                            Motivos=cc.Motivos,
-                            IDSuscripcion=cc.IDSuscripcion,
+                            Motivos = cc.Motivos,
+                            IDSuscripcion = cc.IDSuscripcion,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -429,7 +454,7 @@ namespace Fleet_App.Prism.ViewModels
 
                         IsRunning = false;
                         IsEnabled = true;
-                        cont = cont + 1;
+                        
                     }
 
                     else
@@ -450,6 +475,8 @@ namespace Fleet_App.Prism.ViewModels
                             GRXX = Cable.GRXX,
                             GRYY = Cable.GRYY,
                             ESTADO = cc.ESTADO,
+                            ESTADO2 = "NO",
+                            ESTADO3 = cc.ESTADO3,
                             ZONA = cc.ZONA,
                             ESTADOGAOS = "INC",
                             FECHACUMPLIDA = DateTime.Now,
@@ -483,11 +510,14 @@ namespace Fleet_App.Prism.ViewModels
 
                         IsRunning = false;
                         IsEnabled = true;
-                        cont = cont + 1;
+                        
                     }
                 }
                 //***** Borrar de la lista de Reclamos *****
-                Cable.CantRem = Cable.CantRem - Cable.CantEnt;
+                if (Cable.CantEnt > 0)
+                {
+                    Cable.CantRem = Cable.CantRem - Cable.CantEnt;
+                }
                 Cable.ESTADOGAOS = "INC";
                 var newCable = Cable;
                 var cablesViewModel = CablesPageViewModel.GetInstance();
@@ -514,5 +544,68 @@ namespace Fleet_App.Prism.ViewModels
             await _navigationService.GoBackAsync();
         }
 
+        private async void ElijeTodos()
+        {
+            
+            var myListControls = this.MyControlCables.Select(p => new ModemItemViewModel(_navigationService)
+            {
+                IDREGISTRO = p.IDREGISTRO,
+                RECUPIDJOBCARD = p.RECUPIDJOBCARD,
+                ReclamoTecnicoID = p.ReclamoTecnicoID,
+                IDSuscripcion = p.IDSuscripcion,
+                ESTADOGAOS = p.ESTADOGAOS,
+                PROYECTOMODULO = p.PROYECTOMODULO,
+                FECHACUMPLIDA = p.FECHACUMPLIDA,
+                HsCumplidaTime = p.HsCumplidaTime,
+                CodigoCierre = p.CodigoCierre,
+                Autonumerico = p.Autonumerico,
+                DECO1 = p.DECO1,
+                CMODEM1 = p.CMODEM1,
+                ESTADO = p.ESTADO,
+                ESTADO2="SI",
+                ESTADO3= p.DECO1,
+                Elegir=1,
+                ZONA = p.ZONA,
+                HsCumplida = p.HsCumplida,
+                Observacion = p.Observacion,
+                MODELO = p.MODELO,
+                MarcaModeloId = p.MarcaModeloId,
+                Motivos = p.Motivos
+            }); ;
+            this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
+            Habilitado = false;
+        }
+
+        private async void DeselijeTodos()
+        {
+           
+            var myListControls = this.MyControlCables.Select(p => new ModemItemViewModel(_navigationService)
+            {
+                IDREGISTRO = p.IDREGISTRO,
+                RECUPIDJOBCARD = p.RECUPIDJOBCARD,
+                ReclamoTecnicoID = p.ReclamoTecnicoID,
+                IDSuscripcion = p.IDSuscripcion,
+                ESTADOGAOS = p.ESTADOGAOS,
+                PROYECTOMODULO = p.PROYECTOMODULO,
+                FECHACUMPLIDA = p.FECHACUMPLIDA,
+                HsCumplidaTime = p.HsCumplidaTime,
+                CodigoCierre = p.CodigoCierre,
+                Autonumerico = p.Autonumerico,
+                DECO1 = p.DECO1,
+                CMODEM1 = p.CMODEM1,
+                ESTADO = p.ESTADO,
+                ESTADO2 = "NO",
+                ESTADO3 = p.DECO1,
+                Elegir = 0,
+                ZONA = p.ZONA,
+                HsCumplida = p.HsCumplida,
+                Observacion = p.Observacion,
+                MODELO = p.MODELO,
+                MarcaModeloId = p.MarcaModeloId,
+                Motivos = p.Motivos
+            }); ;
+            this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
+            Habilitado = false;
+        }
     }
 }

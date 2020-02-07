@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             x:Class="Fleet_App.Prism.Views.ModemPage"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             BackgroundColor="{StaticResource colorBackground}"
+             Title="{Binding Title}">
+  <StackLayout
+    Padding="5">
+    <Label
+    Text="Modem/N°Serie:"
+    FontSize="Large"
+    FontAttributes="Bold">
+    </Label>
+    <Entry
+      Placeholder="Ingrese N° de Serie">
+    </Entry>
+
+    <StackLayout
+      Orientation="Horizontal">
+      <Button Text="GUARDAR"
+                  BackgroundColor="Purple"
+                  IsEnabled="{Binding IsEnabled}"
+                  Command="{Binding SaveCommand}"
+                  CornerRadius="23"
+                  TextColor="White"
+                  HorizontalOptions="FillAndExpand"></Button>
+      <Button Text="CANCELAR"
+                  BackgroundColor="Red"
+                  IsEnabled="{Binding IsEnabled}"
+                  Command="{Binding CancelCommand}"
+                  CornerRadius="23"
+                  TextColor="White"
+                  HorizontalOptions="FillAndExpand"></Button>
+    </StackLayout>
+    
+  </StackLayout>
+  
+  
+</ContentPage>

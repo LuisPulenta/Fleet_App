@@ -8,6 +8,8 @@ namespace Fleet_App.Common.Helpers
         private const string _user = "User";
         private const string _remote = "Remote";
         private const string _cable = "Cable";
+        private const string _tasa = "Tasa";
+        private const string _modem = "Modem";
         private const string _isRemembered = "IsRemembered";
         private const string _ingreso = "Ingreso";
         private static readonly bool _boolDefault = false;
@@ -31,6 +33,16 @@ namespace Fleet_App.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_cable, _settingsDefault);
             set => AppSettings.AddOrUpdateValue(_cable, value);
+        }
+        public static string Tasa
+        {
+            get => AppSettings.GetValueOrDefault(_tasa, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_tasa, value);
+        }
+        public static string Modem
+        {
+            get => AppSettings.GetValueOrDefault(_modem, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_modem, value);
         }
 
         public static bool IsRemembered

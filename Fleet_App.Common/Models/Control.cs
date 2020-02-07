@@ -26,7 +26,9 @@ namespace Fleet_App.Common.Models
                 {
                     return "nouser";
                 }
-                return $"http://fleetsa.serveftp.net:90/FleetApi/{this.UrlDni.Substring(1)}";
+            
+                return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlDni.Substring(1)}";
+                //return $"http://fleetsa.serveftp.net:90/FleetApi/{this.UrlDni.Substring(1)}";
             }
         }
         public string UrlFirmaFullPath
@@ -37,7 +39,8 @@ namespace Fleet_App.Common.Models
                 {
                     return "nouser";
                 }
-                return $"http://fleetsa.serveftp.net:90/FleetApi/{this.UrlFirma.Substring(1)}";
+                return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlFirma.Substring(1)}";
+                //return $"http://fleetsa.serveftp.net:90/FleetApi/{this.UrlFirma.Substring(1)}";
             }
         }
         public string DECO1 { get; set; }
@@ -46,6 +49,8 @@ namespace Fleet_App.Common.Models
         public string ZONA { get; set; }
         public int? HsCumplida { get; set; }
         public string Observacion { get; set; }
-        public int ReclamoTecnicoID { get; set; }
+        public int? ReclamoTecnicoID { get; set; }
+
+        public ControlesEquivalencia ControlesEquivalencia { get; set; }
     }
 }

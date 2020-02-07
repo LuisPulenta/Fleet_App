@@ -191,7 +191,8 @@ namespace Fleet_App.Prism.ViewModels
         private async void LoadControls()
         {
             IsRefreshing = true;
-
+            IsEnabled = false;
+            IsRunning = true;
             //Verificar conectividad
             var url = App.Current.Resources["UrlAPI"].ToString();
             var connection = await _apiService.CheckConnectionAsync(url);
@@ -204,14 +205,15 @@ namespace Fleet_App.Prism.ViewModels
             }
 
             //Buscar los autonumericos del remote seleccionado
-            var controller = string.Format("/Controls/GetAutonumericos", Remote.RECUPIDJOBCARD);
+            var controller = string.Format("/Controls/GetAutonumericos", Remote.RECUPIDJOBCARD, Remote.UserID);
 
             
             var response = await _apiService.GetListAsync<Control>(
                  url,
                  "api",
                  controller,
-                 Remote.RECUPIDJOBCARD);
+                 Remote.RECUPIDJOBCARD,
+                 Remote.UserID);
 
             if (!response.IsSuccess)
             {
@@ -223,6 +225,8 @@ namespace Fleet_App.Prism.ViewModels
             MyControls = (List<Control>)response.Result;
             RefreshList();
             IsRefreshing = false;
+            IsEnabled = true;
+            IsRunning = false;
         }
 
         public void RefreshList()
@@ -248,6 +252,13 @@ namespace Fleet_App.Prism.ViewModels
                 HsCumplida = p.HsCumplida,
                 Observacion = p.Observacion,
                 ReclamoTecnicoID = p.ReclamoTecnicoID,
+                ControlesEquivalencia = new ControlesEquivalencia
+                {
+                    CODIGOEQUIVALENCIA = p.ControlesEquivalencia.CODIGOEQUIVALENCIA,
+                    DECO1 = p.ControlesEquivalencia.DECO1,
+                    DESCRIPCION = p.ControlesEquivalencia.DESCRIPCION,
+                    ID = p.ControlesEquivalencia.ID
+                }
 
 
             }); ;
@@ -440,7 +451,10 @@ namespace Fleet_App.Prism.ViewModels
                     }
                 }
                 //***** Borrar de la lista de Reclamos *****
-                Remote.CantRem = Remote.CantRem - Remote.CantEnt;
+                if (Remote.CantEnt>0)
+                {
+                    Remote.CantRem = Remote.CantRem - Remote.CantEnt;
+                }
                 var newRemote = Remote;
                 var remotesViewModel = RemotesPageViewModel.GetInstance();
 
@@ -597,7 +611,10 @@ namespace Fleet_App.Prism.ViewModels
                     }
                 }
                 //***** Borrar de la lista de Reclamos *****
-                Remote.CantRem = Remote.CantRem - Remote.CantEnt;
+                if (Remote.CantEnt > 0)
+                {
+                    Remote.CantRem = Remote.CantRem - Remote.CantEnt;
+                }
                 Remote.ESTADOGAOS = "INC";
                 var newRemote = Remote;
                 var remotesViewModel = RemotesPageViewModel.GetInstance();

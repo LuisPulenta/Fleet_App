@@ -20,10 +20,16 @@ namespace Fleet_App.Common.Models
         public string DECO1 { get; set; }
         public string CMODEM1 { get; set; }
         public string ESTADO { get; set; }
+        public string ESTADO2 { get; set; }
+        public string ESTADO3 { get; set; }
         public string ZONA { get; set; }
         public int? HsCumplida { get; set; }
         public string Observacion { get; set; }
         public string MODELO { get; set; }
+        public string MarcaModeloId { get; set; }
         public string Motivos { get; set; }
+        public int? Elegir { get; set; }
+
+        public ControlesEquivalencia ControlesEquivalencia { get; set; }
     }
 }

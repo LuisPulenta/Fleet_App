@@ -2,39 +2,44 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              x:Class="Fleet_App.Prism.Views.CablePage"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
   <ContentPage.Content>
     <ScrollView>
-      <StackLayout Padding="5">
-        <Grid Padding="5,5">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Label Grid.Row=" 0"
+      <AbsoluteLayout>
+        <StackLayout Padding="5"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All">
+          <Grid Padding="5,5"
+                RowSpacing="-0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row=" 0"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Cliente:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 0"
+            <Label Grid.Row=" 0"
                  Grid.Column="1 "
                  Grid.ColumnSpan="4"
                  FontSize="Micro"
@@ -42,14 +47,14 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.ClienteCompleto}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 1"
+            <Label Grid.Row=" 1"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Rec.Tec.:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 1"
+            <Label Grid.Row=" 1"
                  Grid.Column="1 "
                  Grid.ColumnSpan="4"
                  FontSize="Micro"
@@ -57,14 +62,14 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.ReclamoTecnicoID}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 2"
+            <Label Grid.Row=" 2"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Domicilio:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 2"
+            <Label Grid.Row=" 2"
                  Grid.Column="1"
                  Grid.ColumnSpan="4"
                  FontSize="Micro"
@@ -72,14 +77,14 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.DOMICILIO}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 3"
+            <Label Grid.Row=" 3"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Localidad:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 3"
+            <Label Grid.Row=" 3"
                  Grid.Column="1"
                  Grid.ColumnSpan="2"
                  FontSize="Micro"
@@ -87,14 +92,14 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.LOCALIDAD}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 3"
+            <Label Grid.Row=" 3"
                  Grid.Column="3 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Provincia:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 3"
+            <Label Grid.Row=" 3"
                  Grid.Column="4"
                  FontSize="Micro"
                  TextColor="Black"
@@ -102,14 +107,14 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.PROVINCIA}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 4"
+            <Label Grid.Row=" 4"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
                  Text="Teléfono:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 4"
+            <Label Grid.Row=" 4"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
                  FontSize="Micro"
@@ -117,35 +122,33 @@
                  VerticalOptions="Center"
                  Text="{Binding Cable.TELEFONO}"
                  BackgroundColor="White"></Label>
-          <Image Grid.Row=" 4"
+            <Image Grid.Row=" 4"
                  Grid.Column="4"
                  WidthRequest="30"
                  Source="phone.png">
-            <Image.GestureRecognizers>
-              <TapGestureRecognizer Command="{Binding PhoneCallCommand}" />
-            </Image.GestureRecognizers>
-          </Image>
-        </Grid>
+             
+            </Image>
+          </Grid>
 
 
 
-        <!--BOTONES CAMBIAR ESTADOS-->
-        <BoxView Color="Black"
+          <!--BOTONES CAMBIAR ESTADOS-->
+          <BoxView Color="Black"
                  Margin="0"
                  HeightRequest="2"></BoxView>
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Label Grid.Row=" 0"
+          <Grid RowSpacing="-5">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row=" 0"
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
@@ -153,7 +156,7 @@
                  TextColor="Blue"
                  HorizontalOptions="Center"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row=" 0"
+            <Label Grid.Row=" 0"
                  Grid.Column="1 "
                  x:Name="label"
                  FontSize="Micro"
@@ -163,7 +166,7 @@
                  VerticalOptions="Center"
                  Text="{Binding Cable.ESTADOGAOS, Mode=TwoWay}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 0"
+            <Label Grid.Row=" 0"
                  Grid.Column="2 "
                  FontSize="Micro"
                  FontAttributes="Bold"
@@ -171,7 +174,7 @@
                  HorizontalOptions="Start"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
-          <Label Grid.Row="0"
+            <Label Grid.Row="0"
                  Grid.Column="3"
                  FontSize="Micro"
                  FontAttributes="Bold"
@@ -180,65 +183,54 @@
                  VerticalOptions="CenterAndExpand"
                  Text="{Binding Cable.CodigoCierre, Mode=TwoWay}"
                  BackgroundColor="White"></Label>
-          <Label Grid.Row=" 0"
-                 Grid.Column="4 "
-                 FontSize="Micro"
-                 FontAttributes="Bold"
-                 Text="Se recuperan:"
-                 HorizontalOptions="Start"
-                 TextColor="Blue"
-                 VerticalOptions="Center"></Label>
-          <Entry Grid.Row="0"
-                 Grid.Column="5"
-                 FontSize="Micro"
-                 Keyboard="Numeric"
-                 FontAttributes="Bold"
-                 Placeholder=""
-                 IsEnabled="{Binding IsEnabledParcial}"
-                 HorizontalOptions="Start"
-                 TextColor="Black"
-                 BackgroundColor="YellowGreen"
-                 VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.CantEnt, Mode=TwoWay}"></Entry>
-        </Grid>
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <Button Grid.Row=" 0"
+            
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row=" 0"
                   Grid.Column="0 "
                   Text="Si a Todo"
                   BackgroundColor="Green"
                   IsEnabled="{Binding IsEnabled}"
                   Clicked="OnButtonClicked"
+                    
+                  
+                  Command="{Binding ElijeTodosCommand}"  
+                    
+                    
+                    
                   CornerRadius="20"
                   HeightRequest="40"
                   VerticalOptions="End"
                   FontSize="Micro"
                   TextColor="White"
                   HorizontalOptions="FillAndExpand"></Button>
-          <Button Grid.Row=" 0"
+            <Button Grid.Row=" 0"
                   Grid.Column="1"
                   Text="No a Todo"
                   BackgroundColor="OrangeRed"
                   IsEnabled="{Binding IsEnabled}"
                   Clicked="OnButtonClicked2"
+                  Command="{Binding DeselijeTodosCommand}"  
                   CornerRadius="20"
                   HeightRequest="40"
                   VerticalOptions="End"
                   FontSize="Micro"
                   TextColor="White"
                   HorizontalOptions="FillAndExpand"></Button>
-          <Button Grid.Row=" 0"
+            <Button Grid.Row=" 0"
                   Grid.Column="2"
                   Text="Parcial"
                   BackgroundColor="YellowGreen"
                   IsEnabled="{Binding IsEnabledParcial}"
+                  Command="{Binding DeselijeTodosCommand}"  
                   Clicked="OnButtonClicked3"
                   CornerRadius="20"
                   HeightRequest="40"
@@ -246,122 +238,180 @@
                   FontSize="Micro"
                   TextColor="White"
                   HorizontalOptions="FillAndExpand"></Button>
-        </Grid>
-        <BoxView Color="Black"
+          </Grid>
+          <BoxView Color="Black"
                  HeightRequest="2"></BoxView>
-        <Picker x:Name="CodCierre"
+          <Picker x:Name="CodCierre"
                 FontSize="Small"
                 ItemDisplayBinding="{Binding Descripcion}"
                 ItemsSource="{Binding CodigosCierre}"
                 SelectedItem="{Binding CCierre}"
                 HeightRequest="40"
                 Title="Elija Código Cierre"></Picker>
-        <StackLayout Padding="10"
+          <StackLayout Padding="5,0,5,0"
                      Orientation="Horizontal"
-                     VerticalOptions="Start">
-          <Button Text="GUARDAR"
+                     VerticalOptions="Start"
+                       Spacing="5">
+            <Button Text="GUARDAR"
                   BackgroundColor="Purple"
                   IsEnabled="{Binding IsEnabled}"
                   Command="{Binding SaveCommand}"
                   CornerRadius="23"
                   TextColor="White"
                   HorizontalOptions="FillAndExpand"></Button>
-          <Button Text="CANCELAR"
+            <Button Text="CANCELAR"
                   BackgroundColor="Red"
                   IsEnabled="{Binding IsEnabled}"
                   Command="{Binding CancelCommand}"
                   CornerRadius="23"
                   TextColor="White"
                   HorizontalOptions="FillAndExpand"></Button>
-        </StackLayout>
-        <ListView ItemsSource="{Binding ControlCables}"
+          </StackLayout>
+
+          <BoxView Color="Black"
+                 HeightRequest="2"></BoxView>
+
+
+          <ListView ItemsSource="{Binding ControlCables}"
                   HasUnevenRows="True"
                   IsPullToRefreshEnabled="True"
                   RefreshCommand="{Binding RefreshCommand}"
                   IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                   SeparatorVisibility="None">
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <ViewCell>
-                <Frame CornerRadius="20"
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <Frame CornerRadius="10"
                        HasShadow="True"
                        BackgroundColor="PaleTurquoise"
-                       Margin="5"
-                       HeightRequest="80">
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row=" 0"
-                           Grid.Column="0 "
-                           FontSize="Micro"
-                           Text="Módem/N°Serie"
-                           HorizontalOptions="Start"
-                           TextColor="Blue"
-                           VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 0"
+                       Padding="5"
+                       Margin="3"
+                       HeightRequest="90">
+                    <Grid RowSpacing="-0">
+                     
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="200" />
+                        
+                      </Grid.ColumnDefinitions>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+
+                    
+                      <CheckBox
+                        Grid.Row=" 0"
+                        Grid.Column="0 "
+                        Grid.RowSpan="5"
+                        IsEnabled="{Binding Habilitado}"
+                        
+                        IsChecked="{Binding Elegir, Mode=TwoWay}">
+                      </CheckBox>
+
+
+                      <Label Grid.Row=" 0"
                            Grid.Column="1 "
                            FontSize="Micro"
-                           Text="Suscripción"
+                           Text="Módem/N°Serie:"
                            HorizontalOptions="Start"
                            TextColor="Blue"
                            VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 0"
+                      <Label Grid.Row=" 0"
                            Grid.Column="2 "
-                           FontSize="Micro"
-                           Text="Modelo"
-                           HorizontalOptions="Start"
-                           TextColor="Blue"
-                           VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 1"
-                           Grid.Column="0 "
                            FontSize="Micro"
                            Text="{Binding CMODEM1}"
                            HorizontalOptions="Start"
                            TextColor="Black"
                            VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 1"
+
+                      <Label Grid.Row=" 1"
                            Grid.Column="1 "
+                           FontSize="Micro"
+                           Text="Suscripción:"
+                           HorizontalOptions="Start"
+                           TextColor="Blue"
+                           VerticalOptions="Center"></Label>
+                      <Label Grid.Row=" 1"
+                           Grid.Column="2 "
                            FontSize="Micro"
                            Text="{Binding IDSuscripcion}"
                            HorizontalOptions="Start"
                            TextColor="Black"
                            VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 1"
-                           Grid.Column="2 "
+                      
+                      <Label Grid.Row=" 2"
+                           Grid.Column="1 "
                            FontSize="Micro"
-                           Text="{Binding MODELO}"
-                           HorizontalOptions="Start"
-                           TextColor="Black"
-                           VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 2"
-                           Grid.Column="0 "
-                           FontSize="Micro"
-                           Grid.ColumnSpan="3"
-                           Text="Observación/Actividad:"
+                           Text="Modelo:"
                            HorizontalOptions="Start"
                            TextColor="Blue"
                            VerticalOptions="Center"></Label>
-                    <Label Grid.Row=" 3"
-                           Grid.Column="0 "
+                      <Label Grid.Row=" 2"
+                           Grid.Column="2 "
                            FontSize="Micro"
-                           Grid.ColumnSpan="3"
+                           Text="{Binding MarcaModeloId}"
+                           HorizontalOptions="Start"
+                           TextColor="Black"
+                           VerticalOptions="Center"></Label>
+                      
+                      <Label Grid.Row=" 3"
+                           Grid.Column="1 "
+                           FontSize="Micro"
+                           Text="Obs./Activ.:"
+                           HorizontalOptions="Start"
+                           TextColor="Blue"
+                           VerticalOptions="Center"></Label>
+                      <Label Grid.Row=" 3"
+                           Grid.Column="2 "
+                           FontSize="Micro"
                            Text="{Binding Observacion}"
                            HorizontalOptions="Start"
                            TextColor="Black"
                            VerticalOptions="Center"></Label>
-                  </Grid>
-                </Frame>
-              </ViewCell>
-            </DataTemplate>
-          </ListView.ItemTemplate>
-        </ListView>
-      </StackLayout>
+                      
+                      <Label Grid.Row=" 4"
+                           Grid.Column="1"
+                           FontSize="Micro"
+                           Text="Otro N° Serie:"
+                           HorizontalOptions="Start"
+                           TextColor="Blue"
+                           VerticalOptions="Center"></Label>
+                      <Entry Grid.Row=" 4"
+                           Grid.Column="2 "
+                           FontSize="Micro"
+                           BackgroundColor="White"
+                           IsEnabled="{Binding Habilitado}"
+                           Placeholder="Ingrese N°Serie..."
+                           WidthRequest="200"
+                           HorizontalOptions="Start"
+                           TextColor="Black"
+                           Text="{Binding ESTADO3, Mode=TwoWay}"
+                           VerticalOptions="Center"></Entry>
+                    </Grid>
+                  </Frame>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
+        <busyindicator:SfBusyIndicator AnimationType="Gear"
+                                     AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                                     AbsoluteLayout.LayoutFlags="All"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="Center"
+                                     TextColor="{StaticResource colorDanger}"
+                                     IsVisible="{Binding IsRunning}"
+                                     Title="Guardando..."
+                                     VerticalOptions="Center"
+                                     ViewBoxWidth="50"
+                                     ViewBoxHeight="50" />
+      </AbsoluteLayout>
+
     </ScrollView>
   </ContentPage.Content>
 </ContentPage>
