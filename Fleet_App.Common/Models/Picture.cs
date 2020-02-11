@@ -18,6 +18,8 @@ namespace Fleet_App.Common.Models
                     return "pictureavatar.png";
                 }
                 return string.Format("http://keypress.serveftp.net:88/FleetApiNew/{0}", ImagePath.Substring(1));
+                //return string.Format("http://fleetsa.serveftp.net:90/FleetApi/{0}", ImagePath.Substring(1));
+                
             }
         }
         public byte[] ImageArray { get; internal set; }

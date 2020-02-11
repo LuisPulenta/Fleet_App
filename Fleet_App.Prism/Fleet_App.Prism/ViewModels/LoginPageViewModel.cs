@@ -190,12 +190,12 @@ namespace Fleet_App.Prism.ViewModels
             var bandera = 0; 
             foreach (var cc in MyModules)
             {
-                if (cc.NroVersion != "3.0.1" && cc.ActualizOblig == 0 && cc.IdModulo==1)
+                if (cc.NroVersion != "3.0.2" && cc.ActualizOblig == 0 && cc.IdModulo==1)
                 {
                     bandera = 1;
                 }
 
-                if (cc.NroVersion != "3.0.1" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
+                if (cc.NroVersion != "3.0.2" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
                 {
                     bandera = 2; 
                 }

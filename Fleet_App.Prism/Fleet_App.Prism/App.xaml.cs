@@ -60,6 +60,8 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<ModemPage, ModemPageViewModel>();
             containerRegistry.RegisterForNavigation<TasasPage, TasasPageViewModel>();
             containerRegistry.RegisterForNavigation<TasaPage, TasaPageViewModel>();
+            containerRegistry.RegisterForNavigation<Firma2Page, Firma2PageViewModel>();
+            containerRegistry.RegisterForNavigation<DNIPicture2Page, DNIPicture2PageViewModel>();
         }
     }
 }

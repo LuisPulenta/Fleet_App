@@ -20,19 +20,8 @@ namespace Fleet_App.Prism.Views
 
             var tasaViewModel = TasaPageViewModel.GetInstance();
             tasaViewModel.CodigosCierre.Clear();
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 1, Descripcion = "En Gestión", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 2, Descripcion = "No acepta Retiro", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 3, Descripcion = "No posee los equipos", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 4, Descripcion = "Referencia incorrecta", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 5, Descripcion = "No atiende teléfono", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 6, Descripcion = "Teléfono incorrecto", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 7, Descripcion = "Ausente en Domicilio", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 8, Descripcion = "Ya entregó los equipos", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 9, Descripcion = "Continúa con el servicio", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 10, Descripcion = "No lo quiere devolver", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 11, Descripcion = "Robado", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 12, Descripcion = "Los perdió", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 14, Descripcion = "Imposible contactar", });
+            
+            //tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 14, Descripcion = "Imposible contactar", });
 
 
             //label2.Text = (DateTime.Now).ToString("dd/MM/yyyy");
@@ -51,19 +40,12 @@ namespace Fleet_App.Prism.Views
 
             var tasaViewModel = TasaPageViewModel.GetInstance();
             tasaViewModel.CodigosCierre.Clear();
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 1, Descripcion = "En Gestión", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 2, Descripcion = "No acepta Retiro", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 3, Descripcion = "No posee los equipos", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 4, Descripcion = "Referencia incorrecta", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 5, Descripcion = "No atiende teléfono", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 6, Descripcion = "Teléfono incorrecto", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 7, Descripcion = "Ausente en Domicilio", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 8, Descripcion = "Ya entregó los equipos", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 9, Descripcion = "Continúa con el servicio", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 10, Descripcion = "No lo quiere devolver", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 11, Descripcion = "Robado", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 12, Descripcion = "Los perdió", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 14, Descripcion = "Imposible contactar", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 21, Descripcion = "CLIENTE CONTINUA CON EL SERVICIO", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 22, Descripcion = "CLIENTE FALLECIO", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 23, Descripcion = "CLIENTE NO ACEPTA RETIRO", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 24, Descripcion = "CLIENTE NO POSEE LOS EQUIPOS", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 25, Descripcion = "CLIENTE YA ENTREGO LOS EQUIPOS", });
+            
 
             //label2.Text = (DateTime.Now).ToString("dd/MM/yyyy");
             //label3.Text = (DateTime.Now).ToString("HH:mm");
@@ -80,15 +62,13 @@ namespace Fleet_App.Prism.Views
             tasaViewModel.CodigosCierre.Clear();
             tasaViewModel.CodigosCierre.Clear();
 
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 2, Descripcion = "No acepta Retiro", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 3, Descripcion = "No posee los equipos", });
-
-
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 8, Descripcion = "Ya entregó los equipos", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 9, Descripcion = "Continúa con el servicio", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 10, Descripcion = "No lo quiere devolver", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 11, Descripcion = "Robado", });
-            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 12, Descripcion = "Los perdió", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 41, Descripcion = "CLIENTE AUSENTE", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 42, Descripcion = "CLIENTE SE MUDO", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 43, Descripcion = "NO ATIENDE EL TELEFONO", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 44, Descripcion = "REFERENCIA INCORRECTA", });
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 45, Descripcion = "VISITA COORDINADA", });
+            
+            
 
             //label2.Text = (DateTime.Now).ToString("dd/MM/yyyy");
             //label3.Text = (DateTime.Now).ToString("HH:mm");

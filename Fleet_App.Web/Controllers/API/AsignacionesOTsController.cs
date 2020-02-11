@@ -185,7 +185,7 @@ namespace Fleet_App.Web.Controllers.API
 
             var orders = await _dataContext.AsignacionesOTs
                 .Include(m => m.ControlesEquivalencia)
-           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Tasa") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre <= 13) && (o.CodigoCierre > 0))))
+           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Tasa") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre <= 50) && (o.CodigoCierre > 40))))
            .OrderBy(o => o.RECUPIDJOBCARD)
            .GroupBy(r => new
            {
@@ -316,6 +316,7 @@ namespace Fleet_App.Web.Controllers.API
             oldasignacionesOT.HsCumplidaTime = asignacionesOT.HsCumplidaTime;
             oldasignacionesOT.ESTADO2 = asignacionesOT.ESTADO2;
             oldasignacionesOT.ESTADO3 = asignacionesOT.ESTADO3;
+            oldasignacionesOT.Observacion = asignacionesOT.Observacion;
 
             _dataContext.AsignacionesOTs.Update(oldasignacionesOT);
             await _dataContext.SaveChangesAsync();

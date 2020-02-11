@@ -2,14 +2,17 @@
 using Fleet_App.Common.Models;
 using Fleet_App.Common.Services;
 using Newtonsoft.Json;
+using Plugin.Media.Abstractions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Fleet_App.Prism.ViewModels
 {
@@ -28,6 +31,18 @@ namespace Fleet_App.Prism.ViewModels
         private CodigoCierre _cCierre;
         private ObservableCollection<ModemItemViewModel> _controlTasas;
         private ObservableCollection<CodigoCierre> _codigosCierre;
+        
+        public byte[] ImageArray { get; set; }
+        private MediaFile _file;
+        private MediaFile _file2;
+        private ImageSource _imageSource;
+        private ImageSource _imageSource2;
+        private Picture _dniPicture;
+        private bool _hayFirma;
+        private Stream _streamFirma;
+        private byte[] _imageArrayFirma;
+        private DelegateCommand _takeDNICommand;
+        private DelegateCommand _takeFirmaCommand;
 
         #region Properties
         public ReclamoTasa Tasa { get; set; }
@@ -73,6 +88,49 @@ namespace Fleet_App.Prism.ViewModels
             get => _codigosCierre;
             set => SetProperty(ref _codigosCierre, value);
         }
+
+        public byte[] ImageArrayFirma
+        {
+            get => _imageArrayFirma;
+            set => SetProperty(ref _imageArrayFirma, value);
+        }
+        public MediaFile File
+        {
+            get => _file;
+            set => SetProperty(ref _file, value);
+        }
+        public MediaFile File2
+        {
+            get => _file2;
+            set => SetProperty(ref _file2, value);
+        }
+        public Stream StreamFirma
+        {
+            get => _streamFirma;
+            set => SetProperty(ref _streamFirma, value);
+        }
+        public ImageSource ImageSource
+        {
+            get => _imageSource;
+            set => SetProperty(ref _imageSource, value);
+        }
+        public ImageSource ImageSource2
+        {
+            get => _imageSource2;
+            set => SetProperty(ref _imageSource2, value);
+        }
+
+        public Picture DNIPicture
+        {
+            get => _dniPicture;
+            set => SetProperty(ref _dniPicture, value);
+        }
+        public bool HayFirma
+        {
+            get => _hayFirma;
+            set => SetProperty(ref _hayFirma, value);
+        }
+
         public List<CodigoCierre> MyCodigosCierre { get; set; }
         public List<ControlTasa> MyControlTasas { get; set; }
         #endregion
@@ -89,7 +147,8 @@ namespace Fleet_App.Prism.ViewModels
         public DelegateCommand ElijeTodosCommand => _elijeTodosCommand ?? (_elijeTodosCommand = new DelegateCommand(ElijeTodos));
         public DelegateCommand DeselijeTodosCommand => _deselijeTodosCommand ?? (_deselijeTodosCommand = new DelegateCommand(DeselijeTodos));
 
-
+        public DelegateCommand TakeDNICommand => _takeDNICommand ?? (_takeDNICommand = new DelegateCommand(TakeDNI));
+        public DelegateCommand TakeFirmaCommand => _takeFirmaCommand ?? (_takeFirmaCommand = new DelegateCommand(TakeFirma));
 
         public TasaPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
@@ -102,6 +161,9 @@ namespace Fleet_App.Prism.ViewModels
 
             LoadControlTasas();
             LoadCodigosCierre();
+
+            ImageSource = "nophoto.png";
+            ImageSource2 = "firma.png";
 
             IsEnabled = true;
             IsRefreshing = false;
@@ -176,6 +238,10 @@ namespace Fleet_App.Prism.ViewModels
                 PROYECTOMODULO = p.PROYECTOMODULO,
                 FECHACUMPLIDA = p.FECHACUMPLIDA,
                 HsCumplidaTime = p.HsCumplidaTime,
+                UrlDni = p.UrlDni,
+                UrlFirma = p.UrlFirma,
+                ImageArrayDni = p.ImageArrayDni,
+                ImageArrayFirma = p.ImageArrayDni,
                 CodigoCierre = p.CodigoCierre,
                 Autonumerico = p.Autonumerico,
                 DECO1 = p.DECO1,
@@ -197,19 +263,7 @@ namespace Fleet_App.Prism.ViewModels
         private void LoadCodigosCierre()
         {
             CodigosCierre = new ObservableCollection<CodigoCierre>();
-            CodigosCierre.Add(new CodigoCierre { Codigo = 1, Descripcion = "En Gestión", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 2, Descripcion = "No acepta Retiro", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 3, Descripcion = "No posee los equipos", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 4, Descripcion = "Referencia incorrecta", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 5, Descripcion = "No atiende teléfono", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 6, Descripcion = "Teléfono incorrecto", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 7, Descripcion = "Ausente en Domicilio", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 8, Descripcion = "Ya entregó los equipos", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 9, Descripcion = "Continúa con el servicio", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 10, Descripcion = "No lo quiere devolver", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 11, Descripcion = "Robado", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 12, Descripcion = "Los perdió", });
-            CodigosCierre.Add(new CodigoCierre { Codigo = 14, Descripcion = "Imposible contactar", });
+            
             //CodigosCierre.Add(new CodigoCierre { Codigo = 13, Descripcion = "Acepta Retiro", });
         }
 
@@ -236,7 +290,16 @@ namespace Fleet_App.Prism.ViewModels
                 return;
             }
 
-
+            if (Tasa.ESTADOGAOS == "EJB" && !HayFirma)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No puede guardar como 'EJB' sin cargar la Foto de la Firma.", "Aceptar");
+                return;
+            }
+            if (Tasa.ESTADOGAOS == "PAR" && !HayFirma)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No puede guardar como 'PAR' sin cargar la Foto de la Firma.", "Aceptar");
+                return;
+            }
 
 
 
@@ -260,11 +323,18 @@ namespace Fleet_App.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            byte[] imageArrayDni = null;
+            if (File != null)
+            {
+                imageArrayDni = FilesHelper.ReadFully(this.File.GetStream());
+                File.Dispose();
+            }
+
             int? CR = null;
             if (Tasa.ESTADOGAOS == "EJB")
             {
-                CR = 13;
-                Tasa.CodigoCierre = 13;
+                CR = 60;
+                Tasa.CodigoCierre = 60;
             }
             else
             {
@@ -309,6 +379,10 @@ namespace Fleet_App.Prism.ViewModels
                         ESTADO = cc.ESTADO,
                         ESTADO2 = E2,
                         ESTADO3 = cc.ESTADO3,
+                        ImageArrayDni = imageArrayDni,
+                        ImageArrayFirma = _imageArrayFirma,
+                        UrlDni = cc.UrlDni,
+                        UrlFirma = cc.UrlFirma,
                         ZONA = cc.ZONA,
                         ESTADOGAOS = Tasa.ESTADOGAOS,
                         FECHACUMPLIDA = DateTime.Now,
@@ -318,7 +392,7 @@ namespace Fleet_App.Prism.ViewModels
                         PROYECTOMODULO = cc.PROYECTOMODULO,
                         DECO1 = cc.DECO1,
                         CMODEM1 = cc.CMODEM1,
-                        Observacion = cc.Observacion,
+                        Observacion = Tasa.Observacion,
                         HsCumplida = cc.HsCumplida,
                         UserID = Tasa.UserID,
                         CodigoCierre = CR,
@@ -368,14 +442,11 @@ namespace Fleet_App.Prism.ViewModels
                 }
                 if (oldTasa != null && newTasa.ESTADOGAOS == "INC" &&
                     (
-                    newTasa.CodigoCierre == 2 ||
-                    newTasa.CodigoCierre == 3 ||
-                    newTasa.CodigoCierre == 4 ||
-                    newTasa.CodigoCierre == 6 ||
-                    newTasa.CodigoCierre == 8 ||
-                    newTasa.CodigoCierre == 9 ||
-                    newTasa.CodigoCierre == 10 ||
-                    newTasa.CodigoCierre == 11
+                    newTasa.CodigoCierre == 21 ||
+                    newTasa.CodigoCierre == 22 ||
+                    newTasa.CodigoCierre == 23 ||
+                    newTasa.CodigoCierre == 24 ||
+                    newTasa.CodigoCierre == 25 
                     )
                     )
                 {
@@ -392,6 +463,7 @@ namespace Fleet_App.Prism.ViewModels
                     tasasViewModel.RefreshList();
                     await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                     await _navigationService.GoBackAsync();
+                    tasasViewModel.RefreshList();
                     return;
                 }
 
@@ -423,6 +495,10 @@ namespace Fleet_App.Prism.ViewModels
                             ESTADOGAOS = "EJB",
                             ESTADO2 = "SI",
                             ESTADO3 = cc.ESTADO3,
+                            ImageArrayDni = imageArrayDni,
+                            ImageArrayFirma = _imageArrayFirma,
+                            UrlDni = cc.UrlDni,
+                            UrlFirma = cc.UrlFirma,
                             SUBCON = Tasa.SUBCON,
                             CAUSANTEC = Tasa.CAUSANTEC,
                             FechaAsignada = Tasa.FechaAsignada,
@@ -433,7 +509,7 @@ namespace Fleet_App.Prism.ViewModels
                             Observacion = cc.Observacion,
                             HsCumplida = cc.HsCumplida,
                             UserID = Tasa.UserID,
-                            CodigoCierre = 13,
+                            CodigoCierre = 60,
                             ObservacionCaptura = Tasa.ObservacionCaptura,
                             Novedades = Tasa.Novedades,
                             CantRem = Tasa.CantRem,
@@ -477,6 +553,10 @@ namespace Fleet_App.Prism.ViewModels
                             ESTADO = cc.ESTADO,
                             ESTADO2 = "NO",
                             ESTADO3 = cc.ESTADO3,
+                            ImageArrayDni = imageArrayDni,
+                            ImageArrayFirma = _imageArrayFirma,
+                            UrlDni = cc.UrlDni,
+                            UrlFirma = cc.UrlFirma,
                             ZONA = cc.ZONA,
                             ESTADOGAOS = "INC",
                             FECHACUMPLIDA = DateTime.Now,
@@ -525,6 +605,7 @@ namespace Fleet_App.Prism.ViewModels
 
 
                 tasasViewModel.MyTasas.Remove(oldTasa);
+                tasasViewModel.MyTasas.Add(newTasa);
                 tasasViewModel.RefreshList();
                 await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                 await _navigationService.GoBackAsync();
@@ -564,6 +645,10 @@ namespace Fleet_App.Prism.ViewModels
                 ESTADO = p.ESTADO,
                 ESTADO2 = "SI",
                 ESTADO3 = p.DECO1,
+                ImageArrayDni = p.ImageArrayDni,
+                ImageArrayFirma = p.ImageArrayFirma,
+                UrlDni = p.UrlDni,
+                UrlFirma = p.UrlFirma,
                 Elegir = 1,
                 ZONA = p.ZONA,
                 HsCumplida = p.HsCumplida,
@@ -596,6 +681,10 @@ namespace Fleet_App.Prism.ViewModels
                 ESTADO = p.ESTADO,
                 ESTADO2 = "NO",
                 ESTADO3 = p.DECO1,
+                ImageArrayDni = p.ImageArrayDni,
+                ImageArrayFirma = p.ImageArrayFirma,
+                UrlDni = p.UrlDni,
+                UrlFirma = p.UrlFirma,
                 Elegir = 0,
                 ZONA = p.ZONA,
                 HsCumplida = p.HsCumplida,
@@ -606,6 +695,15 @@ namespace Fleet_App.Prism.ViewModels
             }); ;
             this.ControlTasas = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
             Habilitado = false;
+        }
+
+        private async void TakeDNI()
+        {
+            await _navigationService.NavigateAsync("DNIPicture2Page");
+        }
+        private async void TakeFirma()
+        {
+            await _navigationService.NavigateAsync("Firma2Page");
         }
     }
 }

@@ -16,6 +16,10 @@ namespace Fleet_App.Common.Models
         public DateTime? HsCumplidaTime { get; set; }
         public int? CodigoCierre { get; set; }
         public int? Autonumerico { get; set; }
+        public string UrlDni { get; set; }
+        public string UrlFirma { get; set; }
+        public byte[] ImageArrayDni { get; set; }
+        public byte[] ImageArrayFirma { get; set; }
         public virtual Reclamo Reclamo { get; set; }
         public string DECO1 { get; set; }
         public string CMODEM1 { get; set; }

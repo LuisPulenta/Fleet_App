@@ -130,7 +130,54 @@
             </Image>
           </Grid>
 
+          <BoxView Color="Black"
+                   HeightRequest="2"></BoxView>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row=" 0"
+                 Grid.Column="0 "
+                 FontSize="Micro"
+                 FontAttributes="Bold"
+                 Text="D.N.I."
+                 TextColor="Blue"
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center"></Label>
+            <Label Grid.Row=" 0"
+                 Grid.Column="2 "
+                 FontSize="Micro"
+                 FontAttributes="Bold"
+                 HorizontalOptions="Center"
+                 Text="FIRMA"
+                 TextColor="Blue"
+                 VerticalOptions="Center"></Label>
 
+            <Image 
+                 Grid.Row=" 1"
+                 Grid.Column="0 "
+                 HeightRequest="60"
+                 Source="{Binding ImageSource, Mode=TwoWay}">
+              <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TakeDNICommand}" />
+              </Image.GestureRecognizers>
+            </Image>
+
+            <Image Grid.Row=" 1"
+                 Grid.Column="2"
+                 HeightRequest="60"
+                 Source="{Binding ImageSource2, Mode=TwoWay}">
+              <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TakeFirmaCommand}" />
+              </Image.GestureRecognizers>
+            </Image>
+          </Grid>
 
           <!--BOTONES CAMBIAR ESTADOS-->
           <BoxView Color="Black"
@@ -196,7 +243,7 @@
             </Grid.RowDefinitions>
             <Button Grid.Row=" 0"
                   Grid.Column="0 "
-                  Text="Si a Todo"
+                  Text="RECUPERADO"
                   BackgroundColor="Green"
                   IsEnabled="{Binding IsEnabled}"
                   Clicked="OnButtonClicked"
@@ -214,7 +261,7 @@
                   HorizontalOptions="FillAndExpand"></Button>
             <Button Grid.Row=" 0"
                   Grid.Column="1"
-                  Text="No a Todo"
+                  Text="CANCELADO"
                   BackgroundColor="OrangeRed"
                   IsEnabled="{Binding IsEnabled}"
                   Clicked="OnButtonClicked2"
@@ -227,7 +274,7 @@
                   HorizontalOptions="FillAndExpand"></Button>
             <Button Grid.Row=" 0"
                   Grid.Column="2"
-                  Text="Parcial"
+                  Text="EN GESTION"
                   BackgroundColor="YellowGreen"
                   IsEnabled="{Binding IsEnabledParcial}"
                   Command="{Binding DeselijeTodosCommand}"  
@@ -248,6 +295,22 @@
                 SelectedItem="{Binding CCierre}"
                 HeightRequest="40"
                 Title="Elija Código Cierre"></Picker>
+          <StackLayout>
+            <Label 
+                 FontSize="Micro"
+                 FontAttributes="Bold"
+                 Text="Observaciones:"
+                 TextColor="Blue"
+                 HorizontalOptions="Start"
+                 VerticalOptions="Center"></Label>
+            <Entry 
+               FontSize="Micro"
+               VerticalOptions="CenterAndExpand"
+               Text="{Binding Tasa.Observacion, Mode=TwoWay }"
+               Placeholder="Observaciones..."
+               BackgroundColor="White"
+               TextColor="Black"></Entry>
+          </StackLayout>
           <StackLayout Padding="5,0,5,0"
                      Orientation="Horizontal"
                      VerticalOptions="Start"

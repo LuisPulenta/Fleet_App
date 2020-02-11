@@ -6,7 +6,7 @@ using Prism.Navigation;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class ModemItemViewModel : ControlCable
+    public class ModemItemViewModel : ControlTasa
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectModemCommand;
