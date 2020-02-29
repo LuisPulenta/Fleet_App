@@ -7,6 +7,10 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="ic_map"
+                 Command="{Binding TasaMapCommand}" />
+  </ContentPage.ToolbarItems>
   <ContentPage.Content>
     <ScrollView>
       <AbsoluteLayout>
@@ -126,6 +130,9 @@
                  Grid.Column="4"
                  WidthRequest="30"
                  Source="phone.png">
+              <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PhoneCallCommand}" />
+              </Image.GestureRecognizers>
 
             </Image>
           </Grid>
@@ -474,7 +481,6 @@
                                      ViewBoxWidth="50"
                                      ViewBoxHeight="50" />
       </AbsoluteLayout>
-
     </ScrollView>
   </ContentPage.Content>
 </ContentPage>

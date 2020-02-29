@@ -126,7 +126,9 @@
                  Grid.Column="4"
                  WidthRequest="30"
                  Source="phone.png">
-             
+              <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding PhoneCallCommand}" />
+              </Image.GestureRecognizers>
             </Image>
           </Grid>
 

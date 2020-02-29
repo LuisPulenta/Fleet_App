@@ -18,14 +18,28 @@
   <ContentPage.Content>
 
     <StackLayout>
-      <maps:Map x:Name="MyMap"
-                IsShowingUser="true" 
+      <maps:Map
+                x:Name="MyMap"
                 MapType="Street" 
                 HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand"/>
-      <Slider x:Name="MySlider"
-              Value="
-                0.8"></Slider>
+                VerticalOptions="FillAndExpand">
+        <x:Arguments>
+          <maps:MapSpan>
+            <x:Arguments>
+              <!-- Obelisco -->
+              <maps:Position>
+                <x:Arguments>
+                  <x:Double>-34.60388889</x:Double>
+                  <x:Double>-58.48138889</x:Double>
+                </x:Arguments>
+              </maps:Position>
+              <x:Double>5</x:Double>
+              <x:Double>5</x:Double>
+            </x:Arguments>
+          </maps:MapSpan>
+        </x:Arguments>
+      </maps:Map>
+
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

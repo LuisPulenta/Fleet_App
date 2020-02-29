@@ -28,10 +28,12 @@ namespace Fleet_App.Prism.ViewModels
         private string _filter;
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
+        private DelegateCommand _tasasMapCommand;
 
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
+        public DelegateCommand TasasMapCommand => _tasasMapCommand ?? (_tasasMapCommand = new DelegateCommand(TasasMap));
 
 
         public string Filter
@@ -189,11 +191,19 @@ namespace Fleet_App.Prism.ViewModels
                 });
                 Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel
                     .OrderBy(o => o.FechaAsignada + o.NOMBRE)
-                    .Where(o => o.NOMBRE.ToLower().Contains(this.Filter.ToLower())));
+                    .Where(
+                            o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
+                            ||
+                                (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
+                          )
+                                                                                            );
                 CantTasas = Tasas.Count();
             }
         }
-
+        private async void TasasMap()
+        {
+            await _navigationService.NavigateAsync("TasasMapPage");
+        }
 
 
         private async void Search()

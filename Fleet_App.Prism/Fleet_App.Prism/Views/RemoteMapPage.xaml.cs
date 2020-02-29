@@ -1,6 +1,9 @@
 ﻿using Fleet_App.Common.Services;
 using Fleet_App.Prism.ViewModels;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -11,12 +14,20 @@ namespace Fleet_App.Prism.Views
         private readonly IGeolocatorService _geolocatorService;
         public RemoteMapPage(IGeolocatorService geolocatorService)
         {
-            _geolocatorService = geolocatorService;
             InitializeComponent();
-            MyMap.IsVisible = false;
-            ShowPinsAsync();
-            MoveMapToCurrentPositionAsync();
+            _geolocatorService = geolocatorService;
+            
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MyMap.IsVisible = false;
+            MoveMapToCurrentPositionAsync();
+            MyMap.IsVisible = true;
+            ShowPinsAsync();
+        }
+
         private async void ShowPinsAsync()
         {
             var remoteViewModel = RemotePageViewModel.GetInstance();
@@ -32,18 +43,53 @@ namespace Fleet_App.Prism.Views
         }
         private async void MoveMapToCurrentPositionAsync()
         {
-            await _geolocatorService.GetLocationAsync();
-            if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+            bool isLocationPermision = await CheckLocationPermisionsAsync();
+
+            if (isLocationPermision)
             {
-                var position = new Position(
-                    _geolocatorService.Latitude,
-                    _geolocatorService.Longitude);
-                MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
-                    position,
-                    Distance.FromKilometers(.5)));
-                MyMap.IsVisible = true;
+                MyMap.IsShowingUser = true;
+
+                await _geolocatorService.GetLocationAsync();
+                if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+                {
+                    Position position = new Position(
+                        _geolocatorService.Latitude,
+                        _geolocatorService.Longitude);
+                    MyMap.IsVisible = false;
+
+
+                    MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+                        position,
+                        Distance.FromKilometers(.5)));
+                    MyMap.IsVisible = true;
+
+                }
             }
         }
+
+        private async Task<bool> CheckLocationPermisionsAsync()
+        {
+            PermissionStatus permissionLocation = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            PermissionStatus permissionLocationAlways = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationAlways);
+            PermissionStatus permissionLocationWhenInUse = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationWhenInUse);
+            bool isLocationEnabled = permissionLocation == PermissionStatus.Granted ||
+                                     permissionLocationAlways == PermissionStatus.Granted ||
+                                     permissionLocationWhenInUse == PermissionStatus.Granted;
+            if (isLocationEnabled)
+            {
+                return true;
+            }
+
+            await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+
+            permissionLocation = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            permissionLocationAlways = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationAlways);
+            permissionLocationWhenInUse = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationWhenInUse);
+            return permissionLocation == PermissionStatus.Granted ||
+                   permissionLocationAlways == PermissionStatus.Granted ||
+                   permissionLocationWhenInUse == PermissionStatus.Granted;
+        }
+
 
         private void MapStreetCommand(object sender, EventArgs eventArgs)
         {
@@ -57,23 +103,6 @@ namespace Fleet_App.Prism.Views
         {
             MyMap.MapType = MapType.Hybrid;
         }
-
-
-
-        private void Handle_ValueChanges(object sender, Xamarin.Forms.ValueChangedEventArgs e)
-        {
-            var zoomLevel = double.Parse(e.NewValue.ToString()) * 18.0;
-            var latlongdegrees = 360 / (Math.Pow(2, zoomLevel));
-            this.MyMap.MoveToRegion(new MapSpan(this.MyMap.VisibleRegion.Center, latlongdegrees, latlongdegrees));
-        }
-
-        private void Handle_ValueChanged(object sender, Xamarin.Forms.ValueChangedEventArgs e)
-        {
-            var zoomLevel = double.Parse(e.NewValue.ToString()) * 18.0;
-            var latlongdegrees = 360 / (Math.Pow(2, zoomLevel));
-            this.MyMap.MoveToRegion(new MapSpan(this.MyMap.VisibleRegion.Center, latlongdegrees, latlongdegrees));
-        }
-
 
     }
 }

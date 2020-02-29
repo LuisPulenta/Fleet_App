@@ -7,9 +7,10 @@
              BackgroundColor="Silver"
              Title="{Binding Title}">
   <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="ic_map"
+                 Command="{Binding TasasMapCommand}" />
   </ContentPage.ToolbarItems>
-  <ContentPage.Content>
-    <StackLayout Padding="5">
+  <StackLayout Padding="5">
       <SearchBar Placeholder="Buscar..."
                  BackgroundColor="White"
                  FontSize="Small"
@@ -247,5 +248,4 @@
         </ListView.ItemTemplate>
       </ListView>
     </StackLayout>
-  </ContentPage.Content>
 </ContentPage>

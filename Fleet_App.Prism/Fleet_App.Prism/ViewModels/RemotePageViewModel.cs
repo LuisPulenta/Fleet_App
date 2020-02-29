@@ -650,7 +650,7 @@ namespace Fleet_App.Prism.ViewModels
         }
         private async void RemoteMap()
         {
-            if (Remote.GRXX.Length <= 10 && Remote.GRYY.Length <= 10)
+            if (Remote.GRXX.Length <= 5 && Remote.GRYY.Length <= 5)
             {
                 await App.Current.MainPage.DisplayAlert("Lo siento...", "Esta Solicitud no tiene cargadas las Coordenadas para el mapa.", "Aceptar");
                 return;

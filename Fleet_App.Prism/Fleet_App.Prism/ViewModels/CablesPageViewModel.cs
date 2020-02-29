@@ -189,12 +189,21 @@ namespace Fleet_App.Prism.ViewModels
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
                     .OrderBy(o => o.FechaAsignada + o.NOMBRE)
-                    .Where(o => o.NOMBRE.ToLower().Contains(this.Filter.ToLower())));
+                    .Where(
+                            o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
+                            ||
+                            (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
+                          )
+                                                                                               );
+
+
+
+
                 CantCables = Cables.Count();
             }
         }
 
-        
+
 
         private async void Search()
         {

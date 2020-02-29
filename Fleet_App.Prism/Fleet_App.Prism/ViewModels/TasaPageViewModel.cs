@@ -43,6 +43,7 @@ namespace Fleet_App.Prism.ViewModels
         private byte[] _imageArrayFirma;
         private DelegateCommand _takeDNICommand;
         private DelegateCommand _takeFirmaCommand;
+        private DelegateCommand _tasaMapCommand;
 
         #region Properties
         public ReclamoTasa Tasa { get; set; }
@@ -146,7 +147,7 @@ namespace Fleet_App.Prism.ViewModels
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
         public DelegateCommand ElijeTodosCommand => _elijeTodosCommand ?? (_elijeTodosCommand = new DelegateCommand(ElijeTodos));
         public DelegateCommand DeselijeTodosCommand => _deselijeTodosCommand ?? (_deselijeTodosCommand = new DelegateCommand(DeselijeTodos));
-
+        public DelegateCommand TasaMapCommand => _tasaMapCommand ?? (_tasaMapCommand = new DelegateCommand(TasaMap));
         public DelegateCommand TakeDNICommand => _takeDNICommand ?? (_takeDNICommand = new DelegateCommand(TakeDNI));
         public DelegateCommand TakeFirmaCommand => _takeFirmaCommand ?? (_takeFirmaCommand = new DelegateCommand(TakeFirma));
 
@@ -704,6 +705,15 @@ namespace Fleet_App.Prism.ViewModels
         private async void TakeFirma()
         {
             await _navigationService.NavigateAsync("Firma2Page");
+        }
+        private async void TasaMap()
+        {
+            if (Tasa.GRXX.Length <= 5 && Tasa.GRYY.Length <= 5)
+            {
+                await App.Current.MainPage.DisplayAlert("Lo siento...", "Esta Solicitud no tiene cargadas las Coordenadas para el mapa.", "Aceptar");
+                return;
+            }
+            await _navigationService.NavigateAsync("TasaMapPage");
         }
     }
 }

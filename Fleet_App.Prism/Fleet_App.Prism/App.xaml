@@ -43,6 +43,7 @@
     </Style>
     <!-- Parameters -->
     <x:String x:Key="UrlAPI">http://keypress.serveftp.net:88/FleetApiNew/</x:String>
-    <!--<x:String x:Key="UrlAPI">http://fleetsa.serveftp.net:90/FleetApi/</x:String>-->
+    <!--<x:String x:Key="UrlAPI">http://190.221.174.70/Fleetsa/</x:String>-->
+
   </Application.Resources>
 </prism:PrismApplication>

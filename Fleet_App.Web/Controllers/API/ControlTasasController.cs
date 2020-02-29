@@ -35,7 +35,7 @@ namespace Fleet_App.Web.Controllers.API
 
 
             var controltasas = await _dataContext.AsignacionesOTs
-                   .Where(o => (o.ReclamoTecnicoID == controlTasaRequest.ReclamoTecnicoID && o.CodigoCierre < 13 && o.UserID == controlTasaRequest.UserID))
+                   .Where(o => (o.ReclamoTecnicoID == controlTasaRequest.ReclamoTecnicoID && ((o.CodigoCierre <= 50 && o.CodigoCierre > 40) || o.CodigoCierre < 20) && o.UserID == controlTasaRequest.UserID))
                    .OrderBy(o => o.ReclamoTecnicoID).ToListAsync();
 
 
