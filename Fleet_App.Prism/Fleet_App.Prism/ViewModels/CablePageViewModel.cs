@@ -28,7 +28,7 @@ namespace Fleet_App.Prism.ViewModels
         private CodigoCierre _cCierre;
         private ObservableCollection<ModemItemViewModel> _controlCables;
         private ObservableCollection<CodigoCierre> _codigosCierre;
-
+        private DelegateCommand _cableMapCommand;
         #region Properties
         public ReclamoCable Cable { get; set; }
         public bool IsRunning
@@ -83,6 +83,7 @@ namespace Fleet_App.Prism.ViewModels
         private DelegateCommand _deselijeTodosCommand;
         private DelegateCommand _phoneCallCommand;
 
+        public DelegateCommand CableMapCommand => _cableMapCommand ?? (_cableMapCommand = new DelegateCommand(CableMap));
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
@@ -606,6 +607,16 @@ namespace Fleet_App.Prism.ViewModels
             }); ;
             this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
             Habilitado = false;
+        }
+
+        private async void CableMap()
+        {
+            if (Cable.GRXX.Length <= 5 && Cable.GRYY.Length <= 5)
+            {
+                await App.Current.MainPage.DisplayAlert("Lo siento...", "Esta Solicitud no tiene cargadas las Coordenadas para el mapa.", "Aceptar");
+                return;
+            }
+            await _navigationService.NavigateAsync("CableMapPage");
         }
     }
 }

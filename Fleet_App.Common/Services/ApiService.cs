@@ -203,6 +203,51 @@ namespace Fleet_App.Common.Services
             }
         }
 
+        public async Task<Response<object>> GetAllsForUser(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id)
+        {
+            try
+            {
+                var model = new UserIdRequest { Id = id };
+                var request = JsonConvert.SerializeObject(model);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<object>
+                    {
+                        IsSuccess = false,
+                        Message = answer,
+                    };
+                }
+
+                var remotes = JsonConvert.DeserializeObject<List<Reclamo>>(answer);
+                return new Response<object>
+                {
+                    IsSuccess = true,
+                    Result = remotes
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
         public async Task<Response<object>> GetListAsync<T>(
             string urlBase,
             string servicePrefix,

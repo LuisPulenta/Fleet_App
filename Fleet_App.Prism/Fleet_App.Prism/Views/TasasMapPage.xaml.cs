@@ -42,13 +42,14 @@ namespace Fleet_App.Prism.Views
 
             foreach (var tasa in tasasViewModel.Tasas.ToList())
             {
-                var position = new Position(Convert.ToDouble(tasa.GRXX), Convert.ToDouble(tasa.GRYY));
-                var tipopin = new PinType();
-                tipopin = PinType.Place;
+                
                 if (!string.IsNullOrEmpty(tasa.GRXX) && !string.IsNullOrEmpty(tasa.GRYY))
                 {
                     if (tasa.GRXX.Length > 5 && tasa.GRYY.Length > 5)
                     {
+                        var position = new Position(Convert.ToDouble(tasa.GRXX), Convert.ToDouble(tasa.GRYY));
+                        var tipopin = new PinType();
+                        tipopin = PinType.Place;
                         pins.Add(new Pin
                         {
                             Label = tasa.NOMBRE,

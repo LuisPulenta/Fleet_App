@@ -64,6 +64,9 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<DNIPicture2Page, DNIPicture2PageViewModel>();
             containerRegistry.RegisterForNavigation<TasasMapPage, TasasMapPageViewModel>();
             containerRegistry.RegisterForNavigation<TasaMapPage, TasaMapPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapsPage, MapsPageViewModel>();
+            containerRegistry.RegisterForNavigation<CablesMapPage, CablesMapPageViewModel>();
+            containerRegistry.RegisterForNavigation<CableMapPage, CableMapPageViewModel>();
         }
     }
 }

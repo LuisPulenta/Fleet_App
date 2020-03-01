@@ -31,6 +31,12 @@ namespace Fleet_App.Common.Services
            string controller,
            int id);
 
+        Task<Response<object>> GetAllsForUser(
+           string urlBase,
+           string servicePrefix,
+           string controller,
+           int id);
+
         Task<Response<object>> GetListAsync<T>(
         string urlBase,
         string servicePrefix,

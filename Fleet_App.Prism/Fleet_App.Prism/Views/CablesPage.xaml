@@ -7,8 +7,9 @@
              BackgroundColor="Silver"
              Title="{Binding Title}">
   <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="ic_map"
+                 Command="{Binding CablesMapCommand}" />
   </ContentPage.ToolbarItems>
-  <ContentPage.Content>
     <StackLayout Padding="5">
       <SearchBar Placeholder="Buscar..."
                  BackgroundColor="White"
@@ -247,5 +248,5 @@
         </ListView.ItemTemplate>
       </ListView>
     </StackLayout>
-  </ContentPage.Content>
+  
 </ContentPage>

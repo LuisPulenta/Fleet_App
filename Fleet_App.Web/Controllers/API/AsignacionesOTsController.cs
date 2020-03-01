@@ -255,6 +255,112 @@ namespace Fleet_App.Web.Controllers.API
 
 
 
+        [HttpPost]
+        [Route("GetAlls/{UserID}")]
+        public async Task<IActionResult> GetAlls(int UserID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var orders = await _dataContext.AsignacionesOTs
+                .Include(m => m.ControlesEquivalencia)
+
+           .Where(o => 
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Tasa") && (o.ESTADOGAOS == "PEN")
+                       ||
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && (o.ESTADOGAOS == "PEN")
+                       ||
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Otro") && (o.ESTADOGAOS == "PEN")
+                       ||
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Tasa") && (o.ESTADOGAOS == "INC") && (o.CodigoCierre <= 50) && (o.CodigoCierre > 40)
+                       ||
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Otro") && (o.ESTADOGAOS == "INC") && (o.CodigoCierre <= 13) && (o.CodigoCierre > 0)
+                       ||
+                       (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && (o.ESTADOGAOS == "INC") && (o.CodigoCierre <= 13) && (o.CodigoCierre > 0)
+                       ) 
+
+
+           .OrderBy(o => o.RECUPIDJOBCARD)
+           .GroupBy(r => new
+           {
+               r.RECUPIDJOBCARD,
+               r.CLIENTE,
+               r.NOMBRE,
+               r.DOMICILIO,
+               r.CP,
+               r.ENTRECALLE1,
+               r.ENTRECALLE2,
+               r.LOCALIDAD,
+               r.TELEFONO,
+               r.GRXX,
+               r.GRYY,
+               r.ESTADOGAOS,
+               r.PROYECTOMODULO,
+               r.UserID,
+               r.CAUSANTEC,
+               r.SUBCON,
+               r.FechaAsignada,
+               r.CodigoCierre,
+               r.ObservacionCaptura,
+               r.Novedades,
+
+               r.PROVINCIA,
+               r.ReclamoTecnicoID,
+               r.Motivos
+           })
+           .Select(g => new
+           {
+               RECUPIDJOBCARD = g.Key.RECUPIDJOBCARD,
+               CLIENTE = g.Key.CLIENTE,
+               NOMBRE = g.Key.NOMBRE,
+               DOMICILIO = g.Key.DOMICILIO,
+               CP = g.Key.CP,
+               ENTRECALLE1 = g.Key.ENTRECALLE1,
+               ENTRECALLE2 = g.Key.ENTRECALLE2,
+               LOCALIDAD = g.Key.LOCALIDAD,
+               TELEFONO = g.Key.TELEFONO,
+               GRXX = g.Key.GRXX,
+               GRYY = g.Key.GRYY,
+               ESTADOGAOS = g.Key.ESTADOGAOS,
+               PROYECTOMODULO = g.Key.PROYECTOMODULO,
+               UserID = g.Key.UserID,
+               CAUSANTEC = g.Key.CAUSANTEC,
+               SUBCON = g.Key.SUBCON,
+               FechaAsignada = g.Key.FechaAsignada,
+               CodigoCierre = g.Key.CodigoCierre,
+               ObservacionCaptura = g.Key.ObservacionCaptura,
+               Novedades = g.Key.Novedades,
+               PROVINCIA = g.Key.PROVINCIA,
+               ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
+               Motivos = g.Key.Motivos,
+
+
+               CantRem = g.Count(),
+           }).ToListAsync();
+
+
+            if (orders == null)
+            {
+                return BadRequest("No hay tareas pendientes para este Usuario.");
+            }
+
+            return Ok(orders);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         // PUT: api/AsignacionesOTs/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsignacionesOT([FromRoute] int id, [FromBody] AsignacionesOT asignacionesOT)

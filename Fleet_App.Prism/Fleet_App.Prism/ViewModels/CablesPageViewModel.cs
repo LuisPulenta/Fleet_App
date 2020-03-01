@@ -28,8 +28,9 @@ namespace Fleet_App.Prism.ViewModels
         private string _filter;
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
-        
+        private DelegateCommand _cablesMapCommand;
 
+        public DelegateCommand CablesMapCommand => _cablesMapCommand ?? (_cablesMapCommand = new DelegateCommand(CablesMap));
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
         
@@ -210,7 +211,10 @@ namespace Fleet_App.Prism.ViewModels
             RefreshList();
         }
 
-
+        private async void CablesMap()
+        {
+            await _navigationService.NavigateAsync("CablesMapPage");
+        }
 
 
         private async void Refresh()

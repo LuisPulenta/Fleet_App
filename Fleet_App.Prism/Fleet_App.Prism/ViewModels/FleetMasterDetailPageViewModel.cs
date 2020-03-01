@@ -46,6 +46,13 @@ namespace Fleet_App.Prism.ViewModels
                     Title = "Recuperos Tasa"
                 },
 
+                 new Menu
+                {
+                    Icon = "ic_action_mapmenu.png",
+                    PageName = "MapsPage",
+                    Title = "Mapa"
+                },
+
                 new Menu
                 {
                     Icon = "",

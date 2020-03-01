@@ -42,13 +42,14 @@ namespace Fleet_App.Prism.Views
 
             foreach (var remote in remotesViewModel.Remotes.ToList())
             {
-                var position = new Position(Convert.ToDouble(remote.GRXX), Convert.ToDouble(remote.GRYY));
-                var tipopin = new PinType();
-                tipopin = PinType.Place;
+                
                 if (!string.IsNullOrEmpty(remote.GRXX) && !string.IsNullOrEmpty(remote.GRYY))
                 {
                     if (remote.GRXX.Length > 5 && remote.GRYY.Length > 5)
                     {
+                        var position = new Position(Convert.ToDouble(remote.GRXX), Convert.ToDouble(remote.GRYY));
+                        var tipopin = new PinType();
+                        tipopin = PinType.Place;
                         pins.Add(new Pin
                         {
                             Label = remote.NOMBRE,
