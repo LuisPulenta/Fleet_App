@@ -126,9 +126,24 @@ namespace Fleet_App.Prism.Views
                         var position = new Position(Convert.ToDouble(remote.GRXX), Convert.ToDouble(remote.GRYY));
                         var tipopin = new PinType();
                         tipopin = PinType.Place;
+                        var tipo = string.Empty;
+
+                        if (remote.PROYECTOMODULO=="Otro")
+                        {
+                            tipo = "CONTROL REMOTO";
+                        }
+                        if (remote.PROYECTOMODULO == "Cable")
+                        {
+                            tipo = "RECUPERO CABLEVISION";
+                        }
+                        if (remote.PROYECTOMODULO == "Tasa")
+                        {
+                            tipo = "RECUPERO TELEFONICA";
+                        }
+
                         pins.Add(new Pin
                         {
-                            Label = remote.NOMBRE,
+                            Label = tipo + " - " + remote.NOMBRE,
                             Address = remote.DOMICILIO,
                             Position = position,
                             Type = tipopin,
