@@ -33,6 +33,7 @@ namespace Fleet_App.Common.Models
         public string MarcaModeloId { get; set; }
         public string Motivos { get; set; }
         public int? Elegir { get; set; }
+  
 
         public ControlesEquivalencia ControlesEquivalencia { get; set; }
     }

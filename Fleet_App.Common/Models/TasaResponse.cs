@@ -30,5 +30,6 @@ namespace Fleet_App.Common.Models
         public int CantRem { get; set; }
         public string ClienteCompleto => $"{CLIENTE}-{NOMBRE}";
         public string EntreCalles => $"{ENTRECALLE1} y {ENTRECALLE2}";
+    
     }
 }

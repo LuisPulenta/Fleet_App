@@ -40,5 +40,8 @@ namespace Fleet_App.Common.Models
         public string ClienteCompleto => $"{CLIENTE}-{NOMBRE}";
         public string EntreCalles => $"{ENTRECALLE1} y {ENTRECALLE2}";
         public string IDSuscripcion { get; set; }
+        public DateTime? FechaCita { get; set; }
+        public string MedioCita { get; set; }
+        public string NroSeriesExtras { get; set; }
     }
 }

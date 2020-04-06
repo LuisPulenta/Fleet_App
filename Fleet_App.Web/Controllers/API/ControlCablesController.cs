@@ -65,6 +65,9 @@ namespace Fleet_App.Web.Controllers.API
                     MODELO=control.MODELO,
                     Motivos= control.Motivos,
                     ZONA = control.ZONA,
+                    FechaCita = control.FechaCita,
+                    MedioCita = control.MedioCita,
+                    NroSeriesExtras = control.NroSeriesExtras,
                 };
                 response.Add(controlResponse);
             }

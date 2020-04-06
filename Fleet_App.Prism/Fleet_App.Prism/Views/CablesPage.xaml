@@ -51,7 +51,7 @@
                      >
                 <StackLayout 
                   >
-                  <Grid HeightRequest="130"
+                  <Grid HeightRequest="170"
                         RowSpacing="-0">
                     <Grid.GestureRecognizers>
                       <TapGestureRecognizer Command="{Binding SelectCableCommand}" />
@@ -233,8 +233,37 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding FechaAsignada, StringFormat='{0:dd/MM/yyyy}'}"></Label>
+                  <Label Grid.Row="9"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Fec.Cita.:"></Label>
+                  <Label Grid.Row="9"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding FechaCita, StringFormat='{0:dd/MM/yyyy}'}"></Label>
+                  <Button
+                           Grid.Row="7"
+                           Grid.Column="4" 
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    MinimumHeightRequest="5"
+                    Command="{Binding CitaCommand}"
+                    HeightRequest="10"
+                    Text="Agendar Cita"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    >
+                    
+                  </Button>
 
-                    <Image Grid.Row="0"
+
+                  <Image Grid.Row="0"
                            Grid.Column="6"
                            Grid.RowSpan="8"
                            VerticalOptions="Center"

@@ -45,7 +45,7 @@ namespace Fleet_App.Prism.Views
             tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 23, Descripcion = "CLIENTE NO ACEPTA RETIRO", });
             tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 24, Descripcion = "CLIENTE NO POSEE LOS EQUIPOS", });
             tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 25, Descripcion = "CLIENTE YA ENTREGO LOS EQUIPOS", });
-            
+            tasaViewModel.CodigosCierre.Add(new CodigoCierre { Codigo = 26, Descripcion = "CANCELADO. NO SE PUDO CONTACTAR AL CLIENTE", });
 
             //label2.Text = (DateTime.Now).ToString("dd/MM/yyyy");
             //label3.Text = (DateTime.Now).ToString("HH:mm");

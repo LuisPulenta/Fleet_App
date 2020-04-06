@@ -58,7 +58,11 @@ namespace Fleet_App.Web.Controllers.API
                r.CodigoCierre,
                r.ObservacionCaptura,
                r.Novedades,
-               
+               r.FechaCita,
+               r.MedioCita,
+               r.NroSeriesExtras
+
+
            })
            .Select(g => new
            {
@@ -82,7 +86,10 @@ namespace Fleet_App.Web.Controllers.API
                CodigoCierre = g.Key.CodigoCierre,
                ObservacionCaptura = g.Key.ObservacionCaptura,
                Novedades = g.Key.Novedades,
-               
+               FechaCita = g.Key.FechaCita,
+               MedioCita = g.Key.MedioCita,
+               NroSeriesExtras = g.Key.NroSeriesExtras,
+
                CantRem = g.Count(),
            }).ToListAsync();
 
@@ -106,7 +113,7 @@ namespace Fleet_App.Web.Controllers.API
 
             var orders = await _dataContext.AsignacionesOTs
                 .Include(m => m.ControlesEquivalencia)
-           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre <= 13) && (o.CodigoCierre > 0))))
+           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre == 3) || (o.CodigoCierre ==4) || (o.CodigoCierre == 5) || (o.CodigoCierre == 6) || (o.CodigoCierre == 7) || (o.CodigoCierre == 11) || (o.CodigoCierre == 12) || (o.CodigoCierre == 20))))
            .OrderBy(o => o.RECUPIDJOBCARD)
            .GroupBy(r => new
            {
@@ -133,7 +140,11 @@ namespace Fleet_App.Web.Controllers.API
                
                r.PROVINCIA,
                r.ReclamoTecnicoID,
-               r.Motivos
+               r.Motivos,
+               r.FechaCita,
+               r.MedioCita,
+               r.NroSeriesExtras
+
            })
            .Select(g => new
            {
@@ -160,8 +171,10 @@ namespace Fleet_App.Web.Controllers.API
                PROVINCIA = g.Key.PROVINCIA,
                ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
                Motivos = g.Key.Motivos,
-               
-               
+               FechaCita=g.Key.FechaCita,
+               MedioCita = g.Key.MedioCita,
+               NroSeriesExtras = g.Key.NroSeriesExtras,
+
                CantRem = g.Count(),
            }).ToListAsync();
 
@@ -212,7 +225,10 @@ namespace Fleet_App.Web.Controllers.API
 
                r.PROVINCIA,
                r.ReclamoTecnicoID,
-               r.Motivos
+               r.Motivos,
+                r.FechaCita,
+               r.MedioCita,
+               r.NroSeriesExtras
            })
            .Select(g => new
            {
@@ -239,6 +255,9 @@ namespace Fleet_App.Web.Controllers.API
                PROVINCIA = g.Key.PROVINCIA,
                ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
                Motivos = g.Key.Motivos,
+               FechaCita = g.Key.FechaCita,
+               MedioCita = g.Key.MedioCita,
+               NroSeriesExtras = g.Key.NroSeriesExtras,
 
 
                CantRem = g.Count(),
@@ -308,7 +327,10 @@ namespace Fleet_App.Web.Controllers.API
 
                r.PROVINCIA,
                r.ReclamoTecnicoID,
-               r.Motivos
+               r.Motivos,
+               r.FechaCita,
+               r.MedioCita,
+               r.NroSeriesExtras
            })
            .Select(g => new
            {
@@ -335,6 +357,9 @@ namespace Fleet_App.Web.Controllers.API
                PROVINCIA = g.Key.PROVINCIA,
                ReclamoTecnicoID = g.Key.ReclamoTecnicoID,
                Motivos = g.Key.Motivos,
+               FechaCita = g.Key.FechaCita,
+               MedioCita = g.Key.MedioCita,
+               NroSeriesExtras = g.Key.NroSeriesExtras,
 
 
                CantRem = g.Count(),
@@ -348,16 +373,6 @@ namespace Fleet_App.Web.Controllers.API
 
             return Ok(orders);
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -423,6 +438,9 @@ namespace Fleet_App.Web.Controllers.API
             oldasignacionesOT.ESTADO2 = asignacionesOT.ESTADO2;
             oldasignacionesOT.ESTADO3 = asignacionesOT.ESTADO3;
             oldasignacionesOT.Observacion = asignacionesOT.Observacion;
+            oldasignacionesOT.FechaCita = asignacionesOT.FechaCita;
+            oldasignacionesOT.MedioCita = asignacionesOT.MedioCita;
+            oldasignacionesOT.NroSeriesExtras = asignacionesOT.NroSeriesExtras;
 
             _dataContext.AsignacionesOTs.Update(oldasignacionesOT);
             await _dataContext.SaveChangesAsync();

@@ -25,6 +25,7 @@ namespace Fleet_App.Prism.ViewModels
         private bool _isEnabledParcial;
         private bool _isRefreshing;
         private bool _habilitado;
+        private string _nroSeriesExtras;
         private CodigoCierre _cCierre;
         private ObservableCollection<ModemItemViewModel> _controlCables;
         private ObservableCollection<CodigoCierre> _codigosCierre;
@@ -58,6 +59,15 @@ namespace Fleet_App.Prism.ViewModels
             get => _isRefreshing;
             set => SetProperty(ref _isRefreshing, value);
         }
+
+        
+        public string NroSeriesExtras
+        {
+            get => _nroSeriesExtras;
+            set => SetProperty(ref _nroSeriesExtras, value);
+        }
+
+
         public CodigoCierre CCierre
         {
             get => _cCierre;
@@ -220,6 +230,7 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void Save()
         {
+            
             if (Cable.ESTADOGAOS == "PEN")
             {
                 await App.Current.MainPage.DisplayAlert("Error", "El Estado sigue 'PEN'. No tiene sentido guardar.", "Aceptar");
@@ -237,14 +248,6 @@ namespace Fleet_App.Prism.ViewModels
                 return;
             }
 
-           
-
-           
-
-            
-
-
-
             //Verificar conectividad
             var url = App.Current.Resources["UrlAPI"].ToString();
             var connection = await _apiService.CheckConnectionAsync(url);
@@ -256,7 +259,6 @@ namespace Fleet_App.Prism.ViewModels
                 return;
             }
 
-
             //****************************************************************************************************************
             IsRunning = true;
             IsEnabled = false;
@@ -264,8 +266,8 @@ namespace Fleet_App.Prism.ViewModels
             int? CR = null;
             if (Cable.ESTADOGAOS == "EJB")
             {
-                CR = 13;
-                Cable.CodigoCierre = 13;
+                CR = 30;
+                Cable.CodigoCierre = 30;
             }
             else
             {
@@ -332,6 +334,9 @@ namespace Fleet_App.Prism.ViewModels
                         MODELO = cc.MODELO,
                         Motivos = cc.Motivos,
                         IDSuscripcion = cc.IDSuscripcion,
+                        FechaCita=Cable.FechaCita,
+                        MedioCita=Cable.MedioCita,
+                        NroSeriesExtras= NroSeriesExtras,
                     };
 
                     var response = await _apiService.PutAsync(
@@ -369,14 +374,19 @@ namespace Fleet_App.Prism.ViewModels
                 }
                 if (oldCable != null && newCable.ESTADOGAOS == "INC" &&
                     (
+                    newCable.CodigoCierre == 1 ||
                     newCable.CodigoCierre == 2 ||
-                    newCable.CodigoCierre == 3 ||
-                    newCable.CodigoCierre == 4 ||
-                    newCable.CodigoCierre == 6 ||
                     newCable.CodigoCierre == 8 ||
                     newCable.CodigoCierre == 9 ||
                     newCable.CodigoCierre == 10 ||
-                    newCable.CodigoCierre == 11
+                    newCable.CodigoCierre == 13 ||
+                    newCable.CodigoCierre == 14 ||
+                    newCable.CodigoCierre == 15 ||
+                    newCable.CodigoCierre == 16 ||
+                    newCable.CodigoCierre == 17 ||
+                    newCable.CodigoCierre == 18 ||
+                    newCable.CodigoCierre == 19 ||
+                    newCable.CodigoCierre == 20
                     )
                     )
                 {
@@ -444,6 +454,9 @@ namespace Fleet_App.Prism.ViewModels
                             MODELO = cc.MODELO,
                             Motivos = cc.Motivos,
                             IDSuscripcion = cc.IDSuscripcion,
+                            FechaCita = Cable.FechaCita,
+                            MedioCita = Cable.MedioCita,
+                            NroSeriesExtras = NroSeriesExtras,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -500,6 +513,9 @@ namespace Fleet_App.Prism.ViewModels
                             MODELO = cc.MODELO,
                             Motivos = cc.Motivos,
                             IDSuscripcion = cc.IDSuscripcion,
+                            FechaCita = Cable.FechaCita,
+                            MedioCita = Cable.MedioCita,
+                            NroSeriesExtras = NroSeriesExtras,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -524,8 +540,19 @@ namespace Fleet_App.Prism.ViewModels
                 var cablesViewModel = CablesPageViewModel.GetInstance();
                 var oldCable = cablesViewModel.MyCables.Where(o => o.ReclamoTecnicoID == this.Cable.ReclamoTecnicoID).FirstOrDefault();
 
+                if (
+                    newCable.CodigoCierre == 1 ||
+                    newCable.CodigoCierre == 2 ||
+                    newCable.CodigoCierre == 8 ||
+                    newCable.CodigoCierre == 9 ||
+                    newCable.CodigoCierre == 14 ||
+                    newCable.CodigoCierre == 16 
 
-                cablesViewModel.MyCables.Remove(oldCable);
+                    )
+                    {
+                    cablesViewModel.MyCables.Remove(oldCable);
+                    }
+                
                 cablesViewModel.RefreshList();
                 await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                 await _navigationService.GoBackAsync();

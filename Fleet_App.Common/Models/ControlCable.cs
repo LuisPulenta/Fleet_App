@@ -29,6 +29,9 @@ namespace Fleet_App.Common.Models
         public string MarcaModeloId { get; set; }
         public string Motivos { get; set; }
         public int? Elegir { get; set; }
+        public DateTime? FechaCita { get; set; }
+        public string MedioCita { get; set; }
+        public string NroSeriesExtras { get; set; }
 
         public ControlesEquivalencia ControlesEquivalencia { get; set; }
     }

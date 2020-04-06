@@ -153,6 +153,9 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID=a.ReclamoTecnicoID,
                     MOTIVOS=a.MOTIVOS,
                     IDSuscripcion=a.IDSuscripcion,
+                    FechaCita=a.FechaCita,
+                    MedioCita=a.MedioCita,
+                    NroSeriesExtras=a.NroSeriesExtras
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
                 CantCables = Cables.Count();
@@ -187,6 +190,9 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID = a.ReclamoTecnicoID,
                     MOTIVOS = a.MOTIVOS,
                     IDSuscripcion = a.IDSuscripcion,
+                    FechaCita = a.FechaCita,
+                    MedioCita = a.MedioCita,
+                    NroSeriesExtras = a.NroSeriesExtras
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
                     .OrderBy(o => o.FechaAsignada + o.NOMBRE)

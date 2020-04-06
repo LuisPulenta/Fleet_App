@@ -447,7 +447,8 @@ namespace Fleet_App.Prism.ViewModels
                     newTasa.CodigoCierre == 22 ||
                     newTasa.CodigoCierre == 23 ||
                     newTasa.CodigoCierre == 24 ||
-                    newTasa.CodigoCierre == 25 
+                    newTasa.CodigoCierre == 25 ||
+                    newTasa.CodigoCierre == 26
                     )
                     )
                 {

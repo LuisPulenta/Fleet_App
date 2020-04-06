@@ -34,8 +34,7 @@ namespace Fleet_App.Common.Models
         public int? CodigoCierre { get; set; }
         public string UrlDni { get; set; }
         public string UrlFirma { get; set; }
-
-
+     
 
         public List<Picture> Pictures { get; set; }
     }
