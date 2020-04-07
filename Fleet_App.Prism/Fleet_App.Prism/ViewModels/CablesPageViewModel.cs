@@ -229,7 +229,7 @@ namespace Fleet_App.Prism.ViewModels
                 Dia = $"0{Dia}";
             };
 
-            return $"{Dia}/{Mes}+/{Año}";
+            return $"{Dia}/{Mes}/{Año}";
         }
 
         private async void Search()
@@ -239,12 +239,14 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void CablesMap()
         {
+
             await _navigationService.NavigateAsync("CablesMapPage");
         }
 
         private async void PonerHoy()
         {
-            
+            Filter = FecCita(DateTime.Now);
+            RefreshList();
         }
 
         private async void Refresh()

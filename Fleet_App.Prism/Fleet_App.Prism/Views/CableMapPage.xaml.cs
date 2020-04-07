@@ -35,7 +35,7 @@ namespace Fleet_App.Prism.Views
             MyMap.Pins.Add(new Pin
             {
                 Address = cableViewModel.Cable.DOMICILIO,
-                Label = cableViewModel.Cable.NOMBRE,
+                Label = $"{cableViewModel.Cable.CLIENTE}-{cableViewModel.Cable.NOMBRE}",
                 Position = position,
                 Type = PinType.Place
             });
