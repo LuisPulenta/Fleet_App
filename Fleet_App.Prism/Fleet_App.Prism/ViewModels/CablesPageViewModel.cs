@@ -5,6 +5,7 @@ using Fleet_App.Prism.ViewModels;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,8 +30,10 @@ namespace Fleet_App.Prism.ViewModels
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _cablesMapCommand;
+        private DelegateCommand _ponerHoyCommand;
 
         public DelegateCommand CablesMapCommand => _cablesMapCommand ?? (_cablesMapCommand = new DelegateCommand(CablesMap));
+        public DelegateCommand PonerHoyCommand => _ponerHoyCommand ?? (_ponerHoyCommand = new DelegateCommand(PonerHoy));
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
         
@@ -122,6 +125,7 @@ namespace Fleet_App.Prism.ViewModels
 
         public void RefreshList()
         {
+
             if (string.IsNullOrEmpty(this.Filter))
             {
 
@@ -200,8 +204,9 @@ namespace Fleet_App.Prism.ViewModels
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||
                             (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
-                          )
-                                                                                               );
+                            ||
+                            FecCita(Convert.ToDateTime(o.FechaCita)).Contains(this.Filter.ToLower()))
+                          );
 
 
 
@@ -210,7 +215,22 @@ namespace Fleet_App.Prism.ViewModels
             }
         }
 
+        private string FecCita (DateTime FecCit)
+        {
+            var Mes = Convert.ToString(FecCit.Month);
+            var Dia = Convert.ToString(FecCit.Day);
+            var Año = Convert.ToString(FecCit.Year);
+            if (Mes.Length == 1)
+            {
+                Mes = $"0{Mes}";
+            };
+            if (Dia.Length == 1)
+            {
+                Dia = $"0{Dia}";
+            };
 
+            return $"{Dia}/{Mes}+/{Año}";
+        }
 
         private async void Search()
         {
@@ -222,6 +242,10 @@ namespace Fleet_App.Prism.ViewModels
             await _navigationService.NavigateAsync("CablesMapPage");
         }
 
+        private async void PonerHoy()
+        {
+            
+        }
 
         private async void Refresh()
         {

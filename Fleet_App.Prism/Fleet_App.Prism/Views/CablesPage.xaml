@@ -7,9 +7,13 @@
              BackgroundColor="Silver"
              Title="{Binding Title}">
   <ContentPage.ToolbarItems>
+    
+    <ToolbarItem Icon="ic_action_today"
+                 Command="{Binding PonerHoyCommand}" />
     <ToolbarItem Icon="ic_map"
                  Command="{Binding CablesMapCommand}" />
   </ContentPage.ToolbarItems>
+  
     <StackLayout Padding="5">
       <SearchBar Placeholder="Buscar..."
                  BackgroundColor="White"

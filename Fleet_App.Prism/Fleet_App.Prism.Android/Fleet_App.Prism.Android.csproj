@@ -207,5 +207,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_action_mapmenu.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_action_today.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
