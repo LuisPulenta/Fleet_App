@@ -39,6 +39,11 @@ namespace Fleet_App.Prism.Views
 
         }
 
+       
+
+
+
+
         private async Task<List<Pin>> ShowPinsAsync()
         {
             var pins = new List<Pin>();
@@ -194,4 +199,4 @@ namespace Fleet_App.Prism.Views
         }
 
     }
-}
+}             

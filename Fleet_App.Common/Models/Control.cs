@@ -26,8 +26,8 @@ namespace Fleet_App.Common.Models
                 {
                     return "nouser";
                 }
-                return $"http://keypress.serveftp.net:88/FleetApiPrueba/{this.UrlDni.Substring(1)}";
-                //return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlDni.Substring(1)}";
+                //return $"http://keypress.serveftp.net:88/FleetApiPrueba/{this.UrlDni.Substring(1)}";
+                return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlDni.Substring(1)}";
                 //return $"http://190.221.174.70/Fleetsa/{this.UrlDni.Substring(1)}";
             }
         }
@@ -39,8 +39,8 @@ namespace Fleet_App.Common.Models
                 {
                     return "nouser";
                 }
-                return $"http://keypress.serveftp.net:88/FleetApiPrueba/{this.UrlFirma.Substring(1)}";
-                //return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlFirma.Substring(1)}";
+                //return $"http://keypress.serveftp.net:88/FleetApiPrueba/{this.UrlFirma.Substring(1)}";
+                return $"http://keypress.serveftp.net:88/FleetApiNew/{this.UrlFirma.Substring(1)}";
                 //return $"http://190.221.174.70/Fleetsa/{this.UrlFirma.Substring(1)}";
             }
         }

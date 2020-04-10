@@ -120,6 +120,7 @@ namespace Fleet_App.Prism.ViewModels
             LoadControlCables();
             LoadMediosCita();
 
+            
             IsEnabled = true;
             IsRefreshing = false;
 
@@ -168,6 +169,16 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void Save()
         {
+            
+
+            //if (string.IsNullOrEmpty(MedioDeCita))
+            if (MedioCita==null)
+                {
+                await App.Current.MainPage.DisplayAlert("Error", "Debe seleccionar un medio de cita.", "Aceptar");
+                return;
+            }
+
+
             //Verificar conectividad
             var url = App.Current.Resources["UrlAPI"].ToString();
             var connection = await _apiService.CheckConnectionAsync(url);
@@ -184,7 +195,7 @@ namespace Fleet_App.Prism.ViewModels
 
             MedioDeCita = MedioCita.Descripcion;
 
-    
+
             //*********************************************************************************************************
             //Grabar 
             //*********************************************************************************************************

@@ -42,7 +42,7 @@
               Value="{StaticResource colorDanger}" />
     </Style>
     <!-- Parameters -->
-    <x:String x:Key="UrlAPI">http://keypress.serveftp.net:88/FleetApiPrueba/</x:String>
+    <x:String x:Key="UrlAPI">http://keypress.serveftp.net:88/FleetApiNew/</x:String>
     <!--<x:String x:Key="UrlAPI">http://190.221.174.70/Fleetsa/</x:String>-->
 
   </Application.Resources>
