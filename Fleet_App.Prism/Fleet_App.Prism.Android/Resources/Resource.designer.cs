@@ -7096,16 +7096,25 @@ namespace Fleet_App.Prism.Droid
 			public const int pictureavatar = 2131165569;
 			
 			// aapt resource value: 0x7F070182
-			public const int signature_pad_background = 2131165570;
+			public const int pinazul = 2131165570;
 			
 			// aapt resource value: 0x7F070183
-			public const int splash = 2131165571;
+			public const int pinrojo = 2131165571;
 			
 			// aapt resource value: 0x7F070184
-			public const int tooltip_frame_dark = 2131165572;
+			public const int pinverde = 2131165572;
 			
 			// aapt resource value: 0x7F070185
-			public const int tooltip_frame_light = 2131165573;
+			public const int signature_pad_background = 2131165573;
+			
+			// aapt resource value: 0x7F070186
+			public const int splash = 2131165574;
+			
+			// aapt resource value: 0x7F070187
+			public const int tooltip_frame_dark = 2131165575;
+			
+			// aapt resource value: 0x7F070188
+			public const int tooltip_frame_light = 2131165576;
 			
 			static Drawable()
 			{

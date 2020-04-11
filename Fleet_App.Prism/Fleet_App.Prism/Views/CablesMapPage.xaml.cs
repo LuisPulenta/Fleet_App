@@ -2,7 +2,6 @@
 using Fleet_App.Prism.ViewModels;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +14,17 @@ namespace Fleet_App.Prism.Views
     public partial class CablesMapPage : ContentPage
     {
         private readonly IGeolocatorService _geolocatorService;
-        private readonly INavigationService _navigationService;
 
-        public CablesMapPage(IGeolocatorService geolocatorService, INavigationService navigationService)
+        public CablesMapPage(IGeolocatorService geolocatorService)
         {
-
             InitializeComponent();
-
             _geolocatorService = geolocatorService;
-            _navigationService = navigationService;
+            MyMap.MapType = MapType.Street;
+            MyMap.IsVisible = false;
+            MoveMapToCurrentPositionAsync();
+            MyMap.IsVisible = true;
+            ShowPinsAsync();
+
         }
 
         protected override void OnAppearing()
@@ -32,109 +33,57 @@ namespace Fleet_App.Prism.Views
             MyMap.IsVisible = false;
             MoveMapToCurrentPositionAsync();
             MyMap.IsVisible = true;
-            ShowPinsAsync();
-
-
-
-
         }
 
-       
-
-
-
-
-        private async Task<List<Pin>> ShowPinsAsync()
+        private async Task<List<CustomPin>> ShowPinsAsync()
         {
-            var pins = new List<Pin>();
-            var cablesViewModel = CablesPageViewModel.GetInstance();
 
-            foreach (var cable in cablesViewModel.Cables.ToList())
+            CustomPin pin = new CustomPin
             {
-                
+                Type = PinType.Place,
+                Position = new Position(-0, 0),
+                Label = " ",
+                Address = " ",
+                Name = " ",
+                StyleId = "",
+                Url = ""
+            };
+
+            var pins = new List<CustomPin> { pin };
+            CablesPageViewModel cablesViewModel = CablesPageViewModel.GetInstance();
+            foreach (CableItemViewModel cable in cablesViewModel.Cables.ToList())
+            {
                 if (!string.IsNullOrEmpty(cable.GRXX) && !string.IsNullOrEmpty(cable.GRYY))
                 {
                     if (cable.GRXX.Length > 5 && cable.GRYY.Length > 5)
                     {
-                        var position = new Position(Convert.ToDouble(cable.GRXX), Convert.ToDouble(cable.GRYY));
-                        var tipopin = new PinType();
-                        tipopin = PinType.Place;
-                        pins.Add(new Pin
+                        Position position = new Position(Convert.ToDouble(cable.GRXX), Convert.ToDouble(cable.GRYY));
+                        var HayCita = "";
+                        if (cable.FechaCita == null)
                         {
-                            Label = $"{cable.NOMBRE}",
-                            Address = $"{cable.CLIENTE}-{cable.DOMICILIO}",
-                            Position = position,
-                            Type = tipopin,
-                            
+                            HayCita = "SinCita";
                         }
-                        );
+                        else
+                        {
+                            HayCita = "ConCita";
+                        }
+
+                        MyMap.Pins.Add(new CustomPin
+                        {
+                            Label = cable.NOMBRE,
+                            Address = cable.DOMICILIO,
+                            Position = position,
+                            Type = PinType.Place,
+                            Name = "Xamarin",
+                            StyleId = HayCita,
+                            Url = "http://xamarin.com/about/"
+                        });
+
                     }
                 }
-
             }
-
-            foreach (var pin in pins)
-            {
-                MyMap.Pins.Add(pin);
-                //pin.MarkerClicked += async (s, args) =>
-                //{
-                //    args.HideInfoWindow = false;
-                //    string pinName = ((Pin)s).Label;
-                //    await DisplayAlert("Pin Clicked", $"{pinName} was clicked.", "Ok");
-                //};
-                pin.InfoWindowClicked += async (s, args) =>
-                {
-                    CablesPageViewModel.GetInstance().Filter = pin.Label;
-                    CablesMapPageViewModel.GetInstance().CerrarMapa();
-
-
-                    //CerrarPagina();
-                    
-
-                    //await _navigationService.NavigateAsync("CablesMapPage");
-                    //await _navigationService.GoBackAsync();
-                    //string pinName = ((Pin)s).Label;
-                    //await DisplayAlert("Aviso", $"Soy el Pin de {pinName}.", "Ok");
-                };
-            }
-
             return pins;
         }
-
-
-        async void OnInfoWindowClick(object sender)
-        {
-
-            await App.Current.MainPage.DisplayAlert(
-                "Mensaje",
-                "Hola! Yo soy un pin",
-                "Aceptar");
-
-        }
-
-        private async void CerrarPagina ()
-        {
-            
-            await _navigationService.GoBackAsync();
-            
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private async void MoveMapToCurrentPositionAsync()
         {
@@ -197,6 +146,5 @@ namespace Fleet_App.Prism.Views
         {
             MyMap.MapType = MapType.Hybrid;
         }
-
     }
-}             
+}
