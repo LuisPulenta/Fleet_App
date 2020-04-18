@@ -65,9 +65,15 @@ namespace Fleet_App.Prism.Views
             foreach (var pin in pins)
             {
                 MyMap.Pins.Add(pin);
-            }
 
+                pin.InfoWindowClicked += async (s, args) =>
+                {
+                    RemotesPageViewModel.GetInstance().Filter = pin.Label;
+                    RemotesMapPageViewModel.GetInstance().CerrarMapa();
+                };
+            }
             return pins;
+            
         }
         private async void MoveMapToCurrentPositionAsync()
         {

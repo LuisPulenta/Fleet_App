@@ -40,6 +40,10 @@ namespace Fleet_App.Prism.Views
             var pins = new List<Pin>();
             var tasasViewModel = TasasPageViewModel.GetInstance();
 
+           
+
+
+
             foreach (var tasa in tasasViewModel.Tasas.ToList())
             {
                 
@@ -65,10 +69,17 @@ namespace Fleet_App.Prism.Views
             foreach (var pin in pins)
             {
                 MyMap.Pins.Add(pin);
-            }
 
+                pin.InfoWindowClicked += async (s, args) =>
+                {
+                    TasasPageViewModel.GetInstance().Filter = pin.Label;
+                    TasasMapPageViewModel.GetInstance().CerrarMapa();
+                };
+            }
             return pins;
         }
+
+
         private async void MoveMapToCurrentPositionAsync()
         {
             bool isLocationPermision = await CheckLocationPermisionsAsync();
