@@ -27,6 +27,7 @@ namespace Fleet_App.Prism.ViewModels
         private static CablesPageViewModel _instance;
         private int _cantCables;
         private string _filter;
+        private string _descCR;
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _cablesMapCommand;
@@ -42,6 +43,12 @@ namespace Fleet_App.Prism.ViewModels
         {
             get => _filter;
             set => SetProperty(ref _filter, value);
+        }
+
+        public string DescCR
+        {
+            get => _descCR;
+            set => SetProperty(ref _descCR, value);
         }
 
         public int CantCables
@@ -135,6 +142,7 @@ namespace Fleet_App.Prism.ViewModels
                     CAUSANTEC = a.CAUSANTEC,
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
+                    DescCR= DescCierre(a.CodigoCierre),
                     CP = a.CP,
                     Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
@@ -231,6 +239,39 @@ namespace Fleet_App.Prism.ViewModels
 
             return $"{Dia}/{Mes}/{Año}";
         }
+
+        private string DescCierre(int? CR)
+        {
+            if (CR == 1) { return "Gestionado - Equipo devuelto a técnico"; };
+            if (CR == 2) { return "Gestionado - Equipo devuelto a oficina comercial"; };
+            if (CR == 3) { return "No contactado - Contestador automático"; };
+            if (CR == 4) { return "No contactado - Corta llamado"; };
+            if (CR == 5) { return "No contactado - Ocupado"; };
+            if (CR == 6) { return "No contactado - No contesta"; };
+            if (CR == 7) { return "No contactado - Teléfono incorrecto"; };
+            if (CR == 8) { return "No posee los equipos - Lo dejó en domicilio anterior"; };
+            if (CR == 9) { return "No posee los equipos - Los perdió"; };
+            if (CR == 10) { return "Titular falleció"; };
+            if (CR == 11) { return "Volver a llamar - No puede atender el llamado"; };
+            if (CR == 12) { return "Volver a llamar - Retiro postergado"; };
+            if (CR == 13) { return "No acepta el retiro - Desconoce baja voluntaria"; };
+            if (CR == 14) { return "No acepta el retiro - Entregara a técnico en oficina"; };
+            if (CR == 15) { return "No acepta el retiro - Equipo en uso con baja"; };
+            if (CR == 16) { return "No acepta el retiro - No lo quiere devolver"; };
+            if (CR == 17) { return "No acepta el retiro - Abonará la deuda"; };
+            if (CR == 18) { return "No acepta el retiro - Posee el servicio y no lo quiere devolver"; };
+            if (CR == 19) { return "No acepta el retiro - Ya abonó la deuda"; };
+            if (CR == 20) { return "Contactado-acepta retiro"; };
+            if (CR == 21) { return "Zona peligrosa"; };
+            if (CR == 22) { return "No se ubica el Domicilio"; };
+            if (CR == 23) { return "Mal dirección/Datos"; };
+            if (CR == 24) { return "Zona intransitable"; };
+            if (CR == 25) { return "Ultima visita sin contacto"; };
+            if (CR == 26) { return "Se deja aviso de visita"; };
+            if (CR == 27) { return "Se mudaron"; };
+            return ""; 
+        }
+
 
         private async void Search()
         {

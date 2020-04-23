@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Fleet_App.Prism.ViewModels
 {
@@ -18,6 +19,8 @@ namespace Fleet_App.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private DateTime _fechaDeCita;
+        private TimeSpan _horaDeCita;
+        private DateTime _hoy;
 
 
         private AsignacionesOT _cable;
@@ -57,6 +60,19 @@ namespace Fleet_App.Prism.ViewModels
         {
             get => _fechaDeCita;
             set => SetProperty(ref _fechaDeCita, value);
+        }
+
+        public DateTime Hoy
+        {
+            get => _hoy;
+            set => SetProperty(ref _hoy, value);
+        }
+
+
+        public TimeSpan HoraDeCita
+        {
+            get => _horaDeCita;
+            set => SetProperty(ref _horaDeCita, value);
         }
 
         public bool IsEnabledParcial
@@ -113,6 +129,9 @@ namespace Fleet_App.Prism.ViewModels
             _apiService = apiService;
 
             FechaDeCita = DateTime.Now.AddDays(1);
+            Hoy = DateTime.Now;
+
+
             Title = "Registrar Cita";
             instance = this;
             Cable = JsonConvert.DeserializeObject<ReclamoCable>(Settings.Cable);
@@ -196,6 +215,9 @@ namespace Fleet_App.Prism.ViewModels
             MedioDeCita = MedioCita.Descripcion;
 
 
+            //await App.Current.MainPage.DisplayAlert("Hora", HoraDeCita.Hours.ToString(), "Aceptar");
+            //await App.Current.MainPage.DisplayAlert("Hora", HoraDeCita.Minutes.ToString(), "Aceptar");
+
             //*********************************************************************************************************
             //Grabar 
             //*********************************************************************************************************
@@ -240,8 +262,9 @@ namespace Fleet_App.Prism.ViewModels
                     MODELO = cc.MODELO,
                     Motivos = cc.Motivos,
                     IDSuscripcion = cc.IDSuscripcion,
-                    FechaCita=FechaDeCita,
-                    MedioCita= MedioDeCita,
+                    //FechaCita= ((DateTime)FechaDeCita).Date.Add(((DateTime)HoraDeCita).TimeOfDay),
+                    FechaCita = FechaDeCita.Add(HoraDeCita),
+                    MedioCita = MedioDeCita,
                     NroSeriesExtras=Cable.NroSeriesExtras
                 };
 
@@ -263,7 +286,7 @@ namespace Fleet_App.Prism.ViewModels
             }
             //***** Borrar de la lista de Cables *****
 
-            Cable.FechaCita = FechaDeCita;
+            Cable.FechaCita = FechaDeCita.Add(HoraDeCita);
             Cable.MedioCita = MedioDeCita;
 
             var newCable = Cable;

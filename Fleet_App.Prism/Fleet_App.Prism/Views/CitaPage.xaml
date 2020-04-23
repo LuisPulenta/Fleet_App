@@ -219,8 +219,28 @@
           <DatePicker Grid.Row="4"
                         Grid.Column="1"
                         FontSize="Micro"
+                        MinimumDate="{Binding Hoy}" 
                         Date="{Binding FechaDeCita, StringFormat='{0:dd/MM/yyyy}'}" />
-          
+
+          <Label
+            Text="Hora Cita:">
+          </Label>
+
+
+     
+
+
+
+          <TimePicker Grid.Row="5"
+                        Grid.Column="1"
+                        FontSize="Micro"
+                      Format="T"
+                        Time="{Binding HoraDeCita}" 
+                      
+                      
+                      />
+
+
           <StackLayout Padding="5,0,5,0"
                      Orientation="Horizontal"
                      VerticalOptions="Start"

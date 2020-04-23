@@ -386,7 +386,11 @@ namespace Fleet_App.Prism.ViewModels
                     newCable.CodigoCierre == 17 ||
                     newCable.CodigoCierre == 18 ||
                     newCable.CodigoCierre == 19 ||
-                    newCable.CodigoCierre == 20
+                    newCable.CodigoCierre == 20 ||
+                    newCable.CodigoCierre == 21 ||
+                    newCable.CodigoCierre == 22 ||
+                    newCable.CodigoCierre == 23 ||
+                    newCable.CodigoCierre == 24
                     )
                     )
                 {

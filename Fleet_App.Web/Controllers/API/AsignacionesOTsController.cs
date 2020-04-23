@@ -113,7 +113,7 @@ namespace Fleet_App.Web.Controllers.API
 
             var orders = await _dataContext.AsignacionesOTs
                 .Include(m => m.ControlesEquivalencia)
-           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre == 3) || (o.CodigoCierre ==4) || (o.CodigoCierre == 5) || (o.CodigoCierre == 6) || (o.CodigoCierre == 7) || (o.CodigoCierre == 11) || (o.CodigoCierre == 12) || (o.CodigoCierre == 20))))
+           .Where(o => (o.UserID == UserID) && (o.PROYECTOMODULO == "Cable") && ((o.ESTADOGAOS == "PEN") || (o.ESTADOGAOS == "INC") && ((o.CodigoCierre == 3) || (o.CodigoCierre ==4) || (o.CodigoCierre == 5) || (o.CodigoCierre == 6) || (o.CodigoCierre == 7) || (o.CodigoCierre == 11) || (o.CodigoCierre == 12) || (o.CodigoCierre == 20) || (o.CodigoCierre == 25) || (o.CodigoCierre == 26) || (o.CodigoCierre == 27))))
            .OrderBy(o => o.RECUPIDJOBCARD)
            .GroupBy(r => new
            {

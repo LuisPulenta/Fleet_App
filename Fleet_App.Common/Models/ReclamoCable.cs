@@ -32,7 +32,7 @@ namespace Fleet_App.Common.Models
         public int? CantRec { get; set; }
         public string ObservacionCaptura { get; set; }
         public string Novedades { get; set; }
-
+        public string DescCR { get; set; }
         public virtual ICollection<Control> Controls { get; set; }
 
         public string Descripcion { get; set; }

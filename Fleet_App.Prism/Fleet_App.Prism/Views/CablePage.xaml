@@ -250,6 +250,7 @@
                  HeightRequest="2"></BoxView>
           <Picker x:Name="CodCierre"
                 FontSize="Small"
+                IsEnabled="False"
                 ItemDisplayBinding="{Binding Descripcion}"
                 ItemsSource="{Binding CodigosCierre}"
                 SelectedItem="{Binding CCierre}"
