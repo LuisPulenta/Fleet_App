@@ -68,6 +68,14 @@ namespace Fleet_App.Web.Controllers.API
                     FechaCita = control.FechaCita,
                     MedioCita = control.MedioCita,
                     NroSeriesExtras = control.NroSeriesExtras,
+                    Evento1=control.Evento1,
+                    FechaEvento1=control.FechaEvento1,
+                    Evento2 = control.Evento2,
+                    FechaEvento2 = control.FechaEvento2,
+                    Evento3 = control.Evento3,
+                    FechaEvento3 = control.FechaEvento3,
+                    Evento4 = control.Evento4,
+                    FechaEvento4 = control.FechaEvento4,
                 };
                 response.Add(controlResponse);
             }

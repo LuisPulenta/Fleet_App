@@ -137,7 +137,7 @@
             </Image>
           </Grid>
 
-          <BoxView Color="Black"
+          <!--<BoxView Color="Black"
                    HeightRequest="2"></BoxView>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -184,7 +184,7 @@
                 <TapGestureRecognizer Command="{Binding TakeFirmaCommand}" />
               </Image.GestureRecognizers>
             </Image>
-          </Grid>
+          </Grid>-->
 
           <!--BOTONES CAMBIAR ESTADOS-->
           <BoxView Color="Black"

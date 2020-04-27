@@ -32,6 +32,14 @@ namespace Fleet_App.Common.Models
         public DateTime? FechaCita { get; set; }
         public string MedioCita { get; set; }
         public string NroSeriesExtras { get; set; }
+        public DateTime? FechaEvento1 { get; set; }
+        public DateTime? FechaEvento2 { get; set; }
+        public DateTime? FechaEvento3 { get; set; }
+        public DateTime? FechaEvento4 { get; set; }
+        public string Evento1 { get; set; }
+        public string Evento2 { get; set; }
+        public string Evento3 { get; set; }
+        public string Evento4 { get; set; }
 
         public ControlesEquivalencia ControlesEquivalencia { get; set; }
     }

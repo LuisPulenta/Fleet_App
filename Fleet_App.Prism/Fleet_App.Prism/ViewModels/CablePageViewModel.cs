@@ -292,8 +292,51 @@ namespace Fleet_App.Prism.ViewModels
                     E2 = "NO";
                 }
 
+                var ya = DateTime.Now;
+
                 foreach (var cc in ControlCables)
                 {
+                    var fec1 = Cable.FechaEvento1;
+                    var fec2 = Cable.FechaEvento2;
+                    var fec3 = Cable.FechaEvento3;
+
+                    var evento1 = Cable.Evento1;
+                    var evento2 = Cable.Evento2;
+                    var evento3 = Cable.Evento3;
+
+                    var DescCR = "";
+                    if (CR == 1) { DescCR = "Gestionado - Equipo devuelto a técnico"; };
+                    if (CR == 2) { DescCR = "Gestionado - Equipo devuelto a oficina comercial"; };
+                    if (CR == 3) { DescCR = "No contactado - Contestador automático"; };
+                    if (CR == 4) { DescCR = "No contactado - Corta llamado"; };
+                    if (CR == 5) { DescCR = "No contactado - Ocupado"; };
+                    if (CR == 6) { DescCR = "No contactado - No contesta"; };
+                    if (CR == 7) { DescCR = "No contactado - Teléfono incorrecto"; };
+                    if (CR == 8) { DescCR = "No posee los equipos - Lo dejó en domicilio anterior"; };
+                    if (CR == 9) { DescCR = "No posee los equipos - Los perdió"; };
+                    if (CR == 10) { DescCR = "Titular falleció"; };
+                    if (CR == 11) { DescCR = "Volver a llamar - No puede atender el llamado"; };
+                    if (CR == 12) { DescCR = "Volver a llamar - Retiro postergado"; };
+                    if (CR == 13) { DescCR = "No acepta el retiro - Desconoce baja voluntaria"; };
+                    if (CR == 14) { DescCR = "No acepta el retiro - Entregara a técnico en oficina"; };
+                    if (CR == 15) { DescCR = "No acepta el retiro - Equipo en uso con baja"; };
+                    if (CR == 16) { DescCR = "No acepta el retiro - No lo quiere devolver"; };
+                    if (CR == 17) { DescCR = "No acepta el retiro - Abonará la deuda"; };
+                    if (CR == 18) { DescCR = "No acepta el retiro - Posee el servicio y no lo quiere devolver"; };
+                    if (CR == 19) { DescCR = "No acepta el retiro - Ya abonó la deuda"; };
+                    if (CR == 20) { DescCR = "Contactado-acepta retiro"; };
+                    if (CR == 21) { DescCR = "Zona peligrosa"; };
+                    if (CR == 22) { DescCR = "No se ubica el Domicilio"; };
+                    if (CR == 23) { DescCR = "Mal dirección/Datos"; };
+                    if (CR == 24) { DescCR = "Zona intransitable"; };
+                    if (CR == 25) { DescCR = "Ultima visita sin contacto"; };
+                    if (CR == 26) { DescCR = "Se deja aviso de visita"; };
+                    if (CR == 27) { DescCR = "Se mudaron"; };
+                    if (CR == 30) { DescCR = "Recuperado"; };
+
+
+
+
                     var mycc = new AsignacionesOT
                     {
                         IDREGISTRO = cc.IDREGISTRO,
@@ -314,7 +357,7 @@ namespace Fleet_App.Prism.ViewModels
                         ESTADO3 = cc.ESTADO3,
                         ZONA = cc.ZONA,
                         ESTADOGAOS = Cable.ESTADOGAOS,
-                        FECHACUMPLIDA = DateTime.Now,
+                        FECHACUMPLIDA = ya,
                         SUBCON = Cable.SUBCON,
                         CAUSANTEC = Cable.CAUSANTEC,
                         FechaAsignada = Cable.FechaAsignada,
@@ -327,7 +370,7 @@ namespace Fleet_App.Prism.ViewModels
                         CodigoCierre = CR,
                         CantRem = Cable.CantRem,
                         Autonumerico = cc.Autonumerico,
-                        HsCumplidaTime = DateTime.Now,
+                        HsCumplidaTime = ya,
                         ObservacionCaptura = Cable.ObservacionCaptura,
                         Novedades = Cable.Novedades,
                         ReclamoTecnicoID = cc.ReclamoTecnicoID,
@@ -337,6 +380,14 @@ namespace Fleet_App.Prism.ViewModels
                         FechaCita=Cable.FechaCita,
                         MedioCita=Cable.MedioCita,
                         NroSeriesExtras= NroSeriesExtras,
+                        Evento4 = evento3,
+                        FechaEvento4 = fec3,
+                        Evento3 = evento2,
+                        FechaEvento3 = fec2,
+                        Evento2 = evento1,
+                        FechaEvento2 = fec1,
+                        Evento1 = DescCR,
+                        FechaEvento1 = ya,
                     };
 
                     var response = await _apiService.PutAsync(
@@ -395,6 +446,8 @@ namespace Fleet_App.Prism.ViewModels
                     )
                 {
                     cablesViewModel.MyCables.Remove(oldCable);
+                    
+                    cablesViewModel.LoadUser();
                     cablesViewModel.RefreshList();
                     await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                     await _navigationService.GoBackAsync();
@@ -404,7 +457,9 @@ namespace Fleet_App.Prism.ViewModels
                 {
                     cablesViewModel.MyCables.Remove(oldCable);
                     cablesViewModel.MyCables.Add(newCable);
+                    cablesViewModel.LoadUser();
                     cablesViewModel.RefreshList();
+                    
                     await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                     await _navigationService.GoBackAsync();
                     return;
@@ -414,10 +469,54 @@ namespace Fleet_App.Prism.ViewModels
             }
             else
             {
+
+                var ya = DateTime.Now;
+
                 foreach (var cc in ControlCables)
                 {
+                    var fec1 = Cable.FechaEvento1;
+                    var fec2 = Cable.FechaEvento2;
+                    var fec3 = Cable.FechaEvento3;
+
+                    var evento1 = Cable.Evento1;
+                    var evento2 = Cable.Evento2;
+                    var evento3 = Cable.Evento3;
+
+                    var DescCR = "";
+                    if (CR == 1) { DescCR = "Gestionado - Equipo devuelto a técnico"; };
+                    if (CR == 2) { DescCR = "Gestionado - Equipo devuelto a oficina comercial"; };
+                    if (CR == 3) { DescCR = "No contactado - Contestador automático"; };
+                    if (CR == 4) { DescCR = "No contactado - Corta llamado"; };
+                    if (CR == 5) { DescCR = "No contactado - Ocupado"; };
+                    if (CR == 6) { DescCR = "No contactado - No contesta"; };
+                    if (CR == 7) { DescCR = "No contactado - Teléfono incorrecto"; };
+                    if (CR == 8) { DescCR = "No posee los equipos - Lo dejó en domicilio anterior"; };
+                    if (CR == 9) { DescCR = "No posee los equipos - Los perdió"; };
+                    if (CR == 10) { DescCR = "Titular falleció"; };
+                    if (CR == 11) { DescCR = "Volver a llamar - No puede atender el llamado"; };
+                    if (CR == 12) { DescCR = "Volver a llamar - Retiro postergado"; };
+                    if (CR == 13) { DescCR = "No acepta el retiro - Desconoce baja voluntaria"; };
+                    if (CR == 14) { DescCR = "No acepta el retiro - Entregara a técnico en oficina"; };
+                    if (CR == 15) { DescCR = "No acepta el retiro - Equipo en uso con baja"; };
+                    if (CR == 16) { DescCR = "No acepta el retiro - No lo quiere devolver"; };
+                    if (CR == 17) { DescCR = "No acepta el retiro - Abonará la deuda"; };
+                    if (CR == 18) { DescCR = "No acepta el retiro - Posee el servicio y no lo quiere devolver"; };
+                    if (CR == 19) { DescCR = "No acepta el retiro - Ya abonó la deuda"; };
+                    if (CR == 20) { DescCR = "Contactado-acepta retiro"; };
+                    if (CR == 21) { DescCR = "Zona peligrosa"; };
+                    if (CR == 22) { DescCR = "No se ubica el Domicilio"; };
+                    if (CR == 23) { DescCR = "Mal dirección/Datos"; };
+                    if (CR == 24) { DescCR = "Zona intransitable"; };
+                    if (CR == 25) { DescCR = "Ultima visita sin contacto"; };
+                    if (CR == 26) { DescCR = "Se deja aviso de visita"; };
+                    if (CR == 27) { DescCR = "Se mudaron"; };
+                    if (CR == 30) { DescCR = "Recuperado"; };
+
                     if (cc.Elegir==1)
                     {
+
+                        
+
                         var mycc = new AsignacionesOT
                         {
                             IDREGISTRO = cc.IDREGISTRO,
@@ -442,7 +541,7 @@ namespace Fleet_App.Prism.ViewModels
                             CAUSANTEC = Cable.CAUSANTEC,
                             FechaAsignada = Cable.FechaAsignada,
                             PROYECTOMODULO = cc.PROYECTOMODULO,
-                            FECHACUMPLIDA = DateTime.Now,
+                            FECHACUMPLIDA = ya,
                             DECO1 = cc.DECO1,
                             CMODEM1 = cc.CMODEM1,
                             Observacion = cc.Observacion,
@@ -453,7 +552,7 @@ namespace Fleet_App.Prism.ViewModels
                             Novedades = Cable.Novedades,
                             CantRem = Cable.CantRem,
                             Autonumerico = cc.Autonumerico,
-                            HsCumplidaTime = DateTime.Now,
+                            HsCumplidaTime = ya,
                             ReclamoTecnicoID = cc.ReclamoTecnicoID,
                             MODELO = cc.MODELO,
                             Motivos = cc.Motivos,
@@ -461,6 +560,14 @@ namespace Fleet_App.Prism.ViewModels
                             FechaCita = Cable.FechaCita,
                             MedioCita = Cable.MedioCita,
                             NroSeriesExtras = NroSeriesExtras,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -477,6 +584,7 @@ namespace Fleet_App.Prism.ViewModels
 
                     else
                     {
+                        
                         var mycc = new AsignacionesOT
                         {
                             IDREGISTRO = cc.IDREGISTRO,
@@ -497,7 +605,7 @@ namespace Fleet_App.Prism.ViewModels
                             ESTADO3 = cc.ESTADO3,
                             ZONA = cc.ZONA,
                             ESTADOGAOS = "INC",
-                            FECHACUMPLIDA = DateTime.Now,
+                            FECHACUMPLIDA = ya,
                             SUBCON = Cable.SUBCON,
                             CAUSANTEC = Cable.CAUSANTEC,
                             FechaAsignada = Cable.FechaAsignada,
@@ -510,7 +618,7 @@ namespace Fleet_App.Prism.ViewModels
                             CodigoCierre = CCierre.Codigo,
                             CantRem = Cable.CantRem,
                             Autonumerico = cc.Autonumerico,
-                            HsCumplidaTime = DateTime.Now,
+                            HsCumplidaTime = ya,
                             ObservacionCaptura = Cable.ObservacionCaptura,
                             Novedades = Cable.Novedades,
                             ReclamoTecnicoID = cc.ReclamoTecnicoID,
@@ -520,6 +628,14 @@ namespace Fleet_App.Prism.ViewModels
                             FechaCita = Cable.FechaCita,
                             MedioCita = Cable.MedioCita,
                             NroSeriesExtras = NroSeriesExtras,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -542,23 +658,31 @@ namespace Fleet_App.Prism.ViewModels
                 Cable.ESTADOGAOS = "INC";
                 var newCable = Cable;
                 var cablesViewModel = CablesPageViewModel.GetInstance();
+
+
+                cablesViewModel.LoadUser();
+
+
+
                 var oldCable = cablesViewModel.MyCables.Where(o => o.ReclamoTecnicoID == this.Cable.ReclamoTecnicoID).FirstOrDefault();
 
-                if (
-                    newCable.CodigoCierre == 1 ||
-                    newCable.CodigoCierre == 2 ||
-                    newCable.CodigoCierre == 8 ||
-                    newCable.CodigoCierre == 9 ||
-                    newCable.CodigoCierre == 14 ||
-                    newCable.CodigoCierre == 16 
+                //if (
+                //    newCable.CodigoCierre == 1 ||
+                //    newCable.CodigoCierre == 2 ||
+                //    newCable.CodigoCierre == 8 ||
+                //    newCable.CodigoCierre == 9 ||
+                //    newCable.CodigoCierre == 14 ||
+                //    newCable.CodigoCierre == 16 
 
-                    )
-                    {
-                    cablesViewModel.MyCables.Remove(oldCable);
-                    }
+                //    )
+                //    {
+                //    cablesViewModel.MyCables.Remove(oldCable);
+                //    }
                 
-                cablesViewModel.RefreshList();
+                //cablesViewModel.RefreshList();
                 await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
+                cablesViewModel.LoadUser();
+                cablesViewModel.RefreshList();
                 await _navigationService.GoBackAsync();
                 return;
 

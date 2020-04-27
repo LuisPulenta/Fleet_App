@@ -60,7 +60,17 @@ namespace Fleet_App.Web.Controllers.API
                r.Novedades,
                r.FechaCita,
                r.MedioCita,
-               r.NroSeriesExtras
+               r.NroSeriesExtras,
+               r.Evento1,
+               r.FechaEvento1,
+               r.Evento2,
+               r.FechaEvento2,
+               r.Evento3,
+               r.FechaEvento3,
+               r.Evento4,
+               r.FechaEvento4
+
+
 
 
            })
@@ -89,6 +99,14 @@ namespace Fleet_App.Web.Controllers.API
                FechaCita = g.Key.FechaCita,
                MedioCita = g.Key.MedioCita,
                NroSeriesExtras = g.Key.NroSeriesExtras,
+               Evento1=g.Key.Evento1,
+               FechaEvento1 = g.Key.FechaEvento1,
+               Evento2 = g.Key.Evento2,
+               FechaEvento2 = g.Key.FechaEvento2,
+               Evento3 = g.Key.Evento3,
+               FechaEvento3 = g.Key.FechaEvento3,
+               Evento4 = g.Key.Evento4,
+               FechaEvento4 = g.Key.FechaEvento4,
 
                CantRem = g.Count(),
            }).ToListAsync();
@@ -143,7 +161,15 @@ namespace Fleet_App.Web.Controllers.API
                r.Motivos,
                r.FechaCita,
                r.MedioCita,
-               r.NroSeriesExtras
+               r.NroSeriesExtras,
+               r.Evento1,
+               r.FechaEvento1,
+               r.Evento2,
+               r.FechaEvento2,
+               r.Evento3,
+               r.FechaEvento3,
+               r.Evento4,
+               r.FechaEvento4
 
            })
            .Select(g => new
@@ -174,6 +200,14 @@ namespace Fleet_App.Web.Controllers.API
                FechaCita=g.Key.FechaCita,
                MedioCita = g.Key.MedioCita,
                NroSeriesExtras = g.Key.NroSeriesExtras,
+               Evento1 = g.Key.Evento1,
+               FechaEvento1 = g.Key.FechaEvento1,
+               Evento2 = g.Key.Evento2,
+               FechaEvento2 = g.Key.FechaEvento2,
+               Evento3 = g.Key.Evento3,
+               FechaEvento3 = g.Key.FechaEvento3,
+               Evento4 = g.Key.Evento4,
+               FechaEvento4 = g.Key.FechaEvento4,
 
                CantRem = g.Count(),
            }).ToListAsync();
@@ -226,9 +260,17 @@ namespace Fleet_App.Web.Controllers.API
                r.PROVINCIA,
                r.ReclamoTecnicoID,
                r.Motivos,
-                r.FechaCita,
+               r.FechaCita,
                r.MedioCita,
-               r.NroSeriesExtras
+               r.NroSeriesExtras,
+               r.Evento1,
+               r.FechaEvento1,
+               r.Evento2,
+               r.FechaEvento2,
+               r.Evento3,
+               r.FechaEvento3,
+               r.Evento4,
+               r.FechaEvento4
            })
            .Select(g => new
            {
@@ -258,6 +300,14 @@ namespace Fleet_App.Web.Controllers.API
                FechaCita = g.Key.FechaCita,
                MedioCita = g.Key.MedioCita,
                NroSeriesExtras = g.Key.NroSeriesExtras,
+               Evento1 = g.Key.Evento1,
+               FechaEvento1 = g.Key.FechaEvento1,
+               Evento2 = g.Key.Evento2,
+               FechaEvento2 = g.Key.FechaEvento2,
+               Evento3 = g.Key.Evento3,
+               FechaEvento3 = g.Key.FechaEvento3,
+               Evento4 = g.Key.Evento4,
+               FechaEvento4 = g.Key.FechaEvento4,
 
 
                CantRem = g.Count(),
@@ -330,7 +380,15 @@ namespace Fleet_App.Web.Controllers.API
                r.Motivos,
                r.FechaCita,
                r.MedioCita,
-               r.NroSeriesExtras
+               r.NroSeriesExtras,
+               r.Evento1,
+               r.FechaEvento1,
+               r.Evento2,
+               r.FechaEvento2,
+               r.Evento3,
+               r.FechaEvento3,
+               r.Evento4,
+               r.FechaEvento4
            })
            .Select(g => new
            {
@@ -360,6 +418,15 @@ namespace Fleet_App.Web.Controllers.API
                FechaCita = g.Key.FechaCita,
                MedioCita = g.Key.MedioCita,
                NroSeriesExtras = g.Key.NroSeriesExtras,
+
+               Evento1 = g.Key.Evento1,
+               FechaEvento1 = g.Key.FechaEvento1,
+               Evento2 = g.Key.Evento2,
+               FechaEvento2 = g.Key.FechaEvento2,
+               Evento3 = g.Key.Evento3,
+               FechaEvento3 = g.Key.FechaEvento3,
+               Evento4 = g.Key.Evento4,
+               FechaEvento4 = g.Key.FechaEvento4,
 
 
                CantRem = g.Count(),
@@ -441,6 +508,14 @@ namespace Fleet_App.Web.Controllers.API
             oldasignacionesOT.FechaCita = asignacionesOT.FechaCita;
             oldasignacionesOT.MedioCita = asignacionesOT.MedioCita;
             oldasignacionesOT.NroSeriesExtras = asignacionesOT.NroSeriesExtras;
+            oldasignacionesOT.Evento1 = asignacionesOT.Evento1;
+            oldasignacionesOT.FechaEvento1 = asignacionesOT.FechaEvento1;
+            oldasignacionesOT.Evento2 = asignacionesOT.Evento2;
+            oldasignacionesOT.FechaEvento2 = asignacionesOT.FechaEvento2;
+            oldasignacionesOT.Evento3 = asignacionesOT.Evento3;
+            oldasignacionesOT.FechaEvento3 = asignacionesOT.FechaEvento3;
+            oldasignacionesOT.Evento4 = asignacionesOT.Evento4;
+            oldasignacionesOT.FechaEvento4 = asignacionesOT.FechaEvento4;
 
             _dataContext.AsignacionesOTs.Update(oldasignacionesOT);
             await _dataContext.SaveChangesAsync();

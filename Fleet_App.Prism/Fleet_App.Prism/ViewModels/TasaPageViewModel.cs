@@ -274,6 +274,11 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void Save()
         {
+
+            HayFirma = true; //<-- Esto es para simular que hay firma
+
+
+
             if (Tasa.ESTADOGAOS == "PEN")
             {
                 await App.Current.MainPage.DisplayAlert("Error", "El Estado sigue 'PEN'. No tiene sentido guardar.", "Aceptar");

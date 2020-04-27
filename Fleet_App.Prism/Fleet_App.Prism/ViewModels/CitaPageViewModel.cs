@@ -221,8 +221,21 @@ namespace Fleet_App.Prism.ViewModels
             //*********************************************************************************************************
             //Grabar 
             //*********************************************************************************************************
+
+            var ya = DateTime.Now;
+
+
             foreach (var cc in ControlCables)
             {
+                var fec1 = Cable.FechaEvento1;
+                var fec2 = Cable.FechaEvento2;
+                var fec3 = Cable.FechaEvento3;
+                
+                var evento1 = Cable.Evento1;
+                var evento2 = Cable.Evento2;
+                var evento3 = Cable.Evento3;
+
+
                 var mycc = new AsignacionesOT
                 {
                     IDREGISTRO = cc.IDREGISTRO,
@@ -242,7 +255,7 @@ namespace Fleet_App.Prism.ViewModels
                     ESTADO3 = cc.ESTADO3,
                     ZONA = cc.ZONA,
                     ESTADOGAOS = Cable.ESTADOGAOS,
-                    FECHACUMPLIDA = DateTime.Now,
+                    FECHACUMPLIDA = ya,
                     SUBCON = Cable.SUBCON,
                     CAUSANTEC = Cable.CAUSANTEC,
                     FechaAsignada = Cable.FechaAsignada,
@@ -255,7 +268,7 @@ namespace Fleet_App.Prism.ViewModels
                     CodigoCierre = Cable.CodigoCierre,
                     CantRem = Cable.CantRem,
                     Autonumerico = cc.Autonumerico,
-                    HsCumplidaTime = DateTime.Now,
+                    HsCumplidaTime = ya,
                     ObservacionCaptura = Cable.ObservacionCaptura,
                     Novedades = Cable.Novedades,
                     ReclamoTecnicoID = cc.ReclamoTecnicoID,
@@ -265,7 +278,15 @@ namespace Fleet_App.Prism.ViewModels
                     //FechaCita= ((DateTime)FechaDeCita).Date.Add(((DateTime)HoraDeCita).TimeOfDay),
                     FechaCita = FechaDeCita.Add(HoraDeCita),
                     MedioCita = MedioDeCita,
-                    NroSeriesExtras=Cable.NroSeriesExtras
+                    NroSeriesExtras = Cable.NroSeriesExtras,
+                    Evento4 = evento3,
+                    FechaEvento4 = fec3,
+                    Evento3 = evento2,
+                    FechaEvento3 = fec2,
+                    Evento2 = evento1,
+                    FechaEvento2 = fec1,
+                    Evento1 = $"Cita por {MedioDeCita} para el {FechaDeCita.Add(HoraDeCita)}",
+                    FechaEvento1 = ya,
                 };
 
                 var response = await _apiService.PutAsync(
@@ -292,13 +313,19 @@ namespace Fleet_App.Prism.ViewModels
             var newCable = Cable;
             var cablesViewModel = CablesPageViewModel.GetInstance();
 
+
+            
+
             var oldCable = cablesViewModel.MyCables.Where(o => o.ReclamoTecnicoID == this.Cable.ReclamoTecnicoID).FirstOrDefault();
 
             
                 cablesViewModel.MyCables.Remove(oldCable);
                 cablesViewModel.MyCables.Add(newCable);
-                cablesViewModel.RefreshList();
-                await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
+            
+            cablesViewModel.LoadUser();
+            cablesViewModel.RefreshList();
+            
+            await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                 await _navigationService.GoBackAsync();
                 return;
             

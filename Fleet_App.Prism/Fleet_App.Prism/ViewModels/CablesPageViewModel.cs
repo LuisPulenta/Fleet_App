@@ -102,7 +102,7 @@ namespace Fleet_App.Prism.ViewModels
         }
 
 
-        private async void LoadUser()
+        public async void LoadUser()
         {
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User2);
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -167,7 +167,15 @@ namespace Fleet_App.Prism.ViewModels
                     IDSuscripcion=a.IDSuscripcion,
                     FechaCita=a.FechaCita,
                     MedioCita=a.MedioCita,
-                    NroSeriesExtras=a.NroSeriesExtras
+                    NroSeriesExtras=a.NroSeriesExtras,
+                    FechaEvento1=a.FechaEvento1,
+                    Evento1=a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
                 CantCables = Cables.Count();
@@ -204,7 +212,15 @@ namespace Fleet_App.Prism.ViewModels
                     IDSuscripcion = a.IDSuscripcion,
                     FechaCita = a.FechaCita,
                     MedioCita = a.MedioCita,
-                    NroSeriesExtras = a.NroSeriesExtras
+                    NroSeriesExtras = a.NroSeriesExtras,
+                    FechaEvento1 = a.FechaEvento1,
+                    Evento1 = a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
                     .OrderBy(o => o.FechaAsignada + o.NOMBRE)
