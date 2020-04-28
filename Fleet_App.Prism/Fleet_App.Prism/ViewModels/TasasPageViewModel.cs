@@ -21,6 +21,7 @@ namespace Fleet_App.Prism.ViewModels
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isRefreshing;
+        private string _descCR;
         private string _entreCalles;
         private ObservableCollection<TasaItemViewModel> _tasas;
         private static TasasPageViewModel _instance;
@@ -41,7 +42,11 @@ namespace Fleet_App.Prism.ViewModels
             get => _filter;
             set => SetProperty(ref _filter, value);
         }
-
+        public string DescCR
+        {
+            get => _descCR;
+            set => SetProperty(ref _descCR, value);
+        }
         public int CantTasas
         {
             get => _cantTasas;
@@ -93,7 +98,7 @@ namespace Fleet_App.Prism.ViewModels
         }
 
 
-        private async void LoadUser()
+        public async void LoadUser()
         {
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User2);
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -132,6 +137,7 @@ namespace Fleet_App.Prism.ViewModels
                     CAUSANTEC = a.CAUSANTEC,
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
+                    DescCR = DescCierre(a.CodigoCierre),
                     CP = a.CP,
                     Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
@@ -154,8 +160,17 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID = a.ReclamoTecnicoID,
                     MOTIVOS = a.MOTIVOS,
                     IDSuscripcion = a.IDSuscripcion,
+                    FechaEvento1 = a.FechaEvento1,
+                    Evento1 = a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
                 });
-                Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
+                Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel
+                    .OrderBy(o => o.NOMBRE + o.FechaAsignada));
                 CantTasas = Tasas.Count();
             }
             else
@@ -166,6 +181,7 @@ namespace Fleet_App.Prism.ViewModels
                     CAUSANTEC = a.CAUSANTEC,
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
+                    DescCR = DescCierre(a.CodigoCierre),
                     CP = a.CP,
                     Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
@@ -188,9 +204,17 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID = a.ReclamoTecnicoID,
                     MOTIVOS = a.MOTIVOS,
                     IDSuscripcion = a.IDSuscripcion,
+                    FechaEvento1 = a.FechaEvento1,
+                    Evento1 = a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
                 });
                 Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel
-                    .OrderBy(o => o.FechaAsignada + o.NOMBRE)
+                    .OrderBy(o => o.NOMBRE + o.FechaAsignada)
                     .Where(
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||
@@ -203,6 +227,25 @@ namespace Fleet_App.Prism.ViewModels
         private async void TasasMap()
         {
             await _navigationService.NavigateAsync("TasasMapPage");
+        }
+
+        private string DescCierre(int? CR)
+        {
+            
+            if (CR == 21) { return "CLIENTE CONTINUA CON EL SERVICIO"; };
+            if (CR == 22) { return "CLIENTE FALLECIO"; };
+            if (CR == 23) { return "CLIENTE NO ACEPTA RETIRO"; };
+            if (CR == 24) { return "CLIENTE NO POSEE LOS EQUIPOS"; };
+            if (CR == 25) { return "CLIENTE YA ENTREGO LOS EQUIPOS"; };
+            if (CR == 26) { return "CANCELADO. NO SE PUDO CONTACTAR AL CLIENTE"; };
+            if (CR == 41) { return "CLIENTE AUSENTE"; };
+            if (CR == 42) { return "CLIENTE SE MUDO"; };
+            if (CR == 43) { return "NO ATIENDE EL TELEFONO"; };
+            if (CR == 44) { return "REFERENCIA INCORRECTA"; };
+            if (CR == 45) { return "VISITA COORDINADA"; };
+            if (CR == 60) { return "RECUPERADO"; };
+
+            return "";
         }
 
 

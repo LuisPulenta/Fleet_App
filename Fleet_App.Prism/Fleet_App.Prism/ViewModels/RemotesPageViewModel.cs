@@ -149,7 +149,8 @@ namespace Fleet_App.Prism.ViewModels
                     TELEFONO = a.TELEFONO,
                     UserID = a.UserID,
                 });
-                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
+                Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.
+                    OrderBy(o => o.NOMBRE + o.FechaAsignada));
                 CantRemotes = Remotes.Count();
             }
             else
@@ -180,7 +181,7 @@ namespace Fleet_App.Prism.ViewModels
                     UserID = a.UserID,
                 });
                 Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel
-                    .OrderBy(o => o.FechaAsignada + o.NOMBRE)
+                    .OrderBy(o => o.NOMBRE + o.FechaAsignada)
                     .Where(
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||

@@ -177,7 +177,9 @@ namespace Fleet_App.Prism.ViewModels
                     FechaEvento4 = a.FechaEvento4,
                     Evento4 = a.Evento4,
                 });
-                Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel.OrderBy(o => o.FechaAsignada + o.NOMBRE));
+                Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
+                    .OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada));
+
                 CantCables = Cables.Count();
             }
             else
@@ -188,6 +190,7 @@ namespace Fleet_App.Prism.ViewModels
                     CAUSANTEC = a.CAUSANTEC,
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
+                    DescCR = DescCierre(a.CodigoCierre),
                     CP = a.CP,
                     Descripcion = a.Descripcion,
                     DOMICILIO = a.DOMICILIO,
@@ -223,7 +226,7 @@ namespace Fleet_App.Prism.ViewModels
                     Evento4 = a.Evento4,
                 });
                 Cables = new ObservableCollection<CableItemViewModel>(myListCableItemViewModel
-                    .OrderBy(o => o.FechaAsignada + o.NOMBRE)
+                    .OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada)
                     .Where(
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||

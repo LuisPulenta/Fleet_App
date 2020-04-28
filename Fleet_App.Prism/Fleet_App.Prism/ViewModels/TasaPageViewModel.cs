@@ -365,8 +365,33 @@ namespace Fleet_App.Prism.ViewModels
                     E2 = "NO";
                 }
 
+                var ya = DateTime.Now;
+
                 foreach (var cc in ControlTasas)
                 {
+                    var fec1 = Tasa.FechaEvento1;
+                    var fec2 = Tasa.FechaEvento2;
+                    var fec3 = Tasa.FechaEvento3;
+
+                    var evento1 = Tasa.Evento1;
+                    var evento2 = Tasa.Evento2;
+                    var evento3 = Tasa.Evento3;
+
+                    var DescCR = "";
+                    if (CR == 21) { DescCR = "CLIENTE CONTINUA CON EL SERVICIO"; };
+                    if (CR == 22) { DescCR = "CLIENTE FALLECIO"; };
+                    if (CR == 23) { DescCR = "CLIENTE NO ACEPTA RETIRO"; };
+                    if (CR == 24) { DescCR = "CLIENTE NO POSEE LOS EQUIPOS"; };
+                    if (CR == 25) { DescCR = "CLIENTE YA ENTREGO LOS EQUIPOS"; };
+                    if (CR == 26) { DescCR = "CANCELADO. NO SE PUDO CONTACTAR AL CLIENTE"; };
+                    if (CR == 41) { DescCR = "CLIENTE AUSENTE"; };
+                    if (CR == 42) { DescCR = "CLIENTE SE MUDO"; };
+                    if (CR == 43) { DescCR = "NO ATIENDE EL TELEFONO"; };
+                    if (CR == 44) { DescCR = "REFERENCIA INCORRECTA"; };
+                    if (CR == 45) { DescCR = "VISITA COORDINADA"; };
+                    if (CR == 60) { DescCR = "RECUPERADO"; };
+
+                    
                     var mycc = new AsignacionesOT
                     {
                         IDREGISTRO = cc.IDREGISTRO,
@@ -411,6 +436,14 @@ namespace Fleet_App.Prism.ViewModels
                         MODELO = cc.MODELO,
                         Motivos = cc.Motivos,
                         IDSuscripcion = cc.IDSuscripcion,
+                        Evento4 = evento3,
+                        FechaEvento4 = fec3,
+                        Evento3 = evento2,
+                        FechaEvento3 = fec2,
+                        Evento2 = evento1,
+                        FechaEvento2 = fec1,
+                        Evento1 = DescCR,
+                        FechaEvento1 = ya,
                     };
 
                     var response = await _apiService.PutAsync(
@@ -467,6 +500,7 @@ namespace Fleet_App.Prism.ViewModels
                 {
                     tasasViewModel.MyTasas.Remove(oldTasa);
                     tasasViewModel.MyTasas.Add(newTasa);
+                    tasasViewModel.LoadUser();
                     tasasViewModel.RefreshList();
                     await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                     await _navigationService.GoBackAsync();
@@ -478,6 +512,30 @@ namespace Fleet_App.Prism.ViewModels
             }
             else
             {
+                var ya = DateTime.Now;
+                var fec1 = Tasa.FechaEvento1;
+                var fec2 = Tasa.FechaEvento2;
+                var fec3 = Tasa.FechaEvento3;
+
+                var evento1 = Tasa.Evento1;
+                var evento2 = Tasa.Evento2;
+                var evento3 = Tasa.Evento3;
+
+                var DescCR = "";
+                if (CR == 21) { DescCR = "CLIENTE CONTINUA CON EL SERVICIO"; };
+                if (CR == 22) { DescCR = "CLIENTE FALLECIO"; };
+                if (CR == 23) { DescCR = "CLIENTE NO ACEPTA RETIRO"; };
+                if (CR == 24) { DescCR = "CLIENTE NO POSEE LOS EQUIPOS"; };
+                if (CR == 25) { DescCR = "CLIENTE YA ENTREGO LOS EQUIPOS"; };
+                if (CR == 26) { DescCR = "CANCELADO. NO SE PUDO CONTACTAR AL CLIENTE"; };
+                if (CR == 41) { DescCR = "CLIENTE AUSENTE"; };
+                if (CR == 42) { DescCR = "CLIENTE SE MUDO"; };
+                if (CR == 43) { DescCR = "NO ATIENDE EL TELEFONO"; };
+                if (CR == 44) { DescCR = "REFERENCIA INCORRECTA"; };
+                if (CR == 45) { DescCR = "VISITA COORDINADA"; };
+                if (CR == 60) { DescCR = "RECUPERADO"; };
+
+
                 foreach (var cc in ControlTasas)
                 {
                     if (cc.Elegir == 1)
@@ -526,6 +584,14 @@ namespace Fleet_App.Prism.ViewModels
                             MODELO = cc.MODELO,
                             Motivos = cc.Motivos,
                             IDSuscripcion = cc.IDSuscripcion,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -586,6 +652,14 @@ namespace Fleet_App.Prism.ViewModels
                             MODELO = cc.MODELO,
                             Motivos = cc.Motivos,
                             IDSuscripcion = cc.IDSuscripcion,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
                         };
 
                         var response = await _apiService.PutAsync(
@@ -613,6 +687,7 @@ namespace Fleet_App.Prism.ViewModels
 
                 tasasViewModel.MyTasas.Remove(oldTasa);
                 tasasViewModel.MyTasas.Add(newTasa);
+                tasasViewModel.LoadUser();
                 tasasViewModel.RefreshList();
                 await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
                 await _navigationService.GoBackAsync();

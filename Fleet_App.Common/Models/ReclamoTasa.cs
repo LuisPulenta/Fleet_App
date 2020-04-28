@@ -33,7 +33,7 @@ namespace Fleet_App.Common.Models
         public string ObservacionCaptura { get; set; }
         public string Observacion{ get; set; }
         public string Novedades { get; set; }
-
+        public string DescCR { get; set; }
         public virtual ICollection<Control> Controls { get; set; }
 
         public string Descripcion { get; set; }
@@ -41,5 +41,13 @@ namespace Fleet_App.Common.Models
         public string ClienteCompleto => $"{CLIENTE}-{NOMBRE}";
         public string EntreCalles => $"{ENTRECALLE1} y {ENTRECALLE2}";
         public string IDSuscripcion { get; set; }
+        public DateTime? FechaEvento1 { get; set; }
+        public DateTime? FechaEvento2 { get; set; }
+        public DateTime? FechaEvento3 { get; set; }
+        public DateTime? FechaEvento4 { get; set; }
+        public string Evento1 { get; set; }
+        public string Evento2 { get; set; }
+        public string Evento3 { get; set; }
+        public string Evento4 { get; set; }
     }
 }
