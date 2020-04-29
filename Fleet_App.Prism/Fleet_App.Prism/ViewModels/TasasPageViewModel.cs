@@ -5,6 +5,7 @@ using Fleet_App.Prism.ViewModels;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,11 +31,13 @@ namespace Fleet_App.Prism.ViewModels
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _tasasMapCommand;
+        private DelegateCommand _ponerHoyCommand;
 
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
         public DelegateCommand TasasMapCommand => _tasasMapCommand ?? (_tasasMapCommand = new DelegateCommand(TasasMap));
+        public DelegateCommand PonerHoyCommand => _ponerHoyCommand ?? (_ponerHoyCommand = new DelegateCommand(PonerHoy));
 
 
         public string Filter
@@ -160,6 +163,8 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID = a.ReclamoTecnicoID,
                     MOTIVOS = a.MOTIVOS,
                     IDSuscripcion = a.IDSuscripcion,
+                    FechaCita = a.FechaCita,
+                    MedioCita = a.MedioCita,
                     FechaEvento1 = a.FechaEvento1,
                     Evento1 = a.Evento1,
                     FechaEvento2 = a.FechaEvento2,
@@ -170,7 +175,7 @@ namespace Fleet_App.Prism.ViewModels
                     Evento4 = a.Evento4,
                 });
                 Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel
-                    .OrderBy(o => o.NOMBRE + o.FechaAsignada));
+                    .OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada));
                 CantTasas = Tasas.Count();
             }
             else
@@ -204,6 +209,8 @@ namespace Fleet_App.Prism.ViewModels
                     ReclamoTecnicoID = a.ReclamoTecnicoID,
                     MOTIVOS = a.MOTIVOS,
                     IDSuscripcion = a.IDSuscripcion,
+                    FechaCita = a.FechaCita,
+                    MedioCita = a.MedioCita,
                     FechaEvento1 = a.FechaEvento1,
                     Evento1 = a.Evento1,
                     FechaEvento2 = a.FechaEvento2,
@@ -214,16 +221,22 @@ namespace Fleet_App.Prism.ViewModels
                     Evento4 = a.Evento4,
                 });
                 Tasas = new ObservableCollection<TasaItemViewModel>(myListTasaItemViewModel
-                    .OrderBy(o => o.NOMBRE + o.FechaAsignada)
+                    .OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada)
                     .Where(
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||
                                 (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
-                          )
-                                                                                            );
+                            ||
+                                FecCita(Convert.ToDateTime(o.FechaCita)).Contains(this.Filter.ToLower()))
+                            );
                 CantTasas = Tasas.Count();
             }
         }
+          
+
+
+
+
         private async void TasasMap()
         {
             await _navigationService.NavigateAsync("TasasMapPage");
@@ -254,12 +267,33 @@ namespace Fleet_App.Prism.ViewModels
             RefreshList();
         }
 
-
+        private async void PonerHoy()
+        {
+            Filter = FecCita(DateTime.Now);
+            RefreshList();
+        }
 
 
         private async void Refresh()
         {
             LoadUser();
+        }
+
+        private string FecCita(DateTime FecCit)
+        {
+            var Mes = Convert.ToString(FecCit.Month);
+            var Dia = Convert.ToString(FecCit.Day);
+            var Año = Convert.ToString(FecCit.Year);
+            if (Mes.Length == 1)
+            {
+                Mes = $"0{Mes}";
+            };
+            if (Dia.Length == 1)
+            {
+                Dia = $"0{Dia}";
+            };
+
+            return $"{Dia}/{Mes}/{Año}";
         }
     }
 }

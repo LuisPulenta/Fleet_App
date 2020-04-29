@@ -68,6 +68,8 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<CablesMapPage, CablesMapPageViewModel>();
             containerRegistry.RegisterForNavigation<CableMapPage, CableMapPageViewModel>();
             containerRegistry.RegisterForNavigation<CitaPage, CitaPageViewModel>();
+            containerRegistry.RegisterForNavigation<TasaCitaPage, TasaCitaPageViewModel>();
+            containerRegistry.RegisterForNavigation<RemoteCitaPage, RemoteCitaPageViewModel>();
         }
     }
 }

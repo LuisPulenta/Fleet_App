@@ -1,5 +1,7 @@
-﻿using Fleet_App.Common.Models;
+﻿using Fleet_App.Common.Helpers;
+using Fleet_App.Common.Models;
 using Fleet_App.Common.Services;
+using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,11 +13,24 @@ namespace Fleet_App.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
+        private UserResponse _user2;
 
-        public FleetMasterDetailPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+
+        public UserResponse User2
+        {
+            get => _user2;
+            set => SetProperty(ref _user2, value);
+        }
+
+        
+        
+
+
+            public FleetMasterDetailPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
+            User2 = JsonConvert.DeserializeObject<UserResponse>(Settings.User2);
             LoadMenus();
         }
 

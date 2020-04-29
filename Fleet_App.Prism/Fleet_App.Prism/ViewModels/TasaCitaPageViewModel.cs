@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class CitaPageViewModel : ViewModelBase
+    public class TasaCitaPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -23,7 +23,7 @@ namespace Fleet_App.Prism.ViewModels
         private DateTime _hoy;
 
 
-        private AsignacionesOT _cable;
+        private AsignacionesOT _tasa;
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isEnabledParcial;
@@ -31,11 +31,11 @@ namespace Fleet_App.Prism.ViewModels
         private bool _habilitado;
         private MedioCita _medioCita;
         private String _medioDeCita;
-        private ObservableCollection<ModemItemViewModel> _controlCables;
+        private ObservableCollection<ModemItemViewModel> _controlTasas;
         private ObservableCollection<MedioCita> _mediosCita;
-        private DelegateCommand _cableMapCommand;
+        private DelegateCommand _tasaMapCommand;
         #region Properties
-        public ReclamoCable Cable { get; set; }
+        public ReclamoTasa Tasa { get; set; }
         public bool IsRunning
         {
             get => _isRunning;
@@ -54,7 +54,7 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
-        
+
 
         public DateTime FechaDeCita
         {
@@ -96,10 +96,10 @@ namespace Fleet_App.Prism.ViewModels
             get => _medioDeCita;
             set => SetProperty(ref _medioDeCita, value);
         }
-        public ObservableCollection<ModemItemViewModel> ControlCables
+        public ObservableCollection<ModemItemViewModel> ControlTasas
         {
-            get => _controlCables;
-            set => SetProperty(ref _controlCables, value);
+            get => _controlTasas;
+            set => SetProperty(ref _controlTasas, value);
         }
         public ObservableCollection<MedioCita> MediosCita
         {
@@ -107,23 +107,23 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _mediosCita, value);
         }
         public List<CodigoCierre> MyCodigosCierre { get; set; }
-        public List<ControlCable> MyControlCables { get; set; }
+        public List<ControlTasa> MyControlTasas { get; set; }
         #endregion
 
         private DelegateCommand _cancelCommand;
         private DelegateCommand _saveCommand;
-       
+
         private DelegateCommand _phoneCallCommand;
 
-       
+
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
-       
 
 
 
-        public CitaPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+
+        public TasaCitaPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
@@ -134,16 +134,16 @@ namespace Fleet_App.Prism.ViewModels
 
             Title = "Registrar Cita";
             instance = this;
-            Cable = JsonConvert.DeserializeObject<ReclamoCable>(Settings.Cable);
+            Tasa = JsonConvert.DeserializeObject<ReclamoTasa>(Settings.Tasa);
 
-            LoadControlCables();
+            LoadControlTasas();
             LoadMediosCita();
 
-            
+
             IsEnabled = true;
             IsRefreshing = false;
 
-            if (Cable.CantRec == 1)
+            if (Tasa.CantRec == 1)
             {
                 IsEnabledParcial = false;
             }
@@ -156,17 +156,17 @@ namespace Fleet_App.Prism.ViewModels
 
         #region Singleton
 
-        private static CitaPageViewModel instance;
-        public static CitaPageViewModel GetInstance()
+        private static TasaCitaPageViewModel instance;
+        public static TasaCitaPageViewModel GetInstance()
         {
             return instance;
         }
         #endregion
 
 
-        
 
-        
+
+
 
 
 
@@ -177,8 +177,8 @@ namespace Fleet_App.Prism.ViewModels
             MediosCita.Add(new MedioCita { Codigo = 2, Descripcion = "WhatsApp", });
             MediosCita.Add(new MedioCita { Codigo = 3, Descripcion = "SMS", });
             MediosCita.Add(new MedioCita { Codigo = 4, Descripcion = "Visita directa", });
-            
-            
+
+
             //CodigosCierre.Add(new CodigoCierre { Codigo = 13, Descripcion = "Acepta Retiro", });
         }
 
@@ -188,11 +188,11 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void Save()
         {
-            
+
 
             //if (string.IsNullOrEmpty(MedioDeCita))
-            if (MedioCita==null)
-                {
+            if (MedioCita == null)
+            {
                 await App.Current.MainPage.DisplayAlert("Error", "Debe seleccionar un medio de cita.", "Aceptar");
                 return;
             }
@@ -225,60 +225,63 @@ namespace Fleet_App.Prism.ViewModels
             var ya = DateTime.Now;
 
 
-            foreach (var cc in ControlCables)
+            foreach (var cc in ControlTasas)
             {
-                var fec1 = Cable.FechaEvento1;
-                var fec2 = Cable.FechaEvento2;
-                var fec3 = Cable.FechaEvento3;
-                
-                var evento1 = Cable.Evento1;
-                var evento2 = Cable.Evento2;
-                var evento3 = Cable.Evento3;
+                var fec1 = Tasa.FechaEvento1;
+                var fec2 = Tasa.FechaEvento2;
+                var fec3 = Tasa.FechaEvento3;
+
+                var evento1 = Tasa.Evento1;
+                var evento2 = Tasa.Evento2;
+                var evento3 = Tasa.Evento3;
 
 
                 var mycc = new AsignacionesOT
                 {
                     IDREGISTRO = cc.IDREGISTRO,
                     RECUPIDJOBCARD = cc.RECUPIDJOBCARD,
-                    CLIENTE = Cable.CLIENTE,
-                    NOMBRE = Cable.NOMBRE,
-                    DOMICILIO = Cable.DOMICILIO,
-                    ENTRECALLE1 = Cable.ENTRECALLE1,
-                    ENTRECALLE2 = Cable.ENTRECALLE2,
-                    CP = Cable.CP,
-                    LOCALIDAD = Cable.LOCALIDAD,
-                    PROVINCIA = Cable.PROVINCIA,
-                    TELEFONO = Cable.TELEFONO,
-                    GRXX = Cable.GRXX,
-                    GRYY = Cable.GRYY,
+                    CLIENTE = Tasa.CLIENTE,
+                    NOMBRE = Tasa.NOMBRE,
+                    DOMICILIO = Tasa.DOMICILIO,
+                    ENTRECALLE1 = Tasa.ENTRECALLE1,
+                    ENTRECALLE2 = Tasa.ENTRECALLE2,
+                    CP = Tasa.CP,
+                    LOCALIDAD = Tasa.LOCALIDAD,
+                    PROVINCIA = Tasa.PROVINCIA,
+                    TELEFONO = Tasa.TELEFONO,
+                    GRXX = Tasa.GRXX,
+                    GRYY = Tasa.GRYY,
                     ESTADO = cc.ESTADO,
+                    ESTADO2 = cc.ESTADO2,
                     ESTADO3 = cc.ESTADO3,
+                    ImageArrayDni = cc.ImageArrayDni,
+                    ImageArrayFirma = cc.ImageArrayFirma,
+                    UrlDni = cc.UrlDni,
+                    UrlFirma = cc.UrlFirma,
                     ZONA = cc.ZONA,
-                    ESTADOGAOS = Cable.ESTADOGAOS,
-                    FECHACUMPLIDA = ya,
-                    SUBCON = Cable.SUBCON,
-                    CAUSANTEC = Cable.CAUSANTEC,
-                    FechaAsignada = Cable.FechaAsignada,
+                    ESTADOGAOS = Tasa.ESTADOGAOS,
+                    FECHACUMPLIDA = cc.FECHACUMPLIDA,
+                    SUBCON = Tasa.SUBCON,
+                    CAUSANTEC = Tasa.CAUSANTEC,
+                    FechaAsignada = Tasa.FechaAsignada,
                     PROYECTOMODULO = cc.PROYECTOMODULO,
                     DECO1 = cc.DECO1,
                     CMODEM1 = cc.CMODEM1,
-                    Observacion = cc.Observacion,
+                    Observacion = Tasa.Observacion,
                     HsCumplida = cc.HsCumplida,
-                    UserID = Cable.UserID,
-                    CodigoCierre = Cable.CodigoCierre,
-                    CantRem = Cable.CantRem,
+                    UserID = Tasa.UserID,
+                    CodigoCierre = cc.CodigoCierre,
+                    CantRem = Tasa.CantRem,
                     Autonumerico = cc.Autonumerico,
-                    HsCumplidaTime = ya,
-                    ObservacionCaptura = Cable.ObservacionCaptura,
-                    Novedades = Cable.Novedades,
+                    HsCumplidaTime = cc.HsCumplidaTime,
+                    ObservacionCaptura = Tasa.ObservacionCaptura,
+                    Novedades = Tasa.Novedades,
                     ReclamoTecnicoID = cc.ReclamoTecnicoID,
                     MODELO = cc.MODELO,
                     Motivos = cc.Motivos,
                     IDSuscripcion = cc.IDSuscripcion,
-                    //FechaCita= ((DateTime)FechaDeCita).Date.Add(((DateTime)HoraDeCita).TimeOfDay),
                     FechaCita = FechaDeCita.Add(HoraDeCita),
                     MedioCita = MedioDeCita,
-                    NroSeriesExtras = Cable.NroSeriesExtras,
                     Evento4 = evento3,
                     FechaEvento4 = fec3,
                     Evento3 = evento2,
@@ -305,48 +308,48 @@ namespace Fleet_App.Prism.ViewModels
                     return;
                 }
             }
-            //***** Borrar de la lista de Cables *****
+            //***** Borrar de la lista de Tasas *****
 
-            Cable.FechaCita = FechaDeCita.Add(HoraDeCita);
-            Cable.MedioCita = MedioDeCita;
+            Tasa.FechaCita = FechaDeCita.Add(HoraDeCita);
+            Tasa.MedioCita = MedioDeCita;
 
-            var newCable = Cable;
-            var cablesViewModel = CablesPageViewModel.GetInstance();
+            var newTasa = Tasa;
+            var tasasViewModel = TasasPageViewModel.GetInstance();
 
 
-            
 
-            var oldCable = cablesViewModel.MyCables.Where(o => o.ReclamoTecnicoID == this.Cable.ReclamoTecnicoID).FirstOrDefault();
 
-            
-                cablesViewModel.MyCables.Remove(oldCable);
-                cablesViewModel.MyCables.Add(newCable);
-            
-            cablesViewModel.LoadUser();
-            cablesViewModel.RefreshList();
-            
+            var oldTasa = tasasViewModel.MyTasas.Where(o => o.ReclamoTecnicoID == this.Tasa.ReclamoTecnicoID).FirstOrDefault();
+
+
+            tasasViewModel.MyTasas.Remove(oldTasa);
+            tasasViewModel.MyTasas.Add(newTasa);
+
+            tasasViewModel.LoadUser();
+            tasasViewModel.RefreshList();
+
             await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
-                await _navigationService.GoBackAsync();
-                return;
-            
+            await _navigationService.GoBackAsync();
+            return;
+
 
             //********************************************
         }
 
-    
+
         private async void PhoneCall()
         {
-            await Clipboard.SetTextAsync(Cable.TELEFONO);
-            PhoneDialer.Open(Cable.TELEFONO);
+            await Clipboard.SetTextAsync(Tasa.TELEFONO);
+            PhoneDialer.Open(Tasa.TELEFONO);
         }
 
         private async void Cancel()
         {
-            Cable.ESTADOGAOS = "PEN";
+            Tasa.ESTADOGAOS = "PEN";
             await _navigationService.GoBackAsync();
         }
 
-        private async void LoadControlCables()
+        private async void LoadControlTasas()
         {
             this.IsRefreshing = true;
             this.Habilitado = false;
@@ -363,22 +366,22 @@ namespace Fleet_App.Prism.ViewModels
             }
 
 
-            //Buscar los autonumericos del cable seleccionado
-            var controller = string.Format("/ControlCables/GetAutonumericos", Cable.ReclamoTecnicoID, Cable.UserID);
+            //Buscar los autonumericos del Tasa seleccionado
+            var controller = string.Format("/ControlTasas/GetAutonumericos", Tasa.ReclamoTecnicoID, Tasa.UserID);
 
 
-            var response = await _apiService.GetList3Async<ControlCable>(
+            var response = await _apiService.GetList3Async<ControlTasa>(
                  url,
                 "api",
                 controller,
-                Cable.ReclamoTecnicoID,
-                Cable.UserID);
+                Tasa.ReclamoTecnicoID,
+                Tasa.UserID);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;
                 await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
             }
-            MyControlCables = (List<ControlCable>)response.Result;
+            MyControlTasas = (List<ControlTasa>)response.Result;
             RefreshList();
             IsRefreshing = false;
         }
@@ -386,7 +389,7 @@ namespace Fleet_App.Prism.ViewModels
 
         public void RefreshList()
         {
-            var myListControls = this.MyControlCables.Select(p => new ModemItemViewModel(_navigationService)
+            var myListControls = this.MyControlTasas.Select(p => new ModemItemViewModel(_navigationService)
             {
                 IDREGISTRO = p.IDREGISTRO,
                 RECUPIDJOBCARD = p.RECUPIDJOBCARD,
@@ -409,7 +412,7 @@ namespace Fleet_App.Prism.ViewModels
                 Motivos = p.Motivos,
                 Elegir = p.Elegir,
             }); ;
-            this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
+            this.ControlTasas = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
         }
 
 

@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class CitaPageViewModel : ViewModelBase
+    public class RemoteCitaPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -23,7 +23,7 @@ namespace Fleet_App.Prism.ViewModels
         private DateTime _hoy;
 
 
-        private AsignacionesOT _cable;
+        private AsignacionesOT _remote;
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isEnabledParcial;
@@ -31,11 +31,12 @@ namespace Fleet_App.Prism.ViewModels
         private bool _habilitado;
         private MedioCita _medioCita;
         private String _medioDeCita;
-        private ObservableCollection<ModemItemViewModel> _controlCables;
+        private ObservableCollection<Control> _controls;
+        private ObservableCollection<RemoteItemViewModel> _controlRemotes;
         private ObservableCollection<MedioCita> _mediosCita;
-        private DelegateCommand _cableMapCommand;
+        private DelegateCommand _remoteMapCommand;
         #region Properties
-        public ReclamoCable Cable { get; set; }
+        public Reclamo Remote { get; set; }
         public bool IsRunning
         {
             get => _isRunning;
@@ -54,7 +55,11 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
-        
+        public ObservableCollection<Control> Controls
+        {
+            get => _controls;
+            set => SetProperty(ref _controls, value);
+        }
 
         public DateTime FechaDeCita
         {
@@ -96,10 +101,10 @@ namespace Fleet_App.Prism.ViewModels
             get => _medioDeCita;
             set => SetProperty(ref _medioDeCita, value);
         }
-        public ObservableCollection<ModemItemViewModel> ControlCables
+        public ObservableCollection<RemoteItemViewModel> ControlRemotes
         {
-            get => _controlCables;
-            set => SetProperty(ref _controlCables, value);
+            get => _controlRemotes;
+            set => SetProperty(ref _controlRemotes, value);
         }
         public ObservableCollection<MedioCita> MediosCita
         {
@@ -107,23 +112,23 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _mediosCita, value);
         }
         public List<CodigoCierre> MyCodigosCierre { get; set; }
-        public List<ControlCable> MyControlCables { get; set; }
+        public List<Control> MyControls { get; set; }
         #endregion
 
         private DelegateCommand _cancelCommand;
         private DelegateCommand _saveCommand;
-       
+
         private DelegateCommand _phoneCallCommand;
 
-       
+
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
         public DelegateCommand PhoneCallCommand => _phoneCallCommand ?? (_phoneCallCommand = new DelegateCommand(PhoneCall));
-       
 
 
 
-        public CitaPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+
+        public RemoteCitaPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
@@ -134,16 +139,16 @@ namespace Fleet_App.Prism.ViewModels
 
             Title = "Registrar Cita";
             instance = this;
-            Cable = JsonConvert.DeserializeObject<ReclamoCable>(Settings.Cable);
+            Remote = JsonConvert.DeserializeObject<Reclamo>(Settings.Remote);
 
-            LoadControlCables();
+            LoadControls();
             LoadMediosCita();
 
-            
+
             IsEnabled = true;
             IsRefreshing = false;
 
-            if (Cable.CantRec == 1)
+            if (Remote.CantRec == 1)
             {
                 IsEnabledParcial = false;
             }
@@ -156,17 +161,17 @@ namespace Fleet_App.Prism.ViewModels
 
         #region Singleton
 
-        private static CitaPageViewModel instance;
-        public static CitaPageViewModel GetInstance()
+        private static RemoteCitaPageViewModel instance;
+        public static RemoteCitaPageViewModel GetInstance()
         {
             return instance;
         }
         #endregion
 
 
-        
 
-        
+
+
 
 
 
@@ -177,8 +182,8 @@ namespace Fleet_App.Prism.ViewModels
             MediosCita.Add(new MedioCita { Codigo = 2, Descripcion = "WhatsApp", });
             MediosCita.Add(new MedioCita { Codigo = 3, Descripcion = "SMS", });
             MediosCita.Add(new MedioCita { Codigo = 4, Descripcion = "Visita directa", });
-            
-            
+
+
             //CodigosCierre.Add(new CodigoCierre { Codigo = 13, Descripcion = "Acepta Retiro", });
         }
 
@@ -188,11 +193,11 @@ namespace Fleet_App.Prism.ViewModels
 
         private async void Save()
         {
-            
+
 
             //if (string.IsNullOrEmpty(MedioDeCita))
-            if (MedioCita==null)
-                {
+            if (MedioCita == null)
+            {
                 await App.Current.MainPage.DisplayAlert("Error", "Debe seleccionar un medio de cita.", "Aceptar");
                 return;
             }
@@ -211,74 +216,68 @@ namespace Fleet_App.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-
             MedioDeCita = MedioCita.Descripcion;
-
-
-            //await App.Current.MainPage.DisplayAlert("Hora", HoraDeCita.Hours.ToString(), "Aceptar");
-            //await App.Current.MainPage.DisplayAlert("Hora", HoraDeCita.Minutes.ToString(), "Aceptar");
-
-            //*********************************************************************************************************
-            //Grabar 
-            //*********************************************************************************************************
-
             var ya = DateTime.Now;
 
-
-            foreach (var cc in ControlCables)
+            foreach (var cc in Controls)
             {
-                var fec1 = Cable.FechaEvento1;
-                var fec2 = Cable.FechaEvento2;
-                var fec3 = Cable.FechaEvento3;
-                
-                var evento1 = Cable.Evento1;
-                var evento2 = Cable.Evento2;
-                var evento3 = Cable.Evento3;
+                var fec1 = Remote.FechaEvento1;
+                var fec2 = Remote.FechaEvento2;
+                var fec3 = Remote.FechaEvento3;
+
+                var evento1 = Remote.Evento1;
+                var evento2 = Remote.Evento2;
+                var evento3 = Remote.Evento3;
 
 
                 var mycc = new AsignacionesOT
                 {
                     IDREGISTRO = cc.IDREGISTRO,
                     RECUPIDJOBCARD = cc.RECUPIDJOBCARD,
-                    CLIENTE = Cable.CLIENTE,
-                    NOMBRE = Cable.NOMBRE,
-                    DOMICILIO = Cable.DOMICILIO,
-                    ENTRECALLE1 = Cable.ENTRECALLE1,
-                    ENTRECALLE2 = Cable.ENTRECALLE2,
-                    CP = Cable.CP,
-                    LOCALIDAD = Cable.LOCALIDAD,
-                    PROVINCIA = Cable.PROVINCIA,
-                    TELEFONO = Cable.TELEFONO,
-                    GRXX = Cable.GRXX,
-                    GRYY = Cable.GRYY,
-                    ESTADO = cc.ESTADO,
-                    ESTADO3 = cc.ESTADO3,
-                    ZONA = cc.ZONA,
-                    ESTADOGAOS = Cable.ESTADOGAOS,
-                    FECHACUMPLIDA = ya,
-                    SUBCON = Cable.SUBCON,
-                    CAUSANTEC = Cable.CAUSANTEC,
-                    FechaAsignada = Cable.FechaAsignada,
+                    ESTADOGAOS = Remote.ESTADOGAOS,
                     PROYECTOMODULO = cc.PROYECTOMODULO,
+                    FECHACUMPLIDA = cc.FECHACUMPLIDA,
+                    HsCumplidaTime = cc.HsCumplidaTime,
+                    CodigoCierre = cc.CodigoCierre,
+                    Autonumerico = cc.Autonumerico,
+                    ImageArrayDni = cc.ImageArrayDni,
+                    ImageArrayFirma = cc.ImageArrayFirma,
+                    CLIENTE = Remote.CLIENTE,
+                    NOMBRE = Remote.NOMBRE,
+                    DOMICILIO = Remote.DOMICILIO,
+                    ENTRECALLE1 = Remote.ENTRECALLE1,
+                    ENTRECALLE2 = Remote.ENTRECALLE2,
+
+
+                    CP = Remote.CP,
                     DECO1 = cc.DECO1,
                     CMODEM1 = cc.CMODEM1,
-                    Observacion = cc.Observacion,
+                    ESTADO = cc.ESTADO,
+                    ZONA = cc.ZONA,
                     HsCumplida = cc.HsCumplida,
-                    UserID = Cable.UserID,
-                    CodigoCierre = Cable.CodigoCierre,
-                    CantRem = Cable.CantRem,
-                    Autonumerico = cc.Autonumerico,
-                    HsCumplidaTime = ya,
-                    ObservacionCaptura = Cable.ObservacionCaptura,
-                    Novedades = Cable.Novedades,
+                    Observacion = cc.Observacion,
+                    UrlDni = cc.UrlDni,
+                    UrlFirma = cc.UrlFirma,
+                    ObservacionCaptura = Remote.ObservacionCaptura,
+                    Novedades = Remote.Novedades,
+
+
+                    LOCALIDAD = Remote.LOCALIDAD,
+                    TELEFONO = Remote.TELEFONO,
+
+                    GRXX = Remote.GRXX,
+                    GRYY = Remote.GRYY,
+                    //EntreCalles = Remote.EntreCalles,
+                    UserID = Remote.UserID,
+                    CAUSANTEC = Remote.CAUSANTEC,
+                    SUBCON = Remote.SUBCON,
+                    FechaAsignada = Remote.FechaAsignada,
                     ReclamoTecnicoID = cc.ReclamoTecnicoID,
-                    MODELO = cc.MODELO,
-                    Motivos = cc.Motivos,
-                    IDSuscripcion = cc.IDSuscripcion,
-                    //FechaCita= ((DateTime)FechaDeCita).Date.Add(((DateTime)HoraDeCita).TimeOfDay),
+
+                    CantRem = Remote.CantRem,
+
                     FechaCita = FechaDeCita.Add(HoraDeCita),
                     MedioCita = MedioDeCita,
-                    NroSeriesExtras = Cable.NroSeriesExtras,
                     Evento4 = evento3,
                     FechaEvento4 = fec3,
                     Evento3 = evento2,
@@ -305,48 +304,48 @@ namespace Fleet_App.Prism.ViewModels
                     return;
                 }
             }
-            //***** Borrar de la lista de Cables *****
+            //***** Borrar de la lista de Remotes *****
 
-            Cable.FechaCita = FechaDeCita.Add(HoraDeCita);
-            Cable.MedioCita = MedioDeCita;
+            Remote.FechaCita = FechaDeCita.Add(HoraDeCita);
+            Remote.MedioCita = MedioDeCita;
 
-            var newCable = Cable;
-            var cablesViewModel = CablesPageViewModel.GetInstance();
+            var newRemote = Remote;
+            var RemotesViewModel = RemotesPageViewModel.GetInstance();
 
 
-            
 
-            var oldCable = cablesViewModel.MyCables.Where(o => o.ReclamoTecnicoID == this.Cable.ReclamoTecnicoID).FirstOrDefault();
 
-            
-                cablesViewModel.MyCables.Remove(oldCable);
-                cablesViewModel.MyCables.Add(newCable);
-            
-            cablesViewModel.LoadUser();
-            cablesViewModel.RefreshList();
-            
+            var oldRemote = RemotesViewModel.MyRemotes.Where(o => o.ReclamoTecnicoID == this.Remote.ReclamoTecnicoID).FirstOrDefault();
+
+
+            RemotesViewModel.MyRemotes.Remove(oldRemote);
+            RemotesViewModel.MyRemotes.Add(newRemote);
+
+            RemotesViewModel.LoadUser();
+            RemotesViewModel.RefreshList();
+
             await App.Current.MainPage.DisplayAlert("Ok", "Guardado con éxito!!", "Aceptar");
-                await _navigationService.GoBackAsync();
-                return;
-            
+            await _navigationService.GoBackAsync();
+            return;
+
 
             //********************************************
         }
 
-    
+
         private async void PhoneCall()
         {
-            await Clipboard.SetTextAsync(Cable.TELEFONO);
-            PhoneDialer.Open(Cable.TELEFONO);
+            await Clipboard.SetTextAsync(Remote.TELEFONO);
+            PhoneDialer.Open(Remote.TELEFONO);
         }
 
         private async void Cancel()
         {
-            Cable.ESTADOGAOS = "PEN";
+            Remote.ESTADOGAOS = "PEN";
             await _navigationService.GoBackAsync();
         }
 
-        private async void LoadControlCables()
+        private async void LoadControls()
         {
             this.IsRefreshing = true;
             this.Habilitado = false;
@@ -363,22 +362,22 @@ namespace Fleet_App.Prism.ViewModels
             }
 
 
-            //Buscar los autonumericos del cable seleccionado
-            var controller = string.Format("/ControlCables/GetAutonumericos", Cable.ReclamoTecnicoID, Cable.UserID);
+            //Buscar los autonumericos del Remote seleccionado
+            var controller = string.Format("/Controls/GetAutonumericos", Remote.RECUPIDJOBCARD, Remote.UserID);
 
 
-            var response = await _apiService.GetList3Async<ControlCable>(
+            var response = await _apiService.GetListAsync<Control>(
                  url,
                 "api",
                 controller,
-                Cable.ReclamoTecnicoID,
-                Cable.UserID);
+                Remote.RECUPIDJOBCARD,
+                Remote.UserID);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;
                 await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
             }
-            MyControlCables = (List<ControlCable>)response.Result;
+            MyControls = (List<Control>)response.Result;
             RefreshList();
             IsRefreshing = false;
         }
@@ -386,30 +385,38 @@ namespace Fleet_App.Prism.ViewModels
 
         public void RefreshList()
         {
-            var myListControls = this.MyControlCables.Select(p => new ModemItemViewModel(_navigationService)
+            var myListControls = MyControls.Select(p => new Control
             {
                 IDREGISTRO = p.IDREGISTRO,
+                Autonumerico = p.Autonumerico,
+                CodigoCierre = p.CodigoCierre,
                 RECUPIDJOBCARD = p.RECUPIDJOBCARD,
-                ReclamoTecnicoID = p.ReclamoTecnicoID,
-                IDSuscripcion = p.IDSuscripcion,
                 ESTADOGAOS = p.ESTADOGAOS,
                 PROYECTOMODULO = p.PROYECTOMODULO,
                 FECHACUMPLIDA = p.FECHACUMPLIDA,
                 HsCumplidaTime = p.HsCumplidaTime,
-                CodigoCierre = p.CodigoCierre,
-                Autonumerico = p.Autonumerico,
+                UrlDni = p.UrlDni,
+                UrlFirma = p.UrlFirma,
+                ImageArrayDni = p.ImageArrayDni,
+                ImageArrayFirma = p.ImageArrayDni,
                 DECO1 = p.DECO1,
                 CMODEM1 = p.CMODEM1,
                 ESTADO = p.ESTADO,
                 ZONA = p.ZONA,
                 HsCumplida = p.HsCumplida,
                 Observacion = p.Observacion,
-                MODELO = p.MODELO,
-                MarcaModeloId = p.MarcaModeloId,
-                Motivos = p.Motivos,
-                Elegir = p.Elegir,
+                ReclamoTecnicoID = p.ReclamoTecnicoID,
+                ControlesEquivalencia = new ControlesEquivalencia
+                {
+                    CODIGOEQUIVALENCIA = p.ControlesEquivalencia.CODIGOEQUIVALENCIA,
+                    DECO1 = p.ControlesEquivalencia.DECO1,
+                    DESCRIPCION = p.ControlesEquivalencia.DESCRIPCION,
+                    ID = p.ControlesEquivalencia.ID
+                }
+
+
             }); ;
-            this.ControlCables = new ObservableCollection<ModemItemViewModel>(myListControls.OrderBy(p => p.Autonumerico));
+            Controls = new ObservableCollection<Control>(myListControls.OrderBy(p => p.Autonumerico));
         }
 
 

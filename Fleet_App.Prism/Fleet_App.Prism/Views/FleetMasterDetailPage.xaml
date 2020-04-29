@@ -10,6 +10,19 @@
       <StackLayout Padding="20">
         <Image HeightRequest="150"
                Source="logo" />
+
+        <StackLayout
+          Orientation="Vertical">
+          
+          <Label
+            Text="{Binding User2.APELLIDONOMBRE, Mode=TwoWay}"
+            FontSize="Medium"
+            FontAttributes="Bold"
+            HorizontalOptions="Start"
+            TextColor="Blue">
+          </Label>
+        </StackLayout>
+        
         <ListView BackgroundColor="Transparent"
                   ItemsSource="{Binding Menus}"
                   HasUnevenRows="True"

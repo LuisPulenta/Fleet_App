@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
-             x:Class="Fleet_App.Prism.Views.CitaPage"
+             x:Class="Fleet_App.Prism.Views.TasaCitaPage"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              BackgroundColor="{StaticResource colorBackground}"
              Title="{Binding Title}">
-  
+
 
   <ContentPage.Content>
     <ScrollView>
@@ -38,7 +38,7 @@
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
-                 Text="Cliente:"
+                 Text="ClienteXXX:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
             <Label Grid.Row=" 0"
@@ -47,7 +47,7 @@
                  FontSize="Micro"
                  TextColor="Black"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.ClienteCompleto}"
+                 Text="{Binding Tasa.ClienteCompleto}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 1"
                  Grid.Column="0 "
@@ -62,7 +62,7 @@
                  FontSize="Micro"
                  TextColor="Black"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.ReclamoTecnicoID}"
+                 Text="{Binding Tasa.ReclamoTecnicoID}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 2"
                  Grid.Column="0 "
@@ -77,7 +77,7 @@
                  FontSize="Micro"
                  TextColor="Black"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.DOMICILIO}"
+                 Text="{Binding Tasa.DOMICILIO}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 3"
                  Grid.Column="0 "
@@ -92,7 +92,7 @@
                  FontSize="Micro"
                  TextColor="Black"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.LOCALIDAD}"
+                 Text="{Binding Tasa.LOCALIDAD}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 3"
                  Grid.Column="3 "
@@ -107,7 +107,7 @@
                  TextColor="Black"
                  HorizontalOptions="StartAndExpand"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.PROVINCIA}"
+                 Text="{Binding Tasa.PROVINCIA}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 4"
                  Grid.Column="0 "
@@ -122,7 +122,7 @@
                  FontSize="Micro"
                  TextColor="Black"
                  VerticalOptions="Center"
-                 Text="{Binding Cable.TELEFONO}"
+                 Text="{Binding Tasa.TELEFONO}"
                  BackgroundColor="White"></Label>
             <Image Grid.Row=" 4"
                  Grid.Column="4"
@@ -168,7 +168,7 @@
                  HorizontalOptions="Center"
                  TextColor="Red"
                  VerticalOptions="Center"
-                 Text="{Binding Cable.ESTADOGAOS, Mode=TwoWay}"
+                 Text="{Binding Tasa.ESTADOGAOS, Mode=TwoWay}"
                  BackgroundColor="White"></Label>
             <Label Grid.Row=" 0"
                  Grid.Column="2 "
@@ -185,7 +185,7 @@
                  HorizontalOptions="Start"
                  TextColor="Red"
                  VerticalOptions="CenterAndExpand"
-                 Text="{Binding Cable.CodigoCierre, Mode=TwoWay}"
+                 Text="{Binding Tasa.CodigoCierre, Mode=TwoWay}"
                  BackgroundColor="White"></Label>
 
           </Grid>
@@ -198,8 +198,8 @@
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-         
-         
+
+
           </Grid>
           <BoxView Color="Black"
                  HeightRequest="2"></BoxView>
@@ -233,6 +233,12 @@
             FontAttributes="Bold"
             TextColor="Blue">
           </Label>
+
+
+
+
+
+
           <TimePicker Grid.Row="5"
                         Grid.Column="1"
                         FontSize="Large"
@@ -242,6 +248,7 @@
                       
                       
                       />
+
 
           <StackLayout Padding="5,0,5,0"
                      Orientation="Horizontal"
@@ -263,9 +270,9 @@
                   HorizontalOptions="FillAndExpand"></Button>
           </StackLayout>
 
-          
 
-          
+
+
         </StackLayout>
         <busyindicator:SfBusyIndicator AnimationType="Gear"
                                      AbsoluteLayout.LayoutBounds=".5,.75,.5,.5"

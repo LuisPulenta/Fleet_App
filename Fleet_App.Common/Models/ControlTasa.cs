@@ -32,6 +32,8 @@ namespace Fleet_App.Common.Models
         public string MODELO { get; set; }
         public string MarcaModeloId { get; set; }
         public string Motivos { get; set; }
+        public DateTime? FechaCita { get; set; }
+        public string MedioCita { get; set; }
         public int? Elegir { get; set; }
         public DateTime? FechaEvento1 { get; set; }
         public DateTime? FechaEvento2 { get; set; }

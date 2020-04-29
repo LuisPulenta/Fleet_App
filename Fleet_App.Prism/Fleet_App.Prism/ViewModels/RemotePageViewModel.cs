@@ -384,9 +384,37 @@ namespace Fleet_App.Prism.ViewModels
             if (Remote.ESTADOGAOS != "PAR")
             {
                 //***** Graba EJB o INC *****
+                var ya = DateTime.Now;
 
                 foreach (var cc in Controls)
+                
+                
                 {
+                    var fec1 = Remote.FechaEvento1;
+                    var fec2 = Remote.FechaEvento2;
+                    var fec3 = Remote.FechaEvento3;
+
+                    var evento1 = Remote.Evento1;
+                    var evento2 = Remote.Evento2;
+                    var evento3 = Remote.Evento3;
+
+                    var DescCR = "";
+
+                    if (CR == 1) { DescCR = "Sin respuesta/ Llamado telefónico"; };
+                    if (CR == 3) { DescCR = "Se coordinó visita/ Llamada telefónica"; };
+                    if (CR == 6) { DescCR = "Se coordinó visita/ Envío correo"; };
+                    if (CR == 9) { DescCR = "Se coordinó visita/ Envío SMS"; };
+                    if (CR == 10) { DescCR = "Ausente/ Visita en domicilio"; };
+                    if (CR == 11) { DescCR = "Menor en domicilio/ Visita en domicilio"; };
+                    if (CR == 12) { DescCR = "Sin stock de unidad/ Visita en domicilio"; };
+                    if (CR == 14) { DescCR = "Entrega rechazada/ Visita en domicilio"; };
+                    if (CR == 15) { DescCR = "Se desestima pedido/ Visita en domicilio"; };
+                    if (CR == 13) { DescCR = "Recuperado"; };
+
+
+
+
+
                     var mycc = new AsignacionesOT
                     {
                         IDREGISTRO = cc.IDREGISTRO,
@@ -432,6 +460,16 @@ namespace Fleet_App.Prism.ViewModels
                         ReclamoTecnicoID = cc.ReclamoTecnicoID,
 
                         CantRem = Remote.CantRem,
+                        Evento4 = evento3,
+                        FechaEvento4 = fec3,
+                        Evento3 = evento2,
+                        FechaEvento3 = fec2,
+                        Evento2 = evento1,
+                        FechaEvento2 = fec1,
+                        Evento1 = DescCR,
+                        FechaEvento1 = ya,
+                        FechaCita = Remote.FechaCita,
+                        MedioCita = Remote.MedioCita
                     };
 
                     var response = await _apiService.PutAsync(
@@ -493,10 +531,35 @@ namespace Fleet_App.Prism.ViewModels
             else
             {
                 var cont = 0;
+                var ya = DateTime.Now;
                 foreach (var cc in Controls)
                 {
+                    var fec1 = Remote.FechaEvento1;
+                    var fec2 = Remote.FechaEvento2;
+                    var fec3 = Remote.FechaEvento3;
+
+                    var evento1 = Remote.Evento1;
+                    var evento2 = Remote.Evento2;
+                    var evento3 = Remote.Evento3;
+
+                    var DescCR = "";
+
+                    if (CR == 1) { DescCR = "Sin respuesta/ Llamado telefónico"; };
+                    if (CR == 3) { DescCR = "Se coordinó visita/ Llamada telefónica"; };
+                    if (CR == 6) { DescCR = "Se coordinó visita/ Envío correo"; };
+                    if (CR == 9) { DescCR = "Se coordinó visita/ Envío SMS"; };
+                    if (CR == 10) { DescCR = "Ausente/ Visita en domicilio"; };
+                    if (CR == 11) { DescCR = "Menor en domicilio/ Visita en domicilio"; };
+                    if (CR == 12) { DescCR = "Sin stock de unidad/ Visita en domicilio"; };
+                    if (CR == 14) { DescCR = "Entrega rechazada/ Visita en domicilio"; };
+                    if (CR == 15) { DescCR = "Se desestima pedido/ Visita en domicilio"; };
+                    if (CR == 13) { DescCR = "Recuperado"; };
+
+
                     if (cont < Remote.CantEnt)
                     {
+                       
+
                         var mycc = new AsignacionesOT
                         {
                             IDREGISTRO = cc.IDREGISTRO,
@@ -538,6 +601,16 @@ namespace Fleet_App.Prism.ViewModels
                             FechaAsignada = Remote.FechaAsignada,
                             ReclamoTecnicoID = cc.ReclamoTecnicoID,
                             CantRem = Remote.CantRem,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
+                            FechaCita = Remote.FechaCita,
+                            MedioCita = Remote.MedioCita
                         };
 
                         var response = await _apiService.PutAsync(
@@ -596,6 +669,16 @@ namespace Fleet_App.Prism.ViewModels
                             FechaAsignada = Remote.FechaAsignada,
                             ReclamoTecnicoID = cc.ReclamoTecnicoID,
                             CantRem = Remote.CantRem,
+                            Evento4 = evento3,
+                            FechaEvento4 = fec3,
+                            Evento3 = evento2,
+                            FechaEvento3 = fec2,
+                            Evento2 = evento1,
+                            FechaEvento2 = fec1,
+                            Evento1 = DescCR,
+                            FechaEvento1 = ya,
+                            FechaCita = Remote.FechaCita,
+                            MedioCita = Remote.MedioCita
                         };
 
                         var response = await _apiService.PutAsync(

@@ -444,6 +444,8 @@ namespace Fleet_App.Prism.ViewModels
                         FechaEvento2 = fec1,
                         Evento1 = DescCR,
                         FechaEvento1 = ya,
+                        FechaCita=Tasa.FechaCita,
+                        MedioCita= Tasa.MedioCita
                     };
 
                     var response = await _apiService.PutAsync(
@@ -592,6 +594,8 @@ namespace Fleet_App.Prism.ViewModels
                             FechaEvento2 = fec1,
                             Evento1 = DescCR,
                             FechaEvento1 = ya,
+                            FechaCita = Tasa.FechaCita,
+                            MedioCita = Tasa.MedioCita
                         };
 
                         var response = await _apiService.PutAsync(
@@ -660,6 +664,8 @@ namespace Fleet_App.Prism.ViewModels
                             FechaEvento2 = fec1,
                             Evento1 = DescCR,
                             FechaEvento1 = ya,
+                            FechaCita = Tasa.FechaCita,
+                            MedioCita = Tasa.MedioCita
                         };
 
                         var response = await _apiService.PutAsync(

@@ -5,6 +5,7 @@ using Fleet_App.Prism.ViewModels;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,19 +26,28 @@ namespace Fleet_App.Prism.ViewModels
         private ObservableCollection<RemoteItemViewModel> _remotes;
         private static RemotesPageViewModel _instance;
         private int _cantRemotes;
+        private string _descCR;
         private string _filter;
         private DelegateCommand _searchCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _remotesMapCommand;
+        private DelegateCommand _ponerHoyCommand;
 
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(Search));
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
         public DelegateCommand RemotesMapCommand => _remotesMapCommand ?? (_remotesMapCommand = new DelegateCommand(RemotesMap));
+        public DelegateCommand PonerHoyCommand => _ponerHoyCommand ?? (_ponerHoyCommand = new DelegateCommand(PonerHoy));
 
         public string Filter
         {
             get => _filter;
             set => SetProperty(ref _filter, value);
+        }
+
+        public string DescCR
+        {
+            get => _descCR;
+            set => SetProperty(ref _descCR, value);
         }
 
         public int CantRemotes
@@ -91,7 +101,7 @@ namespace Fleet_App.Prism.ViewModels
         }
 
 
-        private async void LoadUser()
+        public async void LoadUser()
         {
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User2);
             var url = App.Current.Resources["UrlAPI"].ToString();
@@ -131,10 +141,12 @@ namespace Fleet_App.Prism.ViewModels
                     CLIENTE = a.CLIENTE,
                     CodigoCierre = a.CodigoCierre,
                     CP = a.CP,
-                    Descripcion=a.Descripcion,
+                    Descripcion = a.Descripcion,
+                    DescCR = DescCierre(a.CodigoCierre),
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
+                    PROVINCIA = a.PROVINCIA,
                     ESTADOGAOS = a.ESTADOGAOS,
                     GRXX = a.GRXX,
                     GRYY = a.GRYY,
@@ -145,12 +157,24 @@ namespace Fleet_App.Prism.ViewModels
                     ObservacionCaptura = a.ObservacionCaptura,
                     PROYECTOMODULO = a.PROYECTOMODULO,
                     RECUPIDJOBCARD = a.RECUPIDJOBCARD,
+                    ReclamoTecnicoID = a.ReclamoTecnicoID,
                     SUBCON = a.SUBCON,
                     TELEFONO = a.TELEFONO,
+                    MOTIVOS = a.MOTIVOS,
                     UserID = a.UserID,
+                    FechaCita = a.FechaCita,
+                    MedioCita = a.MedioCita,
+                    FechaEvento1 = a.FechaEvento1,
+                    Evento1 = a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
                 });
                 Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel.
-                    OrderBy(o => o.NOMBRE + o.FechaAsignada));
+                    OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada));
                 CantRemotes = Remotes.Count();
             }
             else
@@ -166,6 +190,7 @@ namespace Fleet_App.Prism.ViewModels
                     DOMICILIO = a.DOMICILIO,
                     ENTRECALLE1 = a.ENTRECALLE1,
                     ENTRECALLE2 = a.ENTRECALLE2,
+                    PROVINCIA = a.PROVINCIA,
                     ESTADOGAOS = a.ESTADOGAOS,
                     GRXX = a.GRXX,
                     GRYY = a.GRYY,
@@ -176,18 +201,41 @@ namespace Fleet_App.Prism.ViewModels
                     ObservacionCaptura = a.ObservacionCaptura,
                     PROYECTOMODULO = a.PROYECTOMODULO,
                     RECUPIDJOBCARD = a.RECUPIDJOBCARD,
+                    ReclamoTecnicoID = a.ReclamoTecnicoID,
                     SUBCON = a.SUBCON,
                     TELEFONO = a.TELEFONO,
+                    MOTIVOS = a.MOTIVOS,
                     UserID = a.UserID,
+                    FechaCita = a.FechaCita,
+                    MedioCita = a.MedioCita,
+                    FechaEvento1 = a.FechaEvento1,
+                    Evento1 = a.Evento1,
+                    FechaEvento2 = a.FechaEvento2,
+                    Evento2 = a.Evento2,
+                    FechaEvento3 = a.FechaEvento3,
+                    Evento3 = a.Evento3,
+                    FechaEvento4 = a.FechaEvento4,
+                    Evento4 = a.Evento4,
+
+
+                    
+                    
+                  
+                  
+                  
+
+
+
                 });
                 Remotes = new ObservableCollection<RemoteItemViewModel>(myListRemoteItemViewModel
-                    .OrderBy(o => o.NOMBRE + o.FechaAsignada)
-                    .Where(
+                    .OrderBy(o => o.FechaCita + o.NOMBRE + o.FechaAsignada)
+                   .Where(
                             o => (o.NOMBRE.ToLower().Contains(this.Filter.ToLower()))
                             ||
-                             (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
-                          )
-                                                                                                   );
+                            (o.CLIENTE.ToLower().Contains(this.Filter.ToLower()))
+                            ||
+                            FecCita(Convert.ToDateTime(o.FechaCita)).Contains(this.Filter.ToLower()))
+                          );                                                                                                   
                 CantRemotes = Remotes.Count();
             }
         }
@@ -202,12 +250,51 @@ namespace Fleet_App.Prism.ViewModels
             RefreshList();
         }
 
-   
 
+        private string DescCierre(int? CR)
+        {
+
+            if (CR == 1) { return "Sin respuesta/ Llamado telefónico"; };
+            if (CR == 3) { return "Se coordinó visita/ Llamada telefónica"; };
+            if (CR == 6) { return "Se coordinó visita/ Envío correo"; };
+            if (CR == 9) { return "Se coordinó visita/ Envío SMS"; };
+            if (CR == 10) { return "Ausente/ Visita en domicilio"; };
+            if (CR == 11) { return "Menor en domicilio/ Visita en domicilio"; };
+            if (CR == 12) { return "Sin stock de unidad/ Visita en domicilio"; };
+            if (CR == 14) { return "Entrega rechazada/ Visita en domicilio"; };
+            if (CR == 15) { return "Se desestima pedido/ Visita en domicilio"; };
+            if (CR == 13) { return "Recuperado"; };
+
+
+            return "";
+        }
 
         private async void Refresh()
         {
             LoadUser();
+        }
+
+        private async void PonerHoy()
+        {
+            Filter = FecCita(DateTime.Now);
+            RefreshList();
+        }
+
+        private string FecCita(DateTime FecCit)
+        {
+            var Mes = Convert.ToString(FecCit.Month);
+            var Dia = Convert.ToString(FecCit.Day);
+            var Año = Convert.ToString(FecCit.Year);
+            if (Mes.Length == 1)
+            {
+                Mes = $"0{Mes}";
+            };
+            if (Dia.Length == 1)
+            {
+                Dia = $"0{Dia}";
+            };
+
+            return $"{Dia}/{Mes}/{Año}";
         }
     }
 }

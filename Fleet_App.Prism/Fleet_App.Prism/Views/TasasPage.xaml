@@ -7,6 +7,8 @@
              BackgroundColor="Silver"
              Title="{Binding Title}">
   <ContentPage.ToolbarItems>
+    <ToolbarItem Icon="ic_action_today"
+                 Command="{Binding PonerHoyCommand}" />
     <ToolbarItem Icon="ic_map"
                  Command="{Binding TasasMapCommand}" />
   </ContentPage.ToolbarItems>
@@ -40,53 +42,52 @@
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
                 SeparatorVisibility="None">
 
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <Frame CornerRadius="10"
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Frame CornerRadius="10"
                      HasShadow="True"
                      BackgroundColor="White"
                      Margin="3"
                      Padding="5"
                      >
-                <StackLayout 
+              <StackLayout 
                   >
-                  <Grid HeightRequest="168"
+                <Grid HeightRequest="190"
                         RowSpacing="-0">
-                    <Grid.GestureRecognizers>
-                      <TapGestureRecognizer Command="{Binding SelectTasaCommand}" />
-                    </Grid.GestureRecognizers>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="48" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                      <RowDefinition Height="Auto" />
-                      <RowDefinition Height="Auto" />
-                      <RowDefinition Height="Auto" />
-                      <RowDefinition Height="Auto" />
-                      <RowDefinition Height="Auto" />
+                  <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTasaCommand}" />
+                  </Grid.GestureRecognizers>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="48" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                      <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                   </Grid.RowDefinitions>
 
 
-                    <Label Grid.Row="0"
+                  <Label Grid.Row="0"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Cliente:"></Label>
-                    <Label Grid.Row="0"
+                  <Label Grid.Row="0"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -94,13 +95,13 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding ClienteCompleto}"></Label>
-                    <Label Grid.Row="1"
+                  <Label Grid.Row="1"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Rec.Tec.:"></Label>
-                    <Label Grid.Row="1"
+                  <Label Grid.Row="1"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -108,13 +109,13 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding ReclamoTecnicoID}"></Label>
-                    <Label Grid.Row="2"
+                  <Label Grid.Row="2"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Dirección:"></Label>
-                    <Label Grid.Row="2"
+                  <Label Grid.Row="2"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -122,13 +123,13 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding DOMICILIO}"></Label>
-                    <Label Grid.Row="3"
+                  <Label Grid.Row="3"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Localidad:"></Label>
-                    <Label Grid.Row="3"
+                  <Label Grid.Row="3"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -136,13 +137,13 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding LOCALIDAD}"></Label>
-                    <Label Grid.Row="4"
+                  <Label Grid.Row="4"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Provincia:"></Label>
-                    <Label Grid.Row="4"
+                  <Label Grid.Row="4"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -150,13 +151,13 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding PROVINCIA}"></Label>
-                    <Label Grid.Row="5"
+                  <Label Grid.Row="5"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Teléfono:"></Label>
-                    <Label Grid.Row="5"
+                  <Label Grid.Row="5"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -164,59 +165,54 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding TELEFONO}"></Label>
-                    <Label Grid.Row="6"
+                  <Label Grid.Row="6"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Cant.Eq.:"></Label>
-                    <Label Grid.Row="6"
+                  <Label Grid.Row="6"
                            Grid.Column="1"
                            FontSize="Micro"
                            FontAttributes="None"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding CantRem}"></Label>
-                    <Label Grid.Row="6"
+                  <Label Grid.Row="6"
                            Grid.Column="2"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Est. Gaos:"></Label>
-                    <Label Grid.Row="6"
+                  <Label Grid.Row="6"
                            Grid.Column="3"
                            FontSize="Micro"
                            FontAttributes="None"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding ESTADOGAOS}"></Label>
-                    <Label Grid.Row="7"
+                  <Label Grid.Row="7"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Cód.Cierre:"></Label>
-                    <Label Grid.Row="7"
+                  <Label Grid.Row="7"
                            Grid.Column="1"
-                           Grid.ColumnSpan="6"
                            FontSize="Micro"
                            FontAttributes="None"
+                           Grid.ColumnSpan="5"
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding DescCR}"></Label>
 
-
-
-
-
-
-                    <Label Grid.Row="8"
+                  <Label Grid.Row="8"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Estado:"></Label>
-                    <Label Grid.Row="8"
+                  <Label Grid.Row="8"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -224,13 +220,14 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding MOTIVOS}"></Label>
-                    <Label Grid.Row="9"
+
+                  <Label Grid.Row="9"
                            Grid.Column="0"
                            FontSize="Micro"
                            FontAttributes="Bold"
                            TextColor="Blue"
                            Text="Fec.Asig.:"></Label>
-                    <Label Grid.Row="9"
+                  <Label Grid.Row="9"
                            Grid.Column="1"
                            Grid.ColumnSpan="5"
                            FontSize="Micro"
@@ -238,19 +235,53 @@
                            TextColor="Black"
                            HorizontalOptions="Start"
                            Text="{Binding FechaAsignada, StringFormat='{0:dd/MM/yyyy}'}"></Label>
+                  <Label Grid.Row="10"
+                           Grid.Column="0"
+                           FontSize="Micro"
+                           FontAttributes="Bold"
+                           TextColor="Blue"
+                           Text="Fec.Cita.:"></Label>
+                  <Label Grid.Row="10"
+                           Grid.Column="1"
+                           Grid.ColumnSpan="5"
+                           FontSize="Micro"
+                           FontAttributes="None"
+                           TextColor="Black"
+                           HorizontalOptions="Start"
+                           Text="{Binding FechaCita, StringFormat='{0:dd/MM/yyyy/ HH:mm}'}"></Label>
 
-                    <Image Grid.Row="0"
+                  <Button
+                           Grid.Row="8"
+                           Grid.Column="4" 
+                    Grid.RowSpan="3"
+                    Grid.ColumnSpan="3"
+                    MinimumHeightRequest="5"
+                    Command="{Binding CitaCommand}"
+                    HeightRequest="10"
+                    Text="Agendar Cita"
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    >
+
+                  </Button>
+
+
+
+
+
+
+                  <Image Grid.Row="0"
                            Grid.Column="6"
-                           Grid.RowSpan="10"
+                           Grid.RowSpan="8"
                            VerticalOptions="Center"
                            Source="ic_chevron_right">
-                    </Image>
-                  </Grid>
-                </StackLayout>
-              </Frame>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
+                  </Image>
+                </Grid>
+              </StackLayout>
+            </Frame>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
     </StackLayout>
 </ContentPage>

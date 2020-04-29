@@ -10,11 +10,13 @@ namespace Fleet_App.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectTasaCommand;
+        private DelegateCommand _citaCommand;
         public TasaItemViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }
         public DelegateCommand SelectTasaCommand => _selectTasaCommand ?? (_selectTasaCommand = new DelegateCommand(SelectTasa));
+        public DelegateCommand CitaCommand => _citaCommand ?? (_citaCommand = new DelegateCommand(Cita));
 
         private async void SelectTasa()
         {
@@ -22,5 +24,10 @@ namespace Fleet_App.Prism.ViewModels
             await _navigationService.NavigateAsync("TasaPage");
         }
 
+        private async void Cita()
+        {
+            Settings.Tasa = JsonConvert.SerializeObject(this);
+            await _navigationService.NavigateAsync("TasaCitaPage");
+        }
     }
 }

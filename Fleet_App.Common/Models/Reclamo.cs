@@ -22,7 +22,7 @@ namespace Fleet_App.Common.Models
         public string PROYECTOMODULO { get; set; }
         public int? UserID { get; set; }
         public int? ReclamoTecnicoID { get; set; }
-
+        public string DescCR { get; set; }
         public string SUBCON { get; set; }
         public string CAUSANTEC { get; set; }
         public DateTime? FechaAsignada { get; set; }
@@ -39,5 +39,16 @@ namespace Fleet_App.Common.Models
         public string MOTIVOS { get; set; }
         public string ClienteCompleto => $"{CLIENTE}-{NOMBRE}";
         public string EntreCalles => $"{ENTRECALLE1} y {ENTRECALLE2}";
+
+        public DateTime? FechaCita { get; set; }
+        public string MedioCita { get; set; }
+        public DateTime? FechaEvento1 { get; set; }
+        public DateTime? FechaEvento2 { get; set; }
+        public DateTime? FechaEvento3 { get; set; }
+        public DateTime? FechaEvento4 { get; set; }
+        public string Evento1 { get; set; }
+        public string Evento2 { get; set; }
+        public string Evento3 { get; set; }
+        public string Evento4 { get; set; }
     }
 }

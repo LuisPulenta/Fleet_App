@@ -10,11 +10,14 @@ namespace Fleet_App.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectRemoteCommand;
+        private DelegateCommand _citaCommand;
+
         public RemoteItemViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }
         public DelegateCommand SelectRemoteCommand => _selectRemoteCommand ?? (_selectRemoteCommand = new DelegateCommand(SelectRemote));
+        public DelegateCommand CitaCommand => _citaCommand ?? (_citaCommand = new DelegateCommand(Cita));
 
         private async void SelectRemote()
         {
@@ -23,6 +26,11 @@ namespace Fleet_App.Prism.ViewModels
             await _navigationService.NavigateAsync("RemotePage");
         }
 
+        private async void Cita()
+        {
+            Settings.Remote = JsonConvert.SerializeObject(this);
+            await _navigationService.NavigateAsync("RemoteCitaPage");
+        }
 
     }
 }
