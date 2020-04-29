@@ -17,6 +17,7 @@ namespace CustomRenderer.Droid
 {
     public class CustomMapRenderer : MapRenderer, GoogleMap.IInfoWindowAdapter
     {
+        private int opc;
         List<CustomPin> customPins;
 
         public CustomMapRenderer(Context context) : base(context)
@@ -53,24 +54,38 @@ namespace CustomRenderer.Droid
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
             marker.SetSnippet(pin.Address);
-            if (pin.StyleId == "Azul")
+
+            if (pin.ClassId == "Cable")
             {
-                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinazul));
+                opc = 1;
+                //marker.SetAlpha (1);
+            }
+            if (pin.ClassId == "Remote")
+            {
+                opc = 2;
+                //marker.SetAlpha(2);
+            }
+            if (pin.ClassId == "Tasa")
+            {
+                opc = 3;
+                //marker.SetAlpha(3);
+            }
+            
+            
+
+            if (pin.StyleId == "ConCitaOtroDia")
+            {
+                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pin2azul));
             }
             if (pin.StyleId == "SinCita")
             {
-                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinrojo));
+                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pin2rojo));
             }
 
-            if (pin.StyleId == "ConCita")
+            if (pin.StyleId == "ConCitaHoy")
             {
-                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinverde));
+                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pin2verde));
             }
-            if (pin.StyleId == "Otro")
-            {
-                marker.SetIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.pinrojo));
-            }
-
             return marker;
         }
 
@@ -90,8 +105,28 @@ namespace CustomRenderer.Droid
             //    Android.App.Application.Context.StartActivity(intent);
             //}
 
-            CablesPageViewModel.GetInstance().Filter = e.Marker.Title;
-            CablesMapPageViewModel.GetInstance().CerrarMapa();
+            
+            int lugar = e.Marker.Title.IndexOf(" Cita: ");
+
+            var txtBuscar = e.Marker.Title.Substring(0, lugar);
+
+            if (opc == 1)
+            {
+                CablesPageViewModel.GetInstance().Filter = txtBuscar;
+                CablesMapPageViewModel.GetInstance().CerrarMapa();
+            }
+
+            if (opc == 2)
+            {
+                RemotesPageViewModel.GetInstance().Filter = txtBuscar;
+                RemotesMapPageViewModel.GetInstance().CerrarMapa();
+            }
+
+            if (opc == 3)
+            {
+                TasasPageViewModel.GetInstance().Filter = txtBuscar;
+                TasasMapPageViewModel.GetInstance().CerrarMapa();
+            }
 
 
         }

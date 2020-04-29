@@ -257,10 +257,10 @@
                 HeightRequest="40"
                 Title="Elija Código Cierre"></Picker>
           <StackLayout
-            Orientation="Horizontal">
+           >
             <Label
               VerticalOptions="Center"
-              Text="N° Serie Extras:">
+              Text="Observaciones - N° Serie Extras:">
             </Label>
 
             <Entry 
@@ -268,7 +268,7 @@
                VerticalOptions="CenterAndExpand"
               
                Text="{Binding NroSeriesExtras, Mode=TwoWay }"
-               Placeholder="Ingrese N° Serie Extras si hubiera..."
+               Placeholder="Ingrese Observaciones o N° Serie Extras si hubiera..."
                BackgroundColor="White"
                TextColor="Black"></Entry>
             

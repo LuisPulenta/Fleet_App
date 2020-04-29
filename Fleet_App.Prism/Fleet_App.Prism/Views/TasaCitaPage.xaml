@@ -38,7 +38,7 @@
                  Grid.Column="0 "
                  FontSize="Micro"
                  FontAttributes="Bold"
-                 Text="ClienteXXX:"
+                 Text="Cliente:"
                  TextColor="Blue"
                  VerticalOptions="Center"></Label>
             <Label Grid.Row=" 0"

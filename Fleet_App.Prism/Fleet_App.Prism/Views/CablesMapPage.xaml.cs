@@ -42,6 +42,7 @@ namespace Fleet_App.Prism.Views
             {
                 Type = PinType.Place,
                 Position = new Position(-0, 0),
+                
                 Label = " ",
                 Address = " ",
                 Name = " ",
@@ -65,18 +66,26 @@ namespace Fleet_App.Prism.Views
                         }
                         else
                         {
-                            HayCita = "ConCita";
+                            if (cable.FechaCita.Value.Date == DateTime.Today)
+                            {
+                                HayCita = "ConCitaHoy";
+                            }
+                            else
+                            {
+                                HayCita = "ConCitaOtroDia";
+                            }
                         }
 
                         MyMap.Pins.Add(new CustomPin
                         {
-                            Label = cable.NOMBRE,
+                            Label = cable.NOMBRE + " Cita: "+cable.FechaCita.ToString(),
                             Address = cable.DOMICILIO,
                             Position = position,
                             Type = PinType.Place,
-                            Name = "Xamarin",
                             StyleId = HayCita,
-                            Url = "http://xamarin.com/about/"
+                            ClassId= "Cable",
+
+
                         });
 
                     }

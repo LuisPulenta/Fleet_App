@@ -14,12 +14,17 @@ namespace Fleet_App.Prism.Views
     public partial class TasasMapPage : ContentPage
     {
         private readonly IGeolocatorService _geolocatorService;
+
         public TasasMapPage(IGeolocatorService geolocatorService)
         {
-
             InitializeComponent();
-
             _geolocatorService = geolocatorService;
+            MyMap.MapType = MapType.Street;
+            MyMap.IsVisible = false;
+            MoveMapToCurrentPositionAsync();
+            MyMap.IsVisible = true;
+            ShowPinsAsync();
+
         }
 
         protected override void OnAppearing()
@@ -28,57 +33,66 @@ namespace Fleet_App.Prism.Views
             MyMap.IsVisible = false;
             MoveMapToCurrentPositionAsync();
             MyMap.IsVisible = true;
-            ShowPinsAsync();
-
-
-
-
         }
 
-        private async Task<List<Pin>> ShowPinsAsync()
+        private async Task<List<CustomPin>> ShowPinsAsync()
         {
-            var pins = new List<Pin>();
-            var tasasViewModel = TasasPageViewModel.GetInstance();
 
-           
-
-
-
-            foreach (var tasa in tasasViewModel.Tasas.ToList())
+            CustomPin pin = new CustomPin
             {
-                
+                Type = PinType.Place,
+                Position = new Position(-0, 0),
+
+                Label = " ",
+                Address = " ",
+                Name = " ",
+                StyleId = "",
+                Url = ""
+            };
+
+            var pins = new List<CustomPin> { pin };
+            TasasPageViewModel tasasViewModel = TasasPageViewModel.GetInstance();
+            foreach (TasaItemViewModel tasa in tasasViewModel.Tasas.ToList())
+            {
                 if (!string.IsNullOrEmpty(tasa.GRXX) && !string.IsNullOrEmpty(tasa.GRYY))
                 {
                     if (tasa.GRXX.Length > 5 && tasa.GRYY.Length > 5)
                     {
-                        var position = new Position(Convert.ToDouble(tasa.GRXX), Convert.ToDouble(tasa.GRYY));
-                        var tipopin = new PinType();
-                        tipopin = PinType.Place;
-                        pins.Add(new Pin
+                        Position position = new Position(Convert.ToDouble(tasa.GRXX), Convert.ToDouble(tasa.GRYY));
+                        var HayCita = "";
+                        if (tasa.FechaCita == null)
                         {
-                            Label = tasa.NOMBRE,
+                            HayCita = "SinCita";
+                        }
+                        else
+                        {
+                            if (tasa.FechaCita.Value.Date == DateTime.Today)
+                            {
+                                HayCita = "ConCitaHoy";
+                            }
+                            else
+                            {
+                                HayCita = "ConCitaOtroDia";
+                            }
+                        }
+
+                        MyMap.Pins.Add(new CustomPin
+                        {
+                            Label = tasa.NOMBRE + " Cita: " + tasa.FechaCita.ToString(),
                             Address = tasa.DOMICILIO,
                             Position = position,
-                            Type = tipopin,
+                            Type = PinType.Place,
+                            StyleId = HayCita,
+                            ClassId = "Tasa",
+
+
                         });
+
                     }
                 }
-
-            }
-
-            foreach (var pin in pins)
-            {
-                MyMap.Pins.Add(pin);
-
-                pin.InfoWindowClicked += async (s, args) =>
-                {
-                    TasasPageViewModel.GetInstance().Filter = pin.Label;
-                    TasasMapPageViewModel.GetInstance().CerrarMapa();
-                };
             }
             return pins;
         }
-
 
         private async void MoveMapToCurrentPositionAsync()
         {
@@ -141,6 +155,5 @@ namespace Fleet_App.Prism.Views
         {
             MyMap.MapType = MapType.Hybrid;
         }
-
     }
 }

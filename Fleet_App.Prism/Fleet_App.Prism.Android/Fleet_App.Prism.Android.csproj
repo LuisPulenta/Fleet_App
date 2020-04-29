@@ -212,13 +212,13 @@
     <AndroidResource Include="Resources\drawable\ic_action_today.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pinazul.png" />
+    <AndroidResource Include="Resources\drawable\pin2azul.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pinrojo.png" />
+    <AndroidResource Include="Resources\drawable\pin2rojo.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pinverde.png" />
+    <AndroidResource Include="Resources\drawable\pin2verde.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

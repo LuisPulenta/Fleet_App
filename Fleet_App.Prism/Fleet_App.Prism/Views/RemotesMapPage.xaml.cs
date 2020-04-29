@@ -14,12 +14,17 @@ namespace Fleet_App.Prism.Views
     public partial class RemotesMapPage : ContentPage
     {
         private readonly IGeolocatorService _geolocatorService;
+
         public RemotesMapPage(IGeolocatorService geolocatorService)
         {
-            
             InitializeComponent();
-            
             _geolocatorService = geolocatorService;
+            MyMap.MapType = MapType.Street;
+            MyMap.IsVisible = false;
+            MoveMapToCurrentPositionAsync();
+            MyMap.IsVisible = true;
+            ShowPinsAsync();
+
         }
 
         protected override void OnAppearing()
@@ -28,53 +33,67 @@ namespace Fleet_App.Prism.Views
             MyMap.IsVisible = false;
             MoveMapToCurrentPositionAsync();
             MyMap.IsVisible = true;
-            ShowPinsAsync();
-            
-
-
-
         }
 
-        private async Task<List<Pin>> ShowPinsAsync()
+        private async Task<List<CustomPin>> ShowPinsAsync()
         {
-            var pins = new List<Pin>();
-            var remotesViewModel = RemotesPageViewModel.GetInstance();
 
-            foreach (var remote in remotesViewModel.Remotes.ToList())
+            CustomPin pin = new CustomPin
             {
-                
-                if (!string.IsNullOrEmpty(remote.GRXX) && !string.IsNullOrEmpty(remote.GRYY))
+                Type = PinType.Place,
+                Position = new Position(-0, 0),
+
+                Label = " ",
+                Address = " ",
+                Name = " ",
+                StyleId = "",
+                Url = ""
+            };
+
+            var pins = new List<CustomPin> { pin };
+            RemotesPageViewModel RemotesViewModel = RemotesPageViewModel.GetInstance();
+            foreach (RemoteItemViewModel Remote in RemotesViewModel.Remotes.ToList())
+            {
+                if (!string.IsNullOrEmpty(Remote.GRXX) && !string.IsNullOrEmpty(Remote.GRYY))
                 {
-                    if (remote.GRXX.Length > 5 && remote.GRYY.Length > 5)
+                    if (Remote.GRXX.Length > 5 && Remote.GRYY.Length > 5)
                     {
-                        var position = new Position(Convert.ToDouble(remote.GRXX), Convert.ToDouble(remote.GRYY));
-                        var tipopin = new PinType();
-                        tipopin = PinType.Place;
-                        pins.Add(new Pin
+                        Position position = new Position(Convert.ToDouble(Remote.GRXX), Convert.ToDouble(Remote.GRYY));
+                        var HayCita = "";
+                        if (Remote.FechaCita == null)
                         {
-                            Label = remote.NOMBRE,
-                            Address = remote.DOMICILIO,
+                            HayCita = "SinCita";
+                        }
+                        else
+                        {
+                            if (Remote.FechaCita.Value.Date == DateTime.Today)
+                            {
+                                HayCita = "ConCitaHoy";
+                            }
+                            else
+                            {
+                                HayCita = "ConCitaOtroDia";
+                            }
+                        }
+
+                        MyMap.Pins.Add(new CustomPin
+                        {
+                            Label = Remote.NOMBRE + " Cita: " + Remote.FechaCita.ToString(),
+                            Address = Remote.DOMICILIO,
                             Position = position,
-                            Type = tipopin,
+                            Type = PinType.Place,
+                            StyleId = HayCita,
+                            ClassId = "Remote",
+
+
                         });
+
                     }
                 }
-
-            }
-
-            foreach (var pin in pins)
-            {
-                MyMap.Pins.Add(pin);
-
-                pin.InfoWindowClicked += async (s, args) =>
-                {
-                    RemotesPageViewModel.GetInstance().Filter = pin.Label;
-                    RemotesMapPageViewModel.GetInstance().CerrarMapa();
-                };
             }
             return pins;
-            
         }
+
         private async void MoveMapToCurrentPositionAsync()
         {
             bool isLocationPermision = await CheckLocationPermisionsAsync();
@@ -90,13 +109,13 @@ namespace Fleet_App.Prism.Views
                         _geolocatorService.Latitude,
                         _geolocatorService.Longitude);
                     MyMap.IsVisible = false;
-                    
+
 
                     MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
                         position,
                         Distance.FromKilometers(.5)));
                     MyMap.IsVisible = true;
-                    
+
                 }
             }
         }
@@ -136,6 +155,5 @@ namespace Fleet_App.Prism.Views
         {
             MyMap.MapType = MapType.Hybrid;
         }
-
     }
 }
