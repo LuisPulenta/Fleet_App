@@ -7105,25 +7105,16 @@ namespace Fleet_App.Prism.Droid
 			public const int pin2verde = 2131165572;
 			
 			// aapt resource value: 0x7F070185
-			public const int pinazul = 2131165573;
+			public const int signature_pad_background = 2131165573;
 			
 			// aapt resource value: 0x7F070186
-			public const int pinrojo = 2131165574;
+			public const int splash = 2131165574;
 			
 			// aapt resource value: 0x7F070187
-			public const int pinverde = 2131165575;
+			public const int tooltip_frame_dark = 2131165575;
 			
 			// aapt resource value: 0x7F070188
-			public const int signature_pad_background = 2131165576;
-			
-			// aapt resource value: 0x7F070189
-			public const int splash = 2131165577;
-			
-			// aapt resource value: 0x7F07018A
-			public const int tooltip_frame_dark = 2131165578;
-			
-			// aapt resource value: 0x7F07018B
-			public const int tooltip_frame_light = 2131165579;
+			public const int tooltip_frame_light = 2131165576;
 			
 			static Drawable()
 			{

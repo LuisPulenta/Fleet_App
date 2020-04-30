@@ -312,6 +312,7 @@
                  HeightRequest="2"></BoxView>
           <Picker x:Name="CodCierre"
                 FontSize="Small"
+                IsEnabled="False"
                 ItemDisplayBinding="{Binding Descripcion}"
                 ItemsSource="{Binding CodigosCierre}"
                 SelectedItem="{Binding CCierre}"
@@ -431,7 +432,7 @@
             </ListView.ItemTemplate>
           </ListView>
         </StackLayout>
-        <busyindicator:SfBusyIndicator AnimationType="Gear"
+        <busyindicator:SfBusyIndicator AnimationType="ECG"
                                      AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
                                      AbsoluteLayout.LayoutFlags="All"
                                      BackgroundColor="Transparent"

@@ -274,7 +274,7 @@
 
 
         </StackLayout>
-        <busyindicator:SfBusyIndicator AnimationType="Gear"
+        <busyindicator:SfBusyIndicator AnimationType="ECG"
                                      AbsoluteLayout.LayoutBounds=".5,.75,.5,.5"
                                      AbsoluteLayout.LayoutFlags="All"
                                      BackgroundColor="Transparent"

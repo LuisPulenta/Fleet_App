@@ -29,8 +29,8 @@ namespace Fleet_App.Prism.ViewModels
             IsRemembered = false;
             _navigationService = navigationService;
             _apiService = apiService;
-            Email = "TEST";
-            Password = "TEST";
+            //Email = "TEST";
+            //Password = "TEST";
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
@@ -190,12 +190,12 @@ namespace Fleet_App.Prism.ViewModels
             var bandera = 0; 
             foreach (var cc in MyModules)
             {
-                if (cc.NroVersion != "3.0.11" && cc.ActualizOblig == 0 && cc.IdModulo==1)
+                if (cc.NroVersion != "3.0.12" && cc.ActualizOblig == 0 && cc.IdModulo==1)
                 {
                     bandera = 1;
                 }
 
-                if (cc.NroVersion != "3.0.11" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
+                if (cc.NroVersion != "3.0.12" && cc.ActualizOblig == 1 && cc.IdModulo == 1)
                 {
                     bandera = 2; 
                 }

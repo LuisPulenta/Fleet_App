@@ -23,9 +23,10 @@ namespace Fleet_App.Prism
 
         protected override async void OnInitialized()
         {
+            InitializeComponent();
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTY2MzIyQDMxMzcyZTMzMmUzMFVnNW5KSnM2dTZmRDljWm1RYTduQXFwRmNKSzVPWk1lT1JGSFRySXZCUTA9");
             
-            InitializeComponent();
+
             if (Settings.IsRemembered)
             {
                 await NavigationService.NavigateAsync("/FleetMasterDetailPage/NavigationPage/HomePage");
