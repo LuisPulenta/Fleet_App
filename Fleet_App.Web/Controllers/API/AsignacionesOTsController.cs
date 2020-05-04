@@ -525,5 +525,40 @@ namespace Fleet_App.Web.Controllers.API
             await _dataContext.SaveChangesAsync();
             return Ok(asignacionesOT);
         }
+
+        [HttpPost]
+        [Route("GetTrabajos")]
+        public async Task<IActionResult> GetTrabajos(TrabajosRequest trabajosRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var orders = await _dataContext.AsignacionesOTs
+                .Include(m => m.ControlesEquivalencia)
+           .Where(o => (o.UserID == trabajosRequest.UserID) && (o.FechaAsignada >= trabajosRequest.Desde) && (o.FechaAsignada <= trabajosRequest.Hasta) && (o.PROYECTOMODULO == trabajosRequest.Proyecto))
+           .OrderBy(o => o.PROYECTOMODULO)
+           .GroupBy(r => new
+           {
+               r.PROYECTOMODULO,
+               r.ESTADOGAOS,
+           })
+           .Select(g => new
+           {
+               PROYECTOMODULO = g.Key.PROYECTOMODULO,
+               ESTADOGAOS = g.Key.ESTADOGAOS,
+               Cant = g.Count(),
+           }).ToListAsync();
+
+
+            if (orders == null)
+            {
+                return BadRequest("No hay Ordenes de Trabajo para este Usuario.");
+            }
+
+            return Ok(orders);
+        }
+
     }
 }

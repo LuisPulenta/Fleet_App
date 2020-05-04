@@ -71,6 +71,8 @@ namespace Fleet_App.Prism
             containerRegistry.RegisterForNavigation<CitaPage, CitaPageViewModel>();
             containerRegistry.RegisterForNavigation<TasaCitaPage, TasaCitaPageViewModel>();
             containerRegistry.RegisterForNavigation<RemoteCitaPage, RemoteCitaPageViewModel>();
+            containerRegistry.RegisterForNavigation<EstadisticasPage, EstadisticasPageViewModel>();
+            containerRegistry.RegisterForNavigation<GraphPage, GraphPageViewModel>();
         }
     }
 }

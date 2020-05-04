@@ -516,5 +516,46 @@ namespace Fleet_App.Common.Services
                 };
             }
         }
+
+        public async Task<Response2> GetTrabajos(string urlBase, string servicePrefix, string controller, TrabajosRequest model)
+        {
+            try
+            {
+                string request = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response2
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                List<TrabajosResponse> trabajos = JsonConvert.DeserializeObject<List<TrabajosResponse>>(result);
+                return new Response2
+                {
+                    IsSuccess = true,
+                    Result = trabajos
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response2
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

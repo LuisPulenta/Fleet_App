@@ -68,6 +68,13 @@ namespace Fleet_App.Prism.ViewModels
                     Title = "Mapa"
                 },
 
+                 new Menu
+                {
+                    Icon = "ic_equalizer.png",
+                    PageName = "EstadisticasPage",
+                    Title = "Estadísticas"
+                },
+
                 new Menu
                 {
                     Icon = "",

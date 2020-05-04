@@ -195,6 +195,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator.IOS">
       <Version>17.3.0.9-beta</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfChart">
+      <Version>17.1.0.38</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugin.Connectivity">
       <Version>4.0.0.190-beta</Version>
     </PackageReference>

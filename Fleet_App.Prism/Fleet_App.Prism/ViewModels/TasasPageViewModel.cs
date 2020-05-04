@@ -18,7 +18,6 @@ namespace Fleet_App.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private UserResponse _user;
-        private TasaResponse _cab;
         private bool _isRunning;
         private bool _isEnabled;
         private bool _isRefreshing;

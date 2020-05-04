@@ -74,7 +74,8 @@ namespace Fleet_App.Common.Services
             string servicePrefix,
             string controller,
             int id);
-
+        
+        Task<Response2> GetTrabajos(string urlBase, string servicePrefix, string controller, TrabajosRequest model);
 
     }
 }
