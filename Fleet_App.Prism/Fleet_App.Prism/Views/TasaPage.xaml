@@ -281,7 +281,7 @@
                   HorizontalOptions="FillAndExpand"></Button>
             <Button Grid.Row=" 0"
                   Grid.Column="2"
-                  Text="EN GESTION"
+                  Text="PARCIAL"
                   BackgroundColor="YellowGreen"
                   IsEnabled="{Binding IsEnabledParcial}"
                   Command="{Binding DeselijeTodosCommand}"  
