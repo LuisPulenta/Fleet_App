@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class GraphPageViewModel : ViewModelBase
+    public class Graph3PageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -44,7 +44,7 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _grafico, value);
         }
 
-    public Proyecto proyectoElegido
+        public Proyecto proyectoElegido
         {
             get => _proyectoElegido;
             set => SetProperty(ref _proyectoElegido, value);
@@ -68,7 +68,7 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _proyectos, value);
         }
 
-        public GraphPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public Graph3PageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             this._apiService = apiService;
@@ -78,10 +78,10 @@ namespace Fleet_App.Prism.ViewModels
             EndDate = DateTime.Now;
             LoadProyectos();
             //LoadDataAsync();
-            Title = "O.T. por Fecha Asignación";
+            Title = "O.T. por Código de Cierre";
         }
 
-        
+
 
 
 
@@ -112,7 +112,7 @@ namespace Fleet_App.Prism.ViewModels
             }
 
 
-            if (proyectoElegido==null)
+            if (proyectoElegido == null)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Debe seleccionar un Proyecto", "Aceptar");
                 return;
@@ -134,10 +134,10 @@ namespace Fleet_App.Prism.ViewModels
                 Hasta = EndDate.AddDays(1),
                 Desde = StartDate,
                 UserID = user.IDUser,
-                Proyecto= proyectoAConsultar,
+                Proyecto = proyectoAConsultar,
             };
 
-            Response2 response = await _apiService.GetTrabajos(url, "api", "/AsignacionesOTs/GetTrabajos", request);
+            Response2 response = await _apiService.GetTrabajos(url, "api", "/AsignacionesOTs/GetTrabajos3", request);
 
             IsRunning = false;
 
@@ -153,12 +153,12 @@ namespace Fleet_App.Prism.ViewModels
             List<TrabajosResponse> trabajos = (List<TrabajosResponse>)response.Result;
             Trabajos = trabajos.Select(t => new TrabajosResponse()
             {
-             Cant=t.Cant,
-             EstadoGaos=t.EstadoGaos,
-             ProyectoModulo=t.ProyectoModulo
+                Cant = t.Cant,
+                EstadoGaos = t.EstadoGaos,
+                ProyectoModulo = t.ProyectoModulo
             }).ToList();
 
-            
+
 
 
             Grafico = new ObservableCollection<Grafico>();
@@ -167,12 +167,12 @@ namespace Fleet_App.Prism.ViewModels
             {
 
                 Grafico.Add(new Grafico
-                    {
-                        Cantidad = trabajo.Cant,
-                        Nombre=trabajo.EstadoGaos
-                    }
+                {
+                    Cantidad = trabajo.Cant,
+                    Nombre = trabajo.CodigoCierre
+                }
                     ); ;
-                
+
             }
             var a = 1;
         }

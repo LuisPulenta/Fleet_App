@@ -38,7 +38,7 @@
         BackgroundColor="Blue"
         TextColor="White"
         HeightRequest="100"
-        Text="Gráfico 1" />
+        Text="ORDENES DE TRABAJO POR FECHA DE ASIGNACION" />
       <Button 
         Grid.Row="1"
         Grid.Column="0"
@@ -46,7 +46,7 @@
         BackgroundColor="Blue"
         TextColor="White"
         HeightRequest="100"
-        Text="Gráfico 2" />
+        Text="ORDENES DE TRABAJO POR FECHA CUMPLIDA" />
       <Button 
         Grid.Row="2"
         Grid.Column="0"
@@ -54,7 +54,7 @@
         BackgroundColor="Blue"
         TextColor="White"
         HeightRequest="100"
-        Text="Gráfico 3" />
+        Text="ORDENES DE TRABAJO CUMPLIDAS POR CODIGO DE CIERRE" />
 
 
 

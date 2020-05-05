@@ -560,5 +560,73 @@ namespace Fleet_App.Web.Controllers.API
             return Ok(orders);
         }
 
+        [HttpPost]
+        [Route("GetTrabajos2")]
+        public async Task<IActionResult> GetTrabajos2(TrabajosRequest trabajosRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var orders = await _dataContext.AsignacionesOTs
+                .Include(m => m.ControlesEquivalencia)
+           .Where(o => (o.UserID == trabajosRequest.UserID) && (o.FECHACUMPLIDA >= trabajosRequest.Desde) && (o.FECHACUMPLIDA <= trabajosRequest.Hasta) && (o.PROYECTOMODULO == trabajosRequest.Proyecto))
+           .OrderBy(o => o.PROYECTOMODULO)
+           .GroupBy(r => new
+           {
+               r.PROYECTOMODULO,
+               r.ESTADOGAOS,
+           })
+           .Select(g => new
+           {
+               PROYECTOMODULO = g.Key.PROYECTOMODULO,
+               ESTADOGAOS = g.Key.ESTADOGAOS,
+               Cant = g.Count(),
+           }).ToListAsync();
+
+
+            if (orders == null)
+            {
+                return BadRequest("No hay Ordenes de Trabajo para este Usuario.");
+            }
+
+            return Ok(orders);
+        }
+
+        [HttpPost]
+        [Route("GetTrabajos3")]
+        public async Task<IActionResult> GetTrabajos3(TrabajosRequest trabajosRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var orders = await _dataContext.AsignacionesOTs
+                .Include(m => m.ControlesEquivalencia)
+           .Where(o => (o.UserID == trabajosRequest.UserID) && (o.FECHACUMPLIDA >= trabajosRequest.Desde) && (o.FECHACUMPLIDA <= trabajosRequest.Hasta) && (o.PROYECTOMODULO == trabajosRequest.Proyecto))
+           .OrderBy(o => o.PROYECTOMODULO)
+           .GroupBy(r => new
+           {
+               r.PROYECTOMODULO,
+               r.CodigoCierre,
+           })
+           .Select(g => new
+           {
+               PROYECTOMODULO = g.Key.PROYECTOMODULO,
+               CodigoCierre = g.Key.CodigoCierre,
+               Cant = g.Count(),
+           }).ToListAsync();
+
+
+            if (orders == null)
+            {
+                return BadRequest("No hay Ordenes de Trabajo para este Usuario.");
+            }
+
+            return Ok(orders);
+        }
+
     }
 }

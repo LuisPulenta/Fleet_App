@@ -29,8 +29,8 @@ namespace Fleet_App.Prism.ViewModels
             IsRemembered = false;
             _navigationService = navigationService;
             _apiService = apiService;
-            Email = "TEST";
-            Password = "TEST";
+            Email = "ANADAL";
+            Password = "123456";
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));

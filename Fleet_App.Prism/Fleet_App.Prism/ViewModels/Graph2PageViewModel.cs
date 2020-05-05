@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace Fleet_App.Prism.ViewModels
 {
-    public class GraphPageViewModel : ViewModelBase
+    public class Graph2PageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -22,13 +22,21 @@ namespace Fleet_App.Prism.ViewModels
         private ObservableCollection<Grafico> _grafico;
         private Proyecto _proyectoElegido;
         private int _proyectoId;
+        private DateTime _startDate;
+        private DateTime _endDate;
+
         private ObservableCollection<Proyecto> _proyectos;
+        private DelegateCommand _ponerHoyCommand;
+
+
+
+        
+
 
         public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(LoadDataAsync));
+        public DelegateCommand PonerHoyCommand => _ponerHoyCommand ?? (_ponerHoyCommand = new DelegateCommand(PonerHoy));
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        
 
         public DateTime Hoy { get; set; }
 
@@ -44,7 +52,7 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _grafico, value);
         }
 
-    public Proyecto proyectoElegido
+        public Proyecto proyectoElegido
         {
             get => _proyectoElegido;
             set => SetProperty(ref _proyectoElegido, value);
@@ -62,13 +70,25 @@ namespace Fleet_App.Prism.ViewModels
             set => SetProperty(ref _isRunning, value);
         }
 
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set => SetProperty(ref _startDate, value);
+        }
+
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set => SetProperty(ref _endDate, value);
+        }
+
         public ObservableCollection<Proyecto> Proyectos
         {
             get => _proyectos;
             set => SetProperty(ref _proyectos, value);
         }
 
-        public GraphPageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
+        public Graph2PageViewModel(INavigationService navigationService, IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             this._apiService = apiService;
@@ -78,10 +98,10 @@ namespace Fleet_App.Prism.ViewModels
             EndDate = DateTime.Now;
             LoadProyectos();
             //LoadDataAsync();
-            Title = "O.T. por Fecha Asignación";
+            Title = "O.T. por Fecha Cumplida";
         }
 
-        
+
 
 
 
@@ -112,7 +132,7 @@ namespace Fleet_App.Prism.ViewModels
             }
 
 
-            if (proyectoElegido==null)
+            if (proyectoElegido == null)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Debe seleccionar un Proyecto", "Aceptar");
                 return;
@@ -134,10 +154,10 @@ namespace Fleet_App.Prism.ViewModels
                 Hasta = EndDate.AddDays(1),
                 Desde = StartDate,
                 UserID = user.IDUser,
-                Proyecto= proyectoAConsultar,
+                Proyecto = proyectoAConsultar,
             };
 
-            Response2 response = await _apiService.GetTrabajos(url, "api", "/AsignacionesOTs/GetTrabajos", request);
+            Response2 response = await _apiService.GetTrabajos(url, "api", "/AsignacionesOTs/GetTrabajos2", request);
 
             IsRunning = false;
 
@@ -153,12 +173,12 @@ namespace Fleet_App.Prism.ViewModels
             List<TrabajosResponse> trabajos = (List<TrabajosResponse>)response.Result;
             Trabajos = trabajos.Select(t => new TrabajosResponse()
             {
-             Cant=t.Cant,
-             EstadoGaos=t.EstadoGaos,
-             ProyectoModulo=t.ProyectoModulo
+                Cant = t.Cant,
+                EstadoGaos = t.EstadoGaos,
+                ProyectoModulo = t.ProyectoModulo
             }).ToList();
 
-            
+
 
 
             Grafico = new ObservableCollection<Grafico>();
@@ -167,14 +187,21 @@ namespace Fleet_App.Prism.ViewModels
             {
 
                 Grafico.Add(new Grafico
-                    {
-                        Cantidad = trabajo.Cant,
-                        Nombre=trabajo.EstadoGaos
-                    }
+                {
+                    Cantidad = trabajo.Cant,
+                    Nombre = trabajo.EstadoGaos
+                }
                     ); ;
-                
+
             }
             var a = 1;
+        }
+
+
+        private async void PonerHoy()
+        {
+            StartDate = DateTime.Today;
+            EndDate = DateTime.Today;
         }
     }
 }
