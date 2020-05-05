@@ -88,10 +88,29 @@
     </StackLayout>
     
     <chart:SfChart
+     
+      x:Name="series"
       VerticalOptions="FillAndExpand">
+
       <chart:SfChart.Legend>
-        <chart:ChartLegend />
+        <chart:ChartLegend 
+        
+          />
       </chart:SfChart.Legend>
+
+      <chart:SfChart.ColorModel>
+        <chart:ChartColorModel 
+          Palette="Natural" />
+      </chart:SfChart.ColorModel>
+
+      <chart:SfChart.ChartBehaviors>
+        <chart:ChartTooltipBehavior 
+            BackgroundColor="#404041" />
+      </chart:SfChart.ChartBehaviors>
+
+
+    
+      
 
       <chart:SfChart.Title>
         <chart:ChartTitle Text="Ordenes de Trabajo por Proyecto"/>
@@ -100,33 +119,55 @@
       <chart:SfChart.PrimaryAxis>
         <chart:CategoryAxis>
           <chart:CategoryAxis.Title>
-            <chart:ChartAxisTitle Text="Ordenes de Trabajo"></chart:ChartAxisTitle>
+            <chart:ChartAxisTitle 
+              Text="Ordenes de Trabajo"
+              
+              ></chart:ChartAxisTitle>
           </chart:CategoryAxis.Title>
         </chart:CategoryAxis>
-
       </chart:SfChart.PrimaryAxis>
 
       <chart:SfChart.SecondaryAxis>
-        <chart:NumericalAxis>
+        <chart:NumericalAxis
+            
+            
+          >
           <chart:NumericalAxis.Title>
             <chart:ChartAxisTitle Text="Cantidades"></chart:ChartAxisTitle>
           </chart:NumericalAxis.Title>
         </chart:NumericalAxis>
       </chart:SfChart.SecondaryAxis>
 
+      
       <chart:SfChart.Series>
-        <chart:ColumnSeries ItemsSource="{Binding Grafico}" 
-                                XBindingPath="Nombre" 
-                                StrokeColor="Blue"
-                                Color="Blue"
-                                Label="{Binding proyectoElegido.Name}" 
-                                YBindingPath="Cantidad">
+        <chart:ColumnSeries
+          ItemsSource="{Binding Grafico}" 
+          XBindingPath="Nombre" 
+          StrokeColor="Blue"
+          Color="Blue"
+          Label="{Binding proyectoElegido.Name}" 
+          YBindingPath="Cantidad">
+
+          <chart:ColumnSeries.DataMarker>
+            <chart:ChartDataMarker ShowLabel="True">
+              <chart:ChartDataMarker.LabelStyle>
+                <chart:DataMarkerLabelStyle 
+                  LabelPosition="Auto"
+                  LabelFormat="#"  
+                  Font="12"
+                  BackgroundColor="White"
+                  TextColor="Blue">
+                </chart:DataMarkerLabelStyle>
+              </chart:ChartDataMarker.LabelStyle>
+            </chart:ChartDataMarker>
+          </chart:ColumnSeries.DataMarker>
+
+
+
         </chart:ColumnSeries>
       </chart:SfChart.Series>
 
     </chart:SfChart>
-
+    
   </StackLayout>
-  
-
 </ContentPage>

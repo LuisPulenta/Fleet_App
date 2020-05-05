@@ -24,7 +24,11 @@ namespace Fleet_App.Prism
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTY2MzIyQDMxMzcyZTMzMmUzMFVnNW5KSnM2dTZmRDljWm1RYTduQXFwRmNKSzVPWk1lT1JGSFRySXZCUTA9");
+
+            
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjUyNDM5QDMxMzgyZTMxMmUzMGRSL2lEQVZDTTBuN3VCV09EQkFwZmV2S3A4QlF3c0FuR2JreTlKLy9UNVU9");
+
+//            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTY2MzIyQDMxMzcyZTMzMmUzMFVnNW5KSnM2dTZmRDljWm1RYTduQXFwRmNKSzVPWk1lT1JGSFRySXZCUTA9");
             
 
             if (Settings.IsRemembered)

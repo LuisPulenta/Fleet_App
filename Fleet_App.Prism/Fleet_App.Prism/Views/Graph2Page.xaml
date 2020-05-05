@@ -125,6 +125,21 @@
                                 Color="Blue"
                                 Label="{Binding proyectoElegido.Name}" 
                                 YBindingPath="Cantidad">
+
+          <chart:ColumnSeries.DataMarker>
+            <chart:ChartDataMarker ShowLabel="True">
+              <chart:ChartDataMarker.LabelStyle>
+                <chart:DataMarkerLabelStyle 
+                  LabelPosition="Auto"
+                  LabelFormat="#"  
+                  Font="12"
+                  BackgroundColor="White"
+                  TextColor="Blue">
+                </chart:DataMarkerLabelStyle>
+              </chart:ChartDataMarker.LabelStyle>
+            </chart:ChartDataMarker>
+          </chart:ColumnSeries.DataMarker>
+
         </chart:ColumnSeries>
       </chart:SfChart.Series>
 

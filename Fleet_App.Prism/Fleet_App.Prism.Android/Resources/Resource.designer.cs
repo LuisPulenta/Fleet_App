@@ -275,8 +275,8 @@ namespace Fleet_App.Prism.Droid
 			global::Com.Syncfusion.Sfbusyindicator.Resource.Styleable.SfBusyIndicator_busyIndicatorViewBoxHeight = global::Fleet_App.Prism.Droid.Resource.Styleable.SfBusyIndicator_busyIndicatorViewBoxHeight;
 			global::Com.Syncfusion.Sfbusyindicator.Resource.Styleable.SfBusyIndicator_busyIndicatorViewBoxWidth = global::Fleet_App.Prism.Droid.Resource.Styleable.SfBusyIndicator_busyIndicatorViewBoxWidth;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.SfChart_Fade_In = global::Fleet_App.Prism.Droid.Resource.Animation.SfChart_Fade_In;
-			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.SfChart_Fade_Out = global::Fleet_App.Prism.Droid.Resource.Animation.SfChart_Fade_Out;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.SfChart_Scale_In = global::Fleet_App.Prism.Droid.Resource.Animation.SfChart_Scale_In;
+			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.SfChart_Fade_Out = global::Fleet_App.Prism.Droid.Resource.Animation.SfChart_Fade_Out;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Animation.SfChart_Scale_Out = global::Fleet_App.Prism.Droid.Resource.Animation.SfChart_Scale_Out;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Id.annotationLayout = global::Fleet_App.Prism.Droid.Resource.Id.annotationLayout;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.Id.axisLayout = global::Fleet_App.Prism.Droid.Resource.Id.axisLayout;
@@ -311,9 +311,12 @@ namespace Fleet_App.Prism.Droid
 			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_high_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_high_label;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_low_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_low_label;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_open_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_open_label;
-			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_others_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_others_label;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.String.w = global::Fleet_App.Prism.Droid.Resource.String.w;
 			global::Syncfusion.SfChart.XForms.Droid.Resource.String.week = global::Fleet_App.Prism.Droid.Resource.String.week;
+			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_others_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_others_label;
+			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_increase_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_increase_label;
+			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_decrease_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_decrease_label;
+			global::Syncfusion.SfChart.XForms.Droid.Resource.String.sfchart_total_label = global::Fleet_App.Prism.Droid.Resource.String.sfchart_total_label;
 			global::Xamarin.Essentials.Resource.Attribute.alpha = global::Fleet_App.Prism.Droid.Resource.Attribute.alpha;
 			global::Xamarin.Essentials.Resource.Attribute.coordinatorLayoutStyle = global::Fleet_App.Prism.Droid.Resource.Attribute.coordinatorLayoutStyle;
 			global::Xamarin.Essentials.Resource.Attribute.font = global::Fleet_App.Prism.Droid.Resource.Attribute.font;
@@ -8822,34 +8825,43 @@ namespace Fleet_App.Prism.Droid
 			public const int sfchart_close_label = 2131558497;
 			
 			// aapt resource value: 0x7F0D0062
-			public const int sfchart_high_label = 2131558498;
+			public const int sfchart_decrease_label = 2131558498;
 			
 			// aapt resource value: 0x7F0D0063
-			public const int sfchart_low_label = 2131558499;
+			public const int sfchart_high_label = 2131558499;
 			
 			// aapt resource value: 0x7F0D0064
-			public const int sfchart_open_label = 2131558500;
+			public const int sfchart_increase_label = 2131558500;
 			
 			// aapt resource value: 0x7F0D0065
-			public const int sfchart_others_label = 2131558501;
+			public const int sfchart_low_label = 2131558501;
 			
 			// aapt resource value: 0x7F0D0066
-			public const int signature_pad_caption_text = 2131558502;
+			public const int sfchart_open_label = 2131558502;
 			
 			// aapt resource value: 0x7F0D0067
-			public const int signature_pad_clear_label_text = 2131558503;
+			public const int sfchart_others_label = 2131558503;
 			
 			// aapt resource value: 0x7F0D0068
-			public const int signature_pad_prompt_text = 2131558504;
+			public const int sfchart_total_label = 2131558504;
 			
 			// aapt resource value: 0x7F0D0069
-			public const int status_bar_notification_info_overflow = 2131558505;
+			public const int signature_pad_caption_text = 2131558505;
 			
 			// aapt resource value: 0x7F0D006A
-			public const int w = 2131558506;
+			public const int signature_pad_clear_label_text = 2131558506;
 			
 			// aapt resource value: 0x7F0D006B
-			public const int week = 2131558507;
+			public const int signature_pad_prompt_text = 2131558507;
+			
+			// aapt resource value: 0x7F0D006C
+			public const int status_bar_notification_info_overflow = 2131558508;
+			
+			// aapt resource value: 0x7F0D006D
+			public const int w = 2131558509;
+			
+			// aapt resource value: 0x7F0D006E
+			public const int week = 2131558510;
 			
 			static String()
 			{
